@@ -1,0 +1,34 @@
+type: PlayerSettings
+fields:
+  companyName: DefaultCompany
+  productName: digitoyclient
+  version: 0.1.0
+  bundleIdentifier: com.defaultcompany.game
+  scenes:
+    - Scenes/Main.scene
+  startScene: Scenes/Main.scene
+  themes:
+  activeTheme: ''
+  defaultWidth: 1280
+  defaultHeight: 720
+  fullscreen: false
+  resizableWindow: true
+  targetFrameRate: 0
+  orientation: Landscape
+  moduleHostDll: ''
+  moduleHost: false
+  android:
+    packageName: ''
+    versionCode: 1
+    targetSdk: 35
+    includeX86_64: true
+    keystorePath: ''
+    keyAlias: ''
+    iconForeground: ''
+    iconBackground: '#1E1E1E'
+  ios:
+    bundleId: ''
+    buildNumber: 1
+    minIos: 15.0
+    teamId: ''
+    icon: ''

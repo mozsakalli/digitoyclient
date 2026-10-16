@@ -1,0 +1,7 @@
+# DigitoyEditor: turetilmis cache + build ciktilari + kisisel ayarlar
+Library/
+Build/
+UserSettings/
+# makineye ozel, editor her acilista yeniden uretir
+*.Game.csproj
+.vscode/mcp.json
