@@ -5,21 +5,36 @@ Durum 2026-10-16, taslak. Fazlar sıralı; her fazın sonunda **kabul kriteri** 
 game_rd/digitoyclient oturumunda ayrı plan + onay.
 
 ## Faz 0 — İskelet + dikey dilim (UI yok)
-- `digitoyclient/` proje kökü: `Assets/{Shared,Games/GinRummy,Plugins}`, `ProjectSettings`, editörle açılış
-  (csproj/mcp.json/gitignore üretimi), git init.
-- `Digitoy.Common.dll` (generator'lı, netstandard2.1) `Assets/Plugins/` + sürüm notu; **AOT doğrulaması** (02 §A3).
-- `Shared/Services`: `Server` (bağlantı durum makinesi, Codec çerçeve, heartbeat, reconnect), `Auth` (device login),
-  `Session`, `PlayerService`, `LobbyService`, `TableService` — core.upm mantığı, Unity'siz.
-- `Config`/`ServerDirectory` için JSON kararı (02 §B2) — motor JSON okuyucu ya da sunucuda Codec ucu.
-- Varyant (02 §A1/A2) motor işi başlar; Faz 0 sonunda en az `GameVariant` asset + `Variant.Current`.
-- game_rd `Projects/yuzbirextra` tohumları (fontlar, fx, Button/Motion) `Shared/`a taşınır; `Projects/ginrummy` ve
-  `Projects/yuzbirextra` silinir (kullanıcı onayıyla).
-- **Kabul:** editör Play'de konsol/`scene.dump` ile: gerçek dev sunucuya login → `TablePlayNow` → bir tur
+Revize 2026-10-16 (decisions.md): Common.dll hazır alınır, core.upm adapte edilir. **Adım 0 (keşif) tamam** — motor yüzeyi
+(02 §sonu), Common yüzeyi (04), sunucu: test-node.digitoy.co ayakta, gateway listesi settings JSON'dan.
+1. Klasör iskeleti `Assets/{Shared/{Scenes,Services},Games/GinRummy,Plugins}`; `Main.scene` → `Shared/Scenes/Entry.scene`;
+   README "Açma" güncellenir.
+2. `Assets/Plugins/Digitoy.Common.dll` ✔ (kullanıcı verdi, 2026-10-14 build) + `Digitoy.Common.version.md`.
+3. **core.upm adaptasyonu (kopyala + Unity'den arındır, davranış aynı):** `Helpers/{Result,Service,Log,DeviceKeyHelper→stub}`,
+   `Network/{Server,ServerDirectory,INetworkClient,ClientAuthParams,NetworkDelay}`, `Components/{Player,Game/Table,Game/Lobby,
+   Auth(Guest yolu)}`, `DeviceKey` (PlayerPrefs GUID fallback), `Extensions/DataExtensions`. Kalıplar: `Awaitable`→`Task`,
+   `Awaitable.NextFrameAsync`→`Frame.Next()`, `MainThreadAsync` silinir, `Debug`→`Log`, `SystemInfo/Application`→`Platform` shim,
+   `GameProperties : ScriptableObject`→`[Asset] GameProperties` (yalnız ağ alanları).
+4. **WS taşıma katmanı:** `BestWebSocketClient` → `EngineWebSocketClient` (motor `WebSocket`; `ReceiveAsync` döngüsü tek-thread,
+   kilitler kalkar). Korunur: gateway hop + bütçe, requestId→TCS eşleme, 25 sn heartbeat, auth-on-open, `Connection` nesli, close nedeni çözümü.
+5. `Games/GinRummy/Game.asset` (`[Asset] GameDefinition`: gameId=7, maxSeats, sahne ref'leri) + `Shared/Settings.asset`
+   (`NetworkSettings`) + `Shared/Services/Game.cs` (`Current`, Faz 0'da `Switch` yok); `AppVariant` motor A1 bekler.
+   `GinTable.cs` minimal projeksiyon.
+6. `Shared/Scenes/Entry.scene` + geçici `Bootstrap` component: Play'de Guest login → PlayNow → Ready → sıra gelince
+   PickFromDeck + Discard → log. Faz 1'de Entry akışıyla değişir.
+7. AOT doğrulaması (02 §A3): `player_build` ile aynı dilim; `Serializers`/`CodecName` trim'de sağ mı.
+8. ~~game_rd `Projects/yuzbirextra` tohumları → `Shared/`~~ İPTAL (2026-10-16): game_rd projeleri motor playground'udur, buradan
+   bir şey alınmaz. Fontlar kullanıcı tarafından `Assets/Shared/Fonts/` altına kondu (Digitoy-{Primary,Bold,Regular,Light}).
+- `Config`/`ServerDirectory` settings JSON: Faz 0'da sabit seed (`test-node.digitoy.co`), JSON okuyucu (02 §B2) Faz 1 başı.
+- **Kabul:** editör Play'de konsol/`scene.dump` ile: test-node'a login → `TablePlayNow` → bir tur
   `PickFromDeck`/`Discard` → `TableState` decode edildi. Hiçbir UI yok.
 
-## Faz 1 — Ortak kabuk (Shared)
-- Entry (varyant yükler, splash) → Login (device + "sosyal" butonları stub) → Lobby (Play Now, masa listesi `ScrollView`,
-  profil başlığı, bakiye, ayarlar).
+## Faz 1 — Ortak kabuk (Shared kod) + Gin sahneleri
+Durum 2026-10-16 gece: **Login tamam** (Unity'den aktarım, `Games/GinRummy/Scenes/Login.scene` + intent.md), `LoginFlow`/`AppBoot`/
+`SceneNav`/`Button` Shared'da, Guest login → `Lobby.scene` (placeholder) geçişi test-node'a karşı çalışıyor. Entry sahnesi
+kaldırıldı (startScene = Login; AppBoot.Ensure LoginFlow'da; AppVariant gelince startScene varyanttan). Login eksikleri intent.md'de.
+- Entry (AppVariant okur, splash) → `Games/GinRummy/Scenes/Login` (device + "sosyal" butonları stub) → `Lobby` (Play Now,
+  masa listesi `ScrollView`, profil başlığı, bakiye, ayarlar). Controller'lar Shared'da, sahneler Gin klasöründe.
 - `DialogStack` + Dialog taban prefab'ı + MovieClip aç/kapa; ilk dialoglar: Prompt, Settings, Profile, Nick (TextField).
 - Tema: `Shared/Theme/Default.theme` token'ları; Gin teması override örneği.
 - Motor: TextField (02 §B1), safe-area (B3), küçük native yardımcılar (B4); C6 çevirici kararı; C7 locale içe aktarımı.
@@ -38,7 +53,8 @@ game_rd/digitoyclient oturumunda ayrı plan + onay.
 - `Shared/Board` (ya da `Games/OkeyCommon`): ıstaka, taş, sürükleme, gösterge, orta deste — Okey ile paylaşılacak
   şekilde; `YuzbirTable` + Common `YuzbirGame/OkeyCheck/Meld`; `yuzbirextra.unity` `Logic` asmdef'i (MeldStateSnapshot,
   UsefulMeldPlanner) **saf C# olduğu için doğrudan alınır**.
-- Yüzbir varyantı, teması, lobi kartları.
+- Yüzbir `Game.asset`, `Scenes/{Login,Lobby}` (Gin sahnelerinden kopyalanıp farklılaştırılır), lobi kartları;
+  Gin lobisine "Okey oyna" → `Game.Switch` (relogin) ilk kez burada çalışır.
 - **Kabul:** Faz 2 ile aynı ölçüt (Unity yuzbir istemcisiyle karşılıklı oyun).
 
 ## Faz 4 — Okey (klasik)
@@ -58,7 +74,7 @@ Yeni oyun = `Games/<Oyun>/` + `Variant.asset` + sunucu plugin'i; Shared'a dokunm
 
 ## Açık sorular (kullanıcı/ekip)
 1. Hedef platform sırası: Android → iOS → wasm? (native köprü önceliği, Faz 1 kabulü)
-2. `Config`/`ServerDirectory` JSON mu Codec mi (sunucu ekibi)?
+2. ~~`Config`/`ServerDirectory` JSON mu Codec mi?~~ JSON (kesin, decisions 2026-10-16).
 3. Gin bot/offline oyun ilk sürümde var mı? (🔶 yok)
 4. Faz 5 meta özelliklerinden ilk sürümde zorunlu olanlar (mağaza/reklam dahil mi)?
 5. Unity prefab çevirici (02 §C6) yatırımı yapılacak mı?

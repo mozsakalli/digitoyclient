@@ -1,0 +1,26 @@
+type: LocalizationTable
+fields:
+  Languages:
+    - en
+  Entries:
+    - Key: lobby.root
+      Values:
+        - LOBBY (placeholder)
+    - Key: login.facebook_button
+      Values:
+        - <font=icon>a</font>  CONNECT
+    - Key: login.apple_button
+      Values:
+        - <font=icon>b</font> Sign in with Apple
+    - Key: login.or_text
+      Values:
+        - OR
+    - Key: login.guest_button
+      Values:
+        - LOGIN AS GUEST
+    - Key: login.agreement
+      Values:
+        - By logging in you accept our <link=privacy><u><font=bold>Privacy Policy</font></u></link> and <link=terms><u><font=bold>Terms of Use</font></u></link>
+    - Key: login.version_label
+      Values:
+        - ver

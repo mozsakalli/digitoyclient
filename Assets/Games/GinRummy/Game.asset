@@ -1,0 +1,9 @@
+type: GameDefinition
+fields:
+  id: ginrummy
+  displayName: Gin Rummy
+  gameId: 7
+  maxSeats: 2
+  loginScene: Games/GinRummy/Scenes/Login.scene
+  lobbyScene: Games/GinRummy/Scenes/Lobby.scene
+  tableScene: ''

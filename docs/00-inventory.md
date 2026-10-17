@@ -33,7 +33,7 @@ istemcilerde dağınık: Gin'de **3 kopya** (online UI / bot / hint), Yüzbir'de
 | `Runtime/UI` | 19 322 | **Port edilmez** (Canvas/TMP/Addressables/DOTween). Kavramlar (DialogBase, UIButton, UICounter, UILocale, UIParticleImage) motor karşılıklarıyla yeniden yazılır. |
 | `Runtime/Components` | 9 718 | **Mantık port edilir**: PlayerService, LobbyService, TableService, MessagingService, Friends, Economy, Config, Auth, Gifts, Album, Features, Notifications. IAP/Ads/Adjust/Firebase/AppsFlyer → native köprü bekler. |
 | `Runtime/Anim` | 2 966 | Port edilmez (DOTween sarmalayıcı + MovieClip runtime) → motor Tween/MovieClip. |
-| `Runtime/Network` | 1 802 | **Yeniden yazılır** motor `WebSocket` + `NativeAsync` üstünde: `Server` durum makinesi (Idle/Connecting/Healthy/Reconnecting/Killed, relogin, disconnect nedenleri), `ServerDirectory` gateway seçimi, heartbeat (25 sn `Endpoint.Ping`; sunucu 60 sn'de düşürür), `TimeSync`. BestHTTP bağımlılığı gider. |
+| `Runtime/Network` | 1 802 | **Adapte edilir** (decisions 2026-10-16): `Server` durum makinesi (Idle/Connecting/Healthy/Reconnecting/Dead/Killed, relogin, disconnect nedenleri), `ServerDirectory`, heartbeat (25 sn `Endpoint.Ping`; sunucu 60 sn'de düşürür) aynen kopyalanır; yalnız `BestWebSocketClient` içindeki Best HTTP soket katmanı motor `WebSocket` + `NativeAsync` ile yeniden yazılır. |
 | `Runtime/Dev` | 1 739 | Port edilmez (editör RPC/`render.describe` bu rolü alır). |
 | `Runtime/Helpers` | 1 423 | `Result`, `Service/ServiceRegistry`, `GameProperties` (→ `[Asset]`), `LocalCache` (→ PlayerPrefs). `JsonHelper` Unity JsonUtility'ye bağlı. |
 | `Runtime/Localization` | 899 | Port edilmez → motor `LocalizationTable` + `@loc`; `LocalizationFormatter` regex'i motor Regex'inde zaten destekli. |
@@ -65,8 +65,4 @@ YuzbirExtraNew 13.6 K — kopya, OkeyExtra 8.1 K). `modern/` yarım kalmış mod
 (Common'da klasik Okey yok; sunucu plugin'i yazılırken bakılır).
 
 ## 5. game_rd içindeki mevcut denemeler
-- `Projects/ginrummy`: yalnız `.ai/` raporları (buraya kopyalandı) + boş `Main.scene`. Silinebilir.
-- `Projects/yuzbirextra`: Login sahnesi prototipi — `Assets/Common/Scripts/{Button,LoadScene,PlatformFilter,Motion}.cs`,
-  `Common/Fonts/Digitoy-{Primary,Bold,Light}.ttf`, `Effects/{Grayscale,Shine,Vignette}.fx`, `Login/LoginScene(.intent.md)`,
-  `CameraScaler`. **DigitoyClient'a taşınacak tohum** (Shared/Fonts, Shared/Effects, Login akışı); taşındıktan sonra silinir.
-- `Projects/Sandbox`: motor testi, dokunulmaz.
+- `Projects/*` (ginrummy, yuzbirextra, Sandbox): **motor playground'u — buradan kod/asset alınmaz** (karar 2026-10-16).

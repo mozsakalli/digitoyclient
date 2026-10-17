@@ -1,0 +1,14 @@
+type: FontTable
+fields:
+  Entries:
+    - Name: regular
+      Font: cde2fdd571cb493dada93916c1a33a97
+    - Name: light
+      Font: 385c295a82a04e83a4dc5fe2ea9487b8
+    - Name: bold
+      Font: 2f27a006689c4a7595833b3727d54190
+    - Name: primary
+      Font: 1a4c197d35724c4596ad45ab93e7f8b2
+    - Name: icon
+      Font: 97106f0cdc5943508e4beed70aded2d9
+  DefaultFont: regular

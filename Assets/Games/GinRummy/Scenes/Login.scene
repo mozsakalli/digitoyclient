@@ -1,0 +1,1352 @@
+scene: Main
+objects:
+  - id: 1
+    parent: 0
+    name: Camera
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: CameraComponent
+        background: '#061018ff'
+      - type: FitPerspectiveProjection
+        fov: 30
+        referenceResolution: 1920 1080
+  - id: 2
+    parent: 0
+    name: Background
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        fitScreen: true
+        sprite: c8fa502bf1b74704a67d886b9f504129
+        spriteFit: Cover
+      - type: LoginFlow
+        loginForm: 18
+        agreement: 27
+        progressRoot: 28
+        progress: '29:ProgressRenderer:0'
+        versionText: '30:LayoutBox:0'
+        errorText: '31:LayoutBox:0'
+        guestButton: '26:Button:0'
+        facebookButton: '20:Button:0'
+        appleButton: '21:Button:0'
+        game: 9c46a9a0b1b845bd92e2850536574ceb
+        network: 559b6ebd5ecf4625ae35e807f777dd84
+        autoLoginLastType: false
+  - id: 32
+    parent: 2
+    name: LogoParticle
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0.5 0.5
+        anchorMin: 0.5 0.5
+        anchoredPos: 0 -220
+        height: 10
+        width: 10
+      - type: RenderGroup
+  - id: 3
+    parent: 2
+    name: Logo
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 0.66 0.66 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0.5 0.5
+        anchorMin: 0.5 0.5
+        anchoredPos: 0 -220
+        height: 100
+        width: 100
+      - type: MovieClip
+        Fps: 30
+        FrameCount: 60
+        Loop: false
+        PlayOnStart: true
+        Tracks:
+          - Keys:
+              - Ease: OutExpo
+                Mode: Tween
+                Value: 3 3 1 0
+                Frame: 0
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 1 1 0
+                Frame: 15
+            Path: Scale
+            Target: '13:Transform:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 1 0
+                Frame: 0
+              - Ease: OutBack
+                Mode: Tween
+                Value: 0 0 1 0
+                Frame: 4
+              - Ease: InOutQuad
+                Mode: Tween
+                Value: 1.1 1.1 1 0
+                Frame: 15
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 1 1 0
+                Frame: 21
+            Path: Scale
+            Target: '14:Transform:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 4
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 0 0 0
+                Frame: 15
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 0 0 0
+                Frame: 21
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 24
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 0 0 0
+                Frame: 28
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 32
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 0 0 0
+                Frame: 36
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 39
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 0 0 0
+                Frame: 43
+            Path: Alpha
+            Target: '14:RenderGroup:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: OutBack
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: Linear
+                Mode: Tween
+                Value: -248 249.75 0 0
+                Frame: 15
+            Path: anchoredPos
+            Target: '5:LayoutBox:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 0 0 0
+                Frame: 11
+            Path: Alpha
+            Target: '5:RenderGroup:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: OutBack
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 2
+              - Ease: Linear
+                Mode: Tween
+                Value: 276 -173.25 0 0
+                Frame: 17
+            Path: anchoredPos
+            Target: '6:LayoutBox:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 2
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 0 0 0
+                Frame: 13
+            Path: Alpha
+            Target: '6:RenderGroup:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: OutBack
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 4
+              - Ease: Linear
+                Mode: Tween
+                Value: 295 230.75 0 0
+                Frame: 19
+            Path: anchoredPos
+            Target: '7:LayoutBox:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 4
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 0 0 0
+                Frame: 15
+            Path: Alpha
+            Target: '7:RenderGroup:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: OutBack
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 6
+              - Ease: Linear
+                Mode: Tween
+                Value: -241 -179.25 0 0
+                Frame: 21
+            Path: anchoredPos
+            Target: '8:LayoutBox:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 6
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 0 0 0
+                Frame: 17
+            Path: Alpha
+            Target: '8:RenderGroup:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: OutBack
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 8
+              - Ease: Linear
+                Mode: Tween
+                Value: 407 23.75 0 0
+                Frame: 23
+            Path: anchoredPos
+            Target: '9:LayoutBox:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 8
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 0 0 0
+                Frame: 19
+            Path: Alpha
+            Target: '9:RenderGroup:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: OutBack
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 9
+              - Ease: Linear
+                Mode: Tween
+                Value: 48 293.75 0 0
+                Frame: 24
+            Path: anchoredPos
+            Target: '10:LayoutBox:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 9
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 0 0 0
+                Frame: 21
+            Path: Alpha
+            Target: '10:RenderGroup:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: OutBack
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 11
+              - Ease: Linear
+                Mode: Tween
+                Value: -399 -77.25 0 0
+                Frame: 26
+            Path: anchoredPos
+            Target: '11:LayoutBox:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 11
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 0 0 0
+                Frame: 23
+            Path: Alpha
+            Target: '11:RenderGroup:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: OutBack
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 13
+              - Ease: Linear
+                Mode: Tween
+                Value: -34 -299.25 0 0
+                Frame: 28
+            Path: anchoredPos
+            Target: '12:LayoutBox:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 13
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 0 0 0
+                Frame: 24
+            Path: Alpha
+            Target: '12:RenderGroup:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 16 -184 0 0
+                Frame: 0
+              - Ease: OutBounce
+                Mode: Tween
+                Value: 16 -184 0 0
+                Frame: 4
+              - Ease: Linear
+                Mode: Tween
+                Value: 16 16 0 0
+                Frame: 22
+            Path: anchoredPos
+            Target: '16:LayoutBox:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 4
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 0 0 0
+                Frame: 15
+            Path: Alpha
+            Target: '16:RenderGroup:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 1 0
+                Frame: 0
+              - Ease: OutBack
+                Mode: Tween
+                Value: 0 0 1 0
+                Frame: 4
+              - Ease: OutElastic
+                Mode: Tween
+                Value: 1.2 1.2 1 0
+                Frame: 19
+              - Ease: InOutSine
+                Mode: Tween
+                Value: 1 1 1 0
+                Frame: 30
+              - Ease: InOutSine
+                Mode: Tween
+                Value: 1.05 1.05 1 0
+                Frame: 38
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 1 1 0
+                Frame: 45
+            Path: Scale
+            Target: '16:Transform:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 -47 0 0
+                Frame: 0
+              - Ease: OutBack
+                Mode: Tween
+                Value: 0 -47 0 0
+                Frame: 10
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 -147 0 0
+                Frame: 25
+            Path: anchoredPos
+            Target: '15:LayoutBox:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 10
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 0 0 0
+                Frame: 20
+            Path: Alpha
+            Target: '15:RenderGroup:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 1 0
+                Frame: 0
+              - Ease: OutBack
+                Mode: Tween
+                Value: 0 0 1 0
+                Frame: 10
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 1 1 0
+                Frame: 25
+            Path: Scale
+            Target: '15:Transform:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 19 0 0
+                Frame: 0
+              - Ease: OutBack
+                Mode: Tween
+                Value: 0 19 0 0
+                Frame: 11
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 119 0 0
+                Frame: 30
+            Path: anchoredPos
+            Target: '17:LayoutBox:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Mode: Hold
+                Value: 0 0 0 0
+                Frame: 0
+              - Ease: Linear
+                Mode: Tween
+                Value: 0 0 0 0
+                Frame: 11
+              - Ease: Linear
+                Mode: Tween
+                Value: 1 0 0 0
+                Frame: 24
+            Path: Alpha
+            Target: '17:RenderGroup:0'
+            Mask: 15
+          - Keys:
+              - Ease: Linear
+                Frame: 0
+                Mode: Hold
+                Value: 0 0 1 0
+              - Ease: OutBack
+                Frame: 8
+                Mode: Tween
+                Value: 0 0 1 0
+              - Ease: Linear
+                Frame: 19
+                Mode: Tween
+                Value: 1 1 1 0
+            Mask: 15
+            Path: Scale
+            Target: '32:Transform:0'
+          - Keys:
+              - Ease: Linear
+                Frame: 0
+                Mode: Hold
+                Value: 0 0 0 0
+              - Ease: Linear
+                Frame: 8
+                Mode: Tween
+                Value: 0 0 0 0
+              - Ease: Linear
+                Frame: 19
+                Mode: Tween
+                Value: 1 0 0 0
+            Mask: 15
+            Path: Alpha
+            Target: '32:RenderGroup:0'
+  - id: 4
+    parent: 3
+    name: CardsNSuites
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: -1 -1.75
+        height: 705.5
+        width: 936
+      - type: RenderGroup
+        Alpha: 1
+  - id: 5
+    parent: 4
+    name: Card_1
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: -248 249.75
+        height: 167
+        sprite: 75f65bd676084a0da5fab9d2bc21459e
+        width: 237
+      - type: RenderGroup
+  - id: 6
+    parent: 4
+    name: Card_2
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: 276 -173.25
+        height: 163
+        sprite: 011bc5b3fc0b4eea905ecc084eaa33ee
+        width: 198
+      - type: RenderGroup
+  - id: 7
+    parent: 4
+    name: Card_3
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: 295 230.75
+        height: 205
+        sprite: c88a061500964fdca6e6d619f961eacb
+        width: 176
+      - type: RenderGroup
+  - id: 8
+    parent: 4
+    name: Card_4
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: -241 -179.25
+        height: 175
+        sprite: ddce2293eae340ada73ac7d86adefe4f
+        width: 168
+      - type: RenderGroup
+  - id: 9
+    parent: 4
+    name: Suit_1
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: 407 23.75
+        height: 117
+        sprite: e4a2eeee03464be0aebcc684613ada4c
+        width: 122
+      - type: RenderGroup
+  - id: 10
+    parent: 4
+    name: Suit_2
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: 48 293.75
+        height: 118
+        sprite: 6f5b70562f4a4968a36d145f77d49c63
+        width: 102
+      - type: RenderGroup
+  - id: 11
+    parent: 4
+    name: Suit_3
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: -399 -77.25
+        height: 138
+        sprite: 70ed6b9f254841b6a64e7bcbdd64748c
+        width: 138
+      - type: RenderGroup
+  - id: 12
+    parent: 4
+    name: Suit_4
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: -34 -299.25
+        height: 107
+        sprite: 17cc94829b664edc95d8e43127c67173
+        width: 114
+      - type: RenderGroup
+  - id: 13
+    parent: 3
+    name: Base
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: 0 52
+        height: 612
+        sprite: 9a281ebd15ae48d8b62f10ad9997291f
+        width: 810
+  - id: 14
+    parent: 3
+    name: Neon
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: 0 0
+        height: 580
+        sprite: 636799a052fd4eae8a3f64347fe7ccea
+        width: 794
+      - type: RenderGroup
+  - id: 15
+    parent: 3
+    name: Gin
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: 0 -147
+        height: 106
+        sprite: 7109b896f87349d4957a4b08a6ff2ce1
+        width: 175
+      - type: RenderGroup
+  - id: 16
+    parent: 3
+    name: Rummy
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: 16 16
+        height: 249
+        sprite: b139c6b72cef403b84eb300f025f1d33
+        width: 767
+      - type: RenderGroup
+  - id: 17
+    parent: 3
+    name: Extra
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: 0 119
+        height: 128
+        sprite: 3bbb6eb8d8324de3b42abf95b7ef77a0
+        width: 344
+      - type: RenderGroup
+  - id: 18
+    parent: 2
+    name: LoginForm
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0.5 1
+        anchorMin: 0.5 1
+        anchoredPos: 0 -500
+        height: 290
+        pivot: 0.5 0
+        width: 870
+  - id: 19
+    parent: 18
+    name: PlatformButtons
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0 0
+        anchorMin: 0 0
+        anchoredPos: 435 56
+        height: 112
+        width: 0
+        layout: Horizontal
+        spacing: 40
+  - id: 21
+    parent: 19
+    name: AppleButton
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        BlocksRaycast: true
+        anchorMax: 0 0
+        anchorMin: 0 0
+        anchoredPos: 810 56
+        fill:
+          color: '#f4f4f4ff'
+          color2: '#c9c9c9ff'
+          direction: Vertical
+          type: Linear
+        font: bold
+        height: 112
+        radius: 15 15 15 15
+        shadowColor: '#00000000'
+        shadowOffset: 0 8
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#111111ff'
+          type: Solid
+        textSize: 64
+        width: 520
+        text@loc: login.apple_button
+        border: 2 2 2 4
+        borderFill:
+          color: '#9a9a9aff'
+          type: Solid
+        innerShadowColor: '#ffffffd0'
+        innerShadowBlur: 2
+      - type: Button
+        buttonId: apple
+  - id: 20
+    parent: 19
+    name: FacebookButton
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        BlocksRaycast: true
+        anchorMax: 0 0
+        anchorMin: 0 0
+        anchoredPos: 260 56
+        border: 2 2 2 4
+        borderFill:
+          color: '#0d5fc4ff'
+          type: Solid
+        fill:
+          color: '#4db4ffff'
+          color2: '#0068c7ff'
+          direction: Vertical
+          type: Linear
+          stops: 0
+        font: primary
+        height: 112
+        radius: 15 15 15 15
+        shadowColor: '#00000000'
+        shadowOffset: 0 8
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 60
+        width: 520
+        text@loc: login.facebook_button
+        innerShadowColor: '#c2e2ffda'
+        innerShadowBlur: 2
+      - type: Button
+        buttonId: facebook
+  - id: 22
+    parent: 18
+    name: Or
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0 0
+        anchorMin: 0 0
+        anchoredPos: 435 153.5
+        height: 43
+        width: 347
+  - id: 23
+    parent: 22
+    name: Line1
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: -100 0
+        fill:
+          color: '#ffffff00'
+          type: Linear
+          direction: Horizontal
+          color2: '#ffffffff'
+          stops: 0
+        height: 3
+        width: 120
+  - id: 24
+    parent: 22
+    name: Line2
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: 100 0
+        fill:
+          color: '#ffffffff'
+          type: Linear
+          direction: Horizontal
+          color2: '#ffffff00'
+          stops: 0
+        height: 3
+        width: 120
+  - id: 25
+    parent: 22
+    name: OrText
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        font: bold
+        height: 50
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 28
+        width: 200
+        text@loc: login.or_text
+  - id: 26
+    parent: 18
+    name: GuestButton
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        BlocksRaycast: true
+        anchorMax: 0 0
+        anchorMin: 0 0
+        anchoredPos: 435 251
+        border: 2 2 2 4
+        borderFill:
+          color: '#2e0f6aff'
+          type: Solid
+        fill:
+          color: '#7339d3ff'
+          color2: '#4b1c9eff'
+          direction: Vertical
+          type: Linear
+          stops: 0
+        font: primary
+        height: 112
+        radius: 15 15 15 15
+        shadowColor: '#00000000'
+        shadowOffset: 0 8
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 60
+        width: 520
+        text@loc: login.guest_button
+        innerShadowColor: '#c29effb0'
+        innerShadowBlur: 2
+      - type: Button
+        buttonId: guest
+  - id: 27
+    parent: 2
+    name: Agreement
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0.5 1
+        anchorMin: 0.5 1
+        anchoredPos: 0 -67.6
+        font: regular
+        height: 60
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textShadowColor: '#000000aa'
+        textSize: 42
+        width: 1100
+        layout: None
+        spacing: 9
+        alignChildren: Center
+        justifyChildren: Center
+        overflowX: Visible
+        fill:
+          color: '#00000000'
+          type: Solid
+        textWrap: false
+        BlocksRaycast: true
+        text@loc: login.agreement
+      - type: PolicyLink
+  - id: 28
+    parent: 2
+    name: Progress
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0.5 1
+        anchorMin: 0.5 1
+        anchoredPos: 0 -380
+        height: 60
+        width: 400
+  - id: 29
+    parent: 28
+    name: Bar
+    pos: 0 102 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: ProgressRenderer
+        CornerRadius: 40
+        Fill:
+          color: '#ffd34dff'
+          color2: '#ff9f1aff'
+          direction: Vertical
+          type: Linear
+        Height: 60
+        Shape: Bar
+        Track:
+          color: '#00000080'
+          type: Solid
+          direction: Vertical
+          color2: '#00000000'
+          stops: 0
+        Value: 0.5
+        Width: 600
+        Padding: 8
+        BorderWidth: 2
+        BorderColor: '#ff851678'
+        GhostSpeed: 5
+  - id: 30
+    parent: 2
+    name: VersionLabel
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 1 1
+        anchorMin: 1 1
+        anchoredPos: -120 -70
+        font: cde2fdd571cb493dada93916c1a33a97
+        height: 60
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffa8'
+          type: Solid
+        textSize: 30
+        width: 200
+        text@loc: login.version_label
+  - id: 31
+    parent: 2
+    name: ErrorText
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0.5 1
+        anchorMin: 0.5 1
+        anchoredPos: 0 -300
+        font: cde2fdd571cb493dada93916c1a33a97
+        height: 50
+        text: ''
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ff6b6bff'
+          type: Solid
+        textSize: 36
+        width: 900
+  - id: 33
+    parent: 32
+    name: Big
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: ParticleSystem
+        BlendMode: Additive
+        alpha:
+          max: 0.25
+          min: 0
+          mode: Curve
+          shape:
+            Keys:
+              - Time: 0
+                Value: 0
+              - Time: 0.3
+                Value: 1
+              - Time: 0.7
+                Value: 1
+              - Time: 1
+                Value: 0
+        color:
+          mode: Random
+          color: '#ffa200ff'
+          color2: '#ff8a00ff'
+        duration: 8
+        emission:
+          rateOverTime: 5
+        lifetime:
+          max: 14
+          min: 3
+          mode: Random
+        looping: true
+        maxParticles: 80
+        noise:
+          frequency: 0.6
+          strength: 25
+        prewarm: true
+        shape:
+          boxSize: 900 260 0
+          randomDirection: 1
+          type: Box
+        size:
+          max: 110
+          min: 30
+          mode: Random
+        speed:
+          max: 80
+          min: 5
+          mode: Random
+        sprites:
+          - f17108411931421c9447218bc468789e
+  - id: 34
+    parent: 32
+    name: Small
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: ParticleSystem
+        BlendMode: Additive
+        alpha:
+          max: 0.9
+          min: 0
+          mode: Curve
+          shape:
+            Keys:
+              - Time: 0
+                Value: 0
+              - Time: 0.25
+                Value: 1
+              - Time: 0.75
+                Value: 1
+              - Time: 1
+                Value: 0
+        color:
+          mode: Random
+          color: '#ffa200ff'
+          color2: '#ff9000ff'
+        duration: 8
+        emission:
+          rateOverTime: 11
+        lifetime:
+          max: 14
+          min: 3
+          mode: Random
+        looping: true
+        maxParticles: 160
+        noise:
+          frequency: 2
+          strength: 40
+        prewarm: true
+        shape:
+          boxSize: 1000 260 0
+          randomDirection: 1
+          type: Box
+        size:
+          max: 16
+          min: 4
+          mode: Random
+        speed:
+          max: 120
+          min: 5
+          mode: Random
+        sprites:
+          - 742c45a107134ad6b0cc141ecaa2dfb0
+  - id: 35
+    parent: 32
+    name: Glitter
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: ParticleSystem
+        BlendMode: Additive
+        alpha:
+          max: 0.7
+          min: 0
+          mode: Curve
+          shape:
+            Keys:
+              - Time: 0
+                Value: 0
+              - Time: 0.3
+                Value: 1
+              - Time: 0.7
+                Value: 1
+              - Time: 1
+                Value: 0
+        color:
+          mode: Random
+          color: '#ffb900ff'
+          color2: '#ffa200ff'
+        duration: 6
+        emission:
+          rateOverTime: 6
+        lifetime:
+          max: 10
+          min: 3
+          mode: Random
+        looping: true
+        maxParticles: 80
+        noise:
+          frequency: 0.6
+          strength: 25
+        prewarm: true
+        shape:
+          boxSize: 1100 260 0
+          randomDirection: 1
+          type: Box
+        size:
+          max: 45
+          min: 12
+          mode: Random
+        speed:
+          max: 140
+          min: 10
+          mode: Random
+        sprites:
+          - 5ab94bb444544296bab407e19b084ddb
+  - id: 36
+    parent: 32
+    name: Dots
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: ParticleSystem
+        BlendMode: Additive
+        sprites:
+          - 5ab94bb444544296bab407e19b084ddb
+        duration: 8
+        looping: true
+        prewarm: true
+        maxParticles: 160
+        emission:
+          rateOverTime: 10
+        lifetime:
+          max: 14
+          min: 3
+          mode: Random
+        speed:
+          max: 120
+          min: 5
+          mode: Random
+        size:
+          mode: Random
+          min: 6
+          max: 24
+        color:
+          mode: Random
+          color: '#ffa200ff'
+          color2: '#ffb900ff'
+        alpha:
+          mode: Curve
+          min: 0
+          max: 0.9
+          shape:
+            Keys:
+              - Time: 0
+                Value: 0
+              - Time: 0.25
+                Value: 1
+              - Time: 0.75
+                Value: 1
+              - Time: 1
+                Value: 0
+        shape:
+          boxSize: 1000 260 0
+          randomDirection: 1
+          type: Box
+        noise:
+          frequency: 2
+          strength: 40
+  - id: 37
+    parent: 32
+    name: Specks
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: ParticleSystem
+        BlendMode: Additive
+        sprites:
+          - 0f1d29da51a74a20a3f0b64f9a0fdcff
+        duration: 8
+        looping: true
+        prewarm: true
+        maxParticles: 160
+        emission:
+          rateOverTime: 10
+        lifetime:
+          max: 14
+          min: 3
+          mode: Random
+        speed:
+          max: 120
+          min: 5
+          mode: Random
+        size:
+          mode: Random
+          min: 2
+          max: 5
+        color:
+          mode: Random
+          color: '#ffcb7cff'
+          color2: '#ffb050ff'
+        alpha:
+          mode: Curve
+          min: 0
+          max: 0.9
+          shape:
+            Keys:
+              - Time: 0
+                Value: 0
+              - Time: 0.25
+                Value: 1
+              - Time: 0.75
+                Value: 1
+              - Time: 1
+                Value: 0
+        shape:
+          boxSize: 1000 260 0
+          randomDirection: 1
+          type: Box
+        noise:
+          frequency: 2
+          strength: 40

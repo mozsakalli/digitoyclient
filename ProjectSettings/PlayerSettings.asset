@@ -5,8 +5,9 @@ fields:
   version: 0.1.0
   bundleIdentifier: com.defaultcompany.game
   scenes:
-    - Scenes/Main.scene
-  startScene: Scenes/Main.scene
+    - Games/GinRummy/Scenes/Login.scene
+    - Games/GinRummy/Scenes/Lobby.scene
+  startScene: Games/GinRummy/Scenes/Login.scene
   themes:
   activeTheme: ''
   defaultWidth: 1280
@@ -16,7 +17,7 @@ fields:
   targetFrameRate: 0
   orientation: Landscape
   moduleHostDll: ''
-  moduleHost: false
+  stripCode: true
   android:
     packageName: ''
     versionCode: 1
