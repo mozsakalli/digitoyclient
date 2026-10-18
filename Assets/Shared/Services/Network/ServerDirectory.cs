@@ -73,17 +73,14 @@ namespace Digitoy
             if (net.HasCustomServerUrl) return net.WebSocketUrl;
             EnsureLoaded();
             if (_gateways.Count == 0 || _index >= _gateways.Count) return net.WebSocketUrl;
-            return ToWebSocketUrl(_gateways[_index]);
+            return NetworkSettings.ToWebSocketUrl(_gateways[_index]);
         }
-
-        // Sunucu yalnız host döner (şema/yol yok); şema ileride platforma göre seçilecek, şimdilik ws
-        private static string ToWebSocketUrl(string host) => $"ws://{host}/api/websocket/connect";
 
         /// <summary>Soket bu adrese hiç açılamadı → sıradakine geç. true = denenecek başka gateway var.</summary>
         public static bool MarkUnreachable(string url)
         {
             EnsureLoaded();
-            if (_gateways.Count == 0 || _index >= _gateways.Count || ToWebSocketUrl(_gateways[_index]) != url) return false;
+            if (_gateways.Count == 0 || _index >= _gateways.Count || NetworkSettings.ToWebSocketUrl(_gateways[_index]) != url) return false;
             _index++;
             if (_index < _gateways.Count) return true;
             _exhausted = true;

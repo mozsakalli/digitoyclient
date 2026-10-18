@@ -41,16 +41,12 @@ namespace Digitoy
 
         public string WebSocketUrl => ToWebSocketUrl(BaseHost);
 
+        /// <summary>Host → WS adresi. Tarayıcı (wasm) dışında her yerde <c>ws://</c>; tarayıcı mixed-content için <c>wss://</c>.</summary>
         public static string ToWebSocketUrl(string host)
         {
             if (string.IsNullOrEmpty(host)) return string.Empty;
-            var scheme = IsLocalHost(host) ? "ws" : "wss";
+            var scheme = OperatingSystem.IsBrowser() ? "wss" : "ws";
             return $"{scheme}://{host}/api/websocket/connect";
         }
-
-        private static bool IsLocalHost(string host) =>
-            host.StartsWith("localhost", StringComparison.OrdinalIgnoreCase)
-            || host.StartsWith("127.0.0.1", StringComparison.OrdinalIgnoreCase)
-            || host.StartsWith("192.168.", StringComparison.OrdinalIgnoreCase);
     }
 }

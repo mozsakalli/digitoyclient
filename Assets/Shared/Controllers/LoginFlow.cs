@@ -1,6 +1,6 @@
 // Unity LoginController adaptasyonu (Guest alt kümesi). Yerleşim bilmez; sahnedeki GO'lar alanlardan bağlanır.
 // Akış: Start → settings (force update / maintenance / policy) → LastAuthType varsa oto-login, yoksa form → Guest →
-// progress (Auth/Loading/Ready) → hata: form geri + errorText → başarı → Game.Current.lobbyScene. FB/Apple butonları stub (Faz 5).
+// progress (Auth/Loading/Ready) → hata: form geri + errorText → başarı → Game.Current.lobbyScene. Facebook = plugin; Apple stub (Faz 5).
 using System.Threading.Tasks;
 using Digitoy.Ui;
 using DigitoyEngine;
@@ -33,7 +33,7 @@ namespace Digitoy.Controllers
             AppBoot.Ensure(game, network, appVersion);
             if (versionText != null) versionText.Text = Platform.AppVersion;
             if (guestButton != null) guestButton.Clicked += (_, _) => LoginAsync(LoginType.Guest).Forget();
-            if (facebookButton != null) facebookButton.Clicked += (_, _) => Debug.LogWarning("Facebook login: Faz 5");
+            if (facebookButton != null) facebookButton.Clicked += (_, _) => LoginAsync(LoginType.Facebook).Forget();
             if (appleButton != null) appleButton.Clicked += (_, _) => Debug.LogWarning("Apple login: Faz 5");
             if (errorText != null) errorText.Text = "";
             ProgressAsync().Forget();
@@ -71,7 +71,8 @@ namespace Digitoy.Controllers
             }
 
             LoginType? last = autoLoginLastType ? PlayerPrefsService.I.LastAuthType.Value : null;
-            if (last == LoginType.Guest) await LoginAsync(LoginType.Guest);
+            // Facebook oto-login SDK ekranı açmaz: plugin süresi dolmamış cached token'ı kullanır, yoksa form.
+            if (last is LoginType.Guest or LoginType.Facebook) await LoginAsync(last.Value);
             else ShowForm();
         }
 

@@ -11,7 +11,7 @@ Revize 2026-10-16 (decisions.md): Common.dll hazır alınır, core.upm adapte ed
    README "Açma" güncellenir.
 2. `Assets/Plugins/Digitoy.Common.dll` ✔ (kullanıcı verdi, 2026-10-14 build) + `Digitoy.Common.version.md`.
 3. **core.upm adaptasyonu (kopyala + Unity'den arındır, davranış aynı):** `Helpers/{Result,Service,Log,DeviceKeyHelper→stub}`,
-   `Network/{Server,ServerDirectory,INetworkClient,ClientAuthParams,NetworkDelay}`, `Components/{Player,Game/Table,Game/Lobby,
+   `Network/{Server,ServerDirectory,NetworkClient,ClientAuthParams,NetworkDelay}`, `Components/{Player,Game/Table,Game/Lobby,
    Auth(Guest yolu)}`, `DeviceKey` (PlayerPrefs GUID fallback), `Extensions/DataExtensions`. Kalıplar: `Awaitable`→`Task`,
    `Awaitable.NextFrameAsync`→`Frame.Next()`, `MainThreadAsync` silinir, `Debug`→`Log`, `SystemInfo/Application`→`Platform` shim,
    `GameProperties : ScriptableObject`→`[Asset] GameProperties` (yalnız ağ alanları).

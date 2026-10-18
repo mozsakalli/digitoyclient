@@ -10,6 +10,9 @@ fields:
   startScene: Games/GinRummy/Scenes/Login.scene
   themes:
   activeTheme: ''
+  variants:
+  activeVariant: ''
+  excludeFolders:
   defaultWidth: 1280
   defaultHeight: 720
   fullscreen: false
@@ -25,6 +28,8 @@ fields:
     includeX86_64: true
     keystorePath: ''
     keyAlias: ''
+    keystorePassword: ''
+    keyPassword: ''
     iconForeground: ''
     iconBackground: '#1E1E1E'
   ios:

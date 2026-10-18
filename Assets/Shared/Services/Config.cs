@@ -15,7 +15,7 @@ namespace Digitoy
         private static EconomyDefinitions _cachedDefinitions;
         internal static EconomyDefinitions CachedDefinitions => _cachedDefinitions;
 
-        /// <summary>Bellekteki tanımları/ayarları düşür (disk cache durur). <see cref="ServiceRegistry.ResetAll"/> çağırır.</summary>
+        /// <summary>Bellekteki tanımları/ayarları düşür (disk cache durur). <see cref="ServiceRegistry"/> ResetSession/ResetAll'da çağırır.</summary>
         internal static void Reset()
         {
             _cachedDefinitions = null;

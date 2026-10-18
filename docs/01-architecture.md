@@ -81,9 +81,11 @@ Shared/Services     saf C#; motor yüzeyi yalnız WebSocket/Http/PlayerPrefs/Nat
 Shared/Ui+Dialogs   Component'ler; servis event'lerini dinler, sahneyi projekte eder
 Games/<Oyun>        TableState → sahne projeksiyonu (tek state machine; Phase×SubPhase sunucudan), MovieClip koreografi
 ```
-- **Ağ:** core.upm `Server`/`ServerDirectory`/`INetworkClient` **adapte edilir** (decisions 2026-10-16): bağlantı durum
-  makinesi, relogin, heartbeat 25 sn, reconnect/gateway failover aynen; yalnız taşıma (`BestWebSocketClient`'ın Best HTTP
-  kısmı) motor `WebSocket` (`ConnectAsync/ReceiveAsync/Send(byte[])`) üstüne yazılır. `Codec` (Common) → `Endpoint`
+- **Ağ:** core.upm `Server`/`ServerDirectory` **adapte edilir** (decisions 2026-10-16/18): bağlantı durum makinesi, relogin,
+  heartbeat 25 sn, reconnect/gateway failover aynen. İki katman, arayüz yok: `NetworkClient` (tek url'ye bağlan, auth-on-open,
+  requestId→TCS, istek zaman aşımı, heartbeat, kapanış — motor `WebSocket` `Send(ReadOnlySpan)` ile kopyasız) ve `Server`
+  (gateway hop + bütçe + settings tazeleme, reconnect döngüsü, oturum yükleme). Auth bayrağı yalnız `NetworkClient.IsAuthenticated`.
+  WS şeması: wasm `wss`, diğer hedefler `ws` (`NetworkSettings.ToWebSocketUrl`, tek kopya). `Codec` (Common) → `Endpoint`
   çağrıları `Task<T>` (motor tek-thread; `NativeAsync.Pump` frame başında — ContinueWith/Task.Run yok; `Awaitable`→`Task`,
   `MainThreadAsync` gereksiz). Push event'leri (`requestId == -1`) servis bazlı yönlendirme (Player/Lobby/Table/Messaging).
 - **Oyun oturumu:** `Game.Current` tek aktif; `Game.Switch` = logout → `ServiceRegistry.ResetAll()` → yeni gameId ile

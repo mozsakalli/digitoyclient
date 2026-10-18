@@ -64,10 +64,11 @@ namespace Digitoy
             OnResetAll?.Invoke();
         }
 
-        // Oturumdan türeyen çekirdek statik önbellekler.
+        // Oturumdan türeyen çekirdek statik önbellekler (tek sahip burası; servisler kendi içinde tekrar sıfırlamaz).
         private static void ResetSessionStatics()
         {
             TimeSync.Reset();
+            Config.Reset();
         }
     }
 }

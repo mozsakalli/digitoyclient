@@ -133,7 +133,6 @@ namespace Digitoy
         {
             _state = null;
             _authId = 0;
-            TimeSync.Reset();
         }
 
         protected internal override void ResetAll()

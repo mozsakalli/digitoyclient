@@ -1,9 +1,9 @@
-// core.upm Network/BestWebSocketClient.cs adaptasyonu: taşıma katmanı Best HTTP yerine motor WebSocket.
-// Korunan mantık: gateway hop + toplam bütçe, requestId→TCS eşleme, 25 sn uygulama heartbeat'i, auth-on-open + grace,
-// Connection nesli ile bayat callback filtresi, tek noktadan HandleClose, CloseReason çözümü.
-// Farklar: motor tek-thread → kilit/Interlocked/volatile yok; Task.Delay/CancelAfter yerine Wait.Timeout/Frame.Next
-// (thread-pool timer devamı ana thread dışına düşerdi); protokol ping/CloseAfterNoMessage motor soketinde yok (sunucu 60 sn
-// uygulama çerçevesi kuralı heartbeat ile karşılanır); RunContinuationsAsynchronously kaldırıldı (thread-pool'a kaçardı).
+// Tek WS bağlantısının taşıma + protokol katmanı (core.upm BestWebSocketClient soyundan; INetworkClient kaldırıldı,
+// tek implementasyon). Sorumluluk: TEK url'ye bağlan, auth-on-open (+ grace), requestId→TCS eşleme, istek zaman aşımı,
+// 25 sn uygulama heartbeat'i, Connection nesli ile bayat callback filtresi, tek noktadan HandleClose.
+// Gateway seçimi / hop / bütçe / settings tazeleme BURADA DEĞİL — Server.ConnectTransportAsync (uygulama kararı).
+// Zero-GC: gönderim Codec tamponundan Span ile kopyasız; istek başına yalnız TCS; zaman aşımı per-request CTS yerine
+// saniyelik tek tick'te süpürülür; alım yeniden kullanılan tampona tek kopya; frame döngüsü yok (Wait.Seconds).
 #nullable enable
 using System;
 using System.Collections.Generic;
@@ -14,21 +14,20 @@ using M;
 
 namespace Digitoy.Network
 {
-    internal sealed class EngineWebSocketClient : INetworkClient
+    internal sealed class NetworkClient
     {
         private static readonly TimeSpan AuthFailGracePeriod = TimeSpan.FromSeconds(3);
         // Sunucu 60 sn UYGULAMA çerçevesi görmezse bağlantıyı düşürür — gönderim boşta kalınca Endpoint.Ping at.
         private static readonly TimeSpan HeartbeatInterval = TimeSpan.FromSeconds(25);
-        /// <summary>Bir ConnectAsync çağrısında denenecek en fazla gateway sayısı (bütçe daha önce biterse daha az).</summary>
-        private const int MaxGatewayHops = 3;
+        private const float TickSeconds = 1f;
 
         private readonly NetworkSettings _net;
 
         /// <summary>Soket açılınca koşan kimlik adımı: null = başarı, ErrorCode = ret.</summary>
-        private readonly Func<INetworkClient, CancellationToken, Task<ErrorCode?>>? _authenticator;
+        private readonly Func<CancellationToken, Task<ErrorCode?>>? _authenticator;
 
         private readonly Codec _codec = new(isClient: true);
-        private byte[] _rx = new byte[4096]; // WsMessage native tampon -> Codec byte[] (buyuyen, mesaj basina alloc yok)
+        private byte[] _rx = new byte[4096]; // WsMessage native tampon -> Codec byte[] (büyüyen, mesaj başına alloc yok)
 
         /// <summary>Bağlantı başına durum; her ConnectAsync'te değişir, bayat callback'ler referans kıyasıyla elenir.</summary>
         private sealed class Connection
@@ -57,7 +56,10 @@ namespace Digitoy.Network
         private DateTime _lastSendUtc;
 
         private long _nextRequestId;
-        private readonly Dictionary<long, TaskCompletionSource<object?>> _pending = new();
+        private readonly Dictionary<long, (TaskCompletionSource<object?> tcs, DateTime deadline)> _pending = new();
+        // Süpürme için yeniden kullanılan listeler: önce toplanır, sözlükten düşülür, SONRA tetiklenir (TCS devamı eşzamanlı koşar).
+        private readonly List<long> _expired = new();
+        private readonly List<TaskCompletionSource<object?>> _toCancel = new();
 
         public event Action<CloseReason>? OnDisconnected;
         public event Action<object>? OnEvent;
@@ -71,6 +73,8 @@ namespace Digitoy.Network
             }
         }
 
+        public bool IsAuthenticated => IsConnected && _conn!.IsAuthenticated;
+
         public string ConnectedUrl
         {
             get
@@ -80,11 +84,10 @@ namespace Digitoy.Network
             }
         }
 
-        // Motor soketi gecikme ölçmez; Faz 1'de Ping gidiş-dönüşünden hesaplanır.
-        public int LatencyMs => 0;
+        /// <summary>Son heartbeat Ping gidiş-dönüşü (ms); ilk ping'e kadar 0.</summary>
+        public int LatencyMs { get; private set; }
 
-        public EngineWebSocketClient(NetworkSettings net,
-            Func<INetworkClient, CancellationToken, Task<ErrorCode?>>? authenticator = null)
+        public NetworkClient(NetworkSettings net, Func<CancellationToken, Task<ErrorCode?>>? authenticator = null)
         {
             _net = net;
             _authenticator = authenticator;
@@ -92,43 +95,12 @@ namespace Digitoy.Network
 
         // ── Bağlan ────────────────────────────────────────────────────────────
 
-        public async Task<ErrorCode?> ConnectAsync(CancellationToken cancellationToken = default, bool relogin = false)
-        {
-            // Gateway'ler sırayla: soket hiç açılamadıysa sonrakine geç. Tek toplam bütçe (connectionTimeoutSeconds, tüm hop'lar
-            // + en fazla bir settings tazelemesi dahil): bütçe bitince hata döner.
-            var budget = TimeSpan.FromSeconds(_net.connectionTimeoutSeconds);
-            var deadline = DateTime.UtcNow + budget;
-            var refreshed = false;
-            ErrorCode? error = ErrorCode.InternalError;
-            for (var hop = 0; hop < MaxGatewayHops; hop++)
-            {
-                var remaining = deadline - DateTime.UtcNow;
-                if (remaining <= TimeSpan.Zero || cancellationToken.IsCancellationRequested) break;
-
-                if (!_net.HasCustomServerUrl && ServerDirectory.NeedsRefresh && !refreshed)
-                {
-                    refreshed = true;
-                    // Tazeleme bütçenin en fazla yarısını yesin
-                    using var refreshTimeout = Wait.Timeout((float)(remaining.TotalSeconds / 2));
-                    using var refreshCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, refreshTimeout.Token);
-                    try { await Config.RefreshDirectoryAsync(refreshCts.Token); }
-                    catch (Exception ex) { Debug.LogWarning($"Directory refresh failed: {ex.Message}"); }
-                    remaining = deadline - DateTime.UtcNow;
-                    if (remaining <= TimeSpan.Zero) break;
-                }
-
-                var url = ServerDirectory.WebSocketUrl(_net);
-                var (err, opened) = await ConnectOnceAsync(url, remaining, cancellationToken, relogin);
-                error = err;
-                if (error == null || opened || cancellationToken.IsCancellationRequested) return error;
-                Debug.LogWarning($"Gateway unreachable: {url}");
-                if (!ServerDirectory.MarkUnreachable(url)) break;
-            }
-            Debug.LogWarning($"Connect failed within {budget.TotalSeconds:0}s budget");
-            return error;
-        }
-
-        private async Task<(ErrorCode? error, bool opened)> ConnectOnceAsync(string url, TimeSpan timeout, CancellationToken cancellationToken, bool relogin)
+        /// <summary>
+        /// Verilen adrese tek deneme. <c>opened=false</c>: soket hiç açılamadı (gateway ulaşılamaz → çağıran sıradakine geçer);
+        /// <c>opened=true</c> + hata: soket açıldı ama auth reddedildi / zaman aşımı. Açık + auth'lu bağlantı varsa ve relogin
+        /// değilse hemen başarı döner.
+        /// </summary>
+        public async Task<(ErrorCode? error, bool opened)> ConnectAsync(string url, TimeSpan timeout, CancellationToken cancellationToken, bool relogin)
         {
             var existing = _conn;
             if (relogin) TeardownSilently(existing);
@@ -164,7 +136,7 @@ namespace Digitoy.Network
 
             socket.OnMessage = m => OnMessage(conn, m);
             socket.OnClose = (code, reason) => HandleClose(conn, code, reason);
-            // Zaman aşımı/iptal bağlantı görevini hatayla bitirir (zaten bittiyse no-op).
+            // Zaman aşımı/iptal bağlantı görevini hatayla bitirir (zaten bittiyse etkisiz).
             cts.Token.Register(static state =>
             {
                 ((TaskCompletionSource<ErrorCode?>)state!).TrySetResult(ErrorCode.InternalError);
@@ -209,6 +181,7 @@ namespace Digitoy.Network
 
         // ── Gönder ────────────────────────────────────────────────────────────
 
+        /// <summary>İstek-cevap. null: bağlı değil / gönderilemedi / zaman aşımı / iptal / bağlantı düştü.</summary>
         public async Task<TResponse?> SendRequestAsync<TResponse>(
             int endpoint, object? request,
             CancellationToken cancellationToken = default) where TResponse : class
@@ -218,15 +191,12 @@ namespace Digitoy.Network
 
             var requestId = ++_nextRequestId;
             var tcs = new TaskCompletionSource<object?>();
-            _pending[requestId] = tcs;
+            _pending[requestId] = (tcs, DateTime.UtcNow + TimeSpan.FromSeconds(_net.requestTimeoutSeconds));
 
-            using var timeoutCts = Wait.Timeout(_net.requestTimeoutSeconds);
-            using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutCts.Token);
-            using var reg = cts.Token.Register(() =>
-            {
-                _pending.Remove(requestId);
-                tcs.TrySetCanceled();
-            });
+            // Dış iptal: yalnız iptal edilebilir token için kayıt (alloc yalnız o durumda).
+            var reg = cancellationToken.CanBeCanceled
+                ? cancellationToken.Register(() => { _pending.Remove(requestId); tcs.TrySetCanceled(); })
+                : default;
 
             try
             {
@@ -235,9 +205,8 @@ namespace Digitoy.Network
                 _codec.Encode((long)endpoint);
                 _codec.EncodeObject(request);
                 var seg = _codec.GetBuffer();
-                var bytes = new byte[seg.Count];
-                Buffer.BlockCopy(seg.Array!, seg.Offset, bytes, 0, seg.Count);
-                if (!conn.Socket.Send(bytes))
+                // Kopyasız gönderim: motor soketi Span alır, Codec tamponu bir sonraki Encode'a kadar bize ait.
+                if (!conn.Socket.Send(new ReadOnlySpan<byte>(seg.Array!, seg.Offset, seg.Count)))
                 {
                     _pending.Remove(requestId);
                     Debug.LogWarning($"Send ep={endpoint}: socket refused");
@@ -247,13 +216,19 @@ namespace Digitoy.Network
 
                 return await tcs.Task as TResponse;
             }
+            catch (OperationCanceledException)
+            {
+                return null;
+            }
             catch (Exception ex)
             {
-                _pending.Remove(requestId);
-                tcs.TrySetCanceled();
-                if (ex is not OperationCanceledException)
-                    Debug.LogWarning($"Send ep={endpoint}: {ex.Message}");
+                Debug.LogWarning($"Send ep={endpoint}: {ex.Message}");
                 return null;
+            }
+            finally
+            {
+                _pending.Remove(requestId);
+                reg.Dispose();
             }
         }
 
@@ -265,12 +240,12 @@ namespace Digitoy.Network
 
             conn.IsOpen = true;
             Debug.Log("Transport opened");
+            _ = TickAsync(conn);
 
             if (_authenticator == null)
             {
                 conn.IsAuthenticated = true;
                 conn.ConnectTcs.TrySetResult(null);
-                _ = HeartbeatAsync(conn);
                 return;
             }
 
@@ -286,7 +261,7 @@ namespace Digitoy.Network
             ErrorCode? authError;
             try
             {
-                authError = await _authenticator!(this, token);
+                authError = await _authenticator!(token);
             }
             catch (OperationCanceledException)
             {
@@ -310,7 +285,6 @@ namespace Digitoy.Network
                 conn.IsAuthenticated = true;
                 Debug.Log("Authenticated");
                 conn.ConnectTcs.TrySetResult(null);
-                _ = HeartbeatAsync(conn);
             }
             else
             {
@@ -321,18 +295,52 @@ namespace Digitoy.Network
             }
         }
 
-        // Bağlantı başına döngü; bağlantı bayatlayınca ya da kapanınca çıkar. Frame tabanlı (tek-thread).
-        private async Task HeartbeatAsync(Connection conn)
+        /// <summary>Bağlantı başına saniyelik tick: istek zaman aşımı süpürmesi + boşta heartbeat. Bağlantı bayatlayınca çıkar.</summary>
+        private async Task TickAsync(Connection conn)
         {
             _lastSendUtc = DateTime.UtcNow;
             while (IsCurrent(conn) && conn.IsOpen && conn.Socket.State == WebSocketState.Open)
             {
-                if (!await Frame.Next()) return;
+                await Wait.Seconds(TickSeconds);
                 if (!IsCurrent(conn) || !conn.IsOpen || conn.Socket.State != WebSocketState.Open) return;
-                if (DateTime.UtcNow - _lastSendUtc < HeartbeatInterval) continue;
-                try { await SendRequestAsync<object>(Endpoint.Ping, null); }
-                catch { /* soket ölümü OnClose ile gelir */ }
+
+                var now = DateTime.UtcNow;
+                SweepTimeouts(now);
+                if (conn.IsAuthenticated && now - _lastSendUtc >= HeartbeatInterval)
+                    _ = PingAsync();
             }
+        }
+
+        private void SweepTimeouts(DateTime now)
+        {
+            if (_pending.Count == 0) return;
+            foreach (var kv in _pending)
+                if (kv.Value.deadline <= now) _expired.Add(kv.Key);
+            if (_expired.Count == 0) return;
+            Debug.LogWarning($"{_expired.Count} request(s) timed out");
+            CancelCollected();
+        }
+
+        /// <summary>_expired'daki istekleri sözlükten düşürüp iptal eder; listeler tetiklemeden önce boşaltılır (yeniden giriş güvenli).</summary>
+        private void CancelCollected()
+        {
+            for (var i = 0; i < _expired.Count; i++)
+                if (_pending.Remove(_expired[i], out var p)) _toCancel.Add(p.tcs);
+            _expired.Clear();
+            if (_toCancel.Count == 0) return;
+            var n = _toCancel.Count;
+            var snapshot = n == 1 ? null : _toCancel.ToArray();
+            var single = n == 1 ? _toCancel[0] : null;
+            _toCancel.Clear();
+            if (single != null) { single.TrySetCanceled(); return; }
+            foreach (var tcs in snapshot!) tcs.TrySetCanceled();
+        }
+
+        private async Task PingAsync()
+        {
+            var t0 = DateTime.UtcNow;
+            var r = await SendRequestAsync<object>(Endpoint.Ping, null);
+            if (r != null) LatencyMs = (int)(DateTime.UtcNow - t0).TotalMilliseconds;
         }
 
         private async Task AuthFailFallbackAsync(Connection conn)
@@ -356,20 +364,17 @@ namespace Digitoy.Network
             {
                 if (msg.IsText || msg.Length == 0) return;
 
-                // Mesaj native bellekte (zero-GC); Codec byte[] istiyor -> yeniden kullanilan tampona tek kopya.
+                // Mesaj native bellekte (zero-GC); Codec byte[] istiyor -> yeniden kullanılan tampona tek kopya.
                 if (_rx.Length < msg.Length) _rx = new byte[Math.Max(msg.Length, _rx.Length * 2)];
                 msg.Bytes.CopyTo(_rx);
                 _codec.BeginDecoding(_rx, msg.Length, 0);
                 var requestId = _codec.TryDecodeNumber();
                 var response = _codec.DecodeObject();
 
-                // Gelen paket tipi ve ham boyut (debug)
-                Debug.Log($"RX type={response?.GetType().Name ?? "null"} len={msg.Length} reqId={requestId}");
-
-                if (requestId == -1) { OnEvent?.Invoke(response!); return; }
+                if (requestId == -1) { OnEvent?.Invoke(response); return; }
                 if (requestId == 0) return; // protokol ping cevabı
 
-                if (_pending.Remove(requestId, out var tcs)) tcs.TrySetResult(response);
+                if (_pending.Remove(requestId, out var p)) p.tcs.TrySetResult(response);
             }
             catch (Exception ex)
             {
@@ -459,10 +464,8 @@ namespace Digitoy.Network
         private void CancelPending()
         {
             if (_pending.Count == 0) return;
-            var snapshot = new TaskCompletionSource<object?>[_pending.Count];
-            _pending.Values.CopyTo(snapshot, 0);
-            _pending.Clear();
-            foreach (var tcs in snapshot) tcs.TrySetCanceled();
+            foreach (var kv in _pending) _expired.Add(kv.Key);
+            CancelCollected();
         }
     }
 }

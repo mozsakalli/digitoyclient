@@ -1,0 +1,12 @@
+{
+    // DigitoyEditor sablonu (yalniz yoksa yazilir; kullaniciya ait).
+    // Java LS, Assets/Plugins/<Ad>/Android/build.gradle.kts'yi kok Gradle projesi sanip Assets icine .gradle/ birakiyor -> kapali.
+    "java.import.gradle.enabled": false,
+    "java.autobuild.enabled": false,
+    "files.associations": {
+        "*.scene": "yaml",
+        "*.prefab": "yaml",
+        "*.asset": "yaml",
+        "*.meta": "yaml"
+    }
+}

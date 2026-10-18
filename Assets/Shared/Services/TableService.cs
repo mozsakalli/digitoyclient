@@ -72,12 +72,6 @@ namespace Digitoy
             OnError = null;
         }
 
-        public void Dispose()
-        {
-            Clear();
-            OnUpdate = null;
-        }
-
         public int GetDiscard(int pos = -1)
         {
             var discardList = GetDiscardList(pos);

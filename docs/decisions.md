@@ -2,6 +2,41 @@
 
 Kronolojik, en yeni üstte. Her madde: tarih, karar, gerekçe, etkilenen doküman.
 
+## 2026-10-18 — Facebook Login = motor plugin'i (`Assets/Plugins/Facebook`), ilk gerçek plugin
+- **Model:** game_rd `docs/plugins.md`. `Runtime/Facebook.cs` (`Plugin<Facebook.Config>`; JSON/id protokolü; `Login()` →
+  motor-bağımsız `LoginResult{Status,Token,UserId,Error}`), `Editor/FacebookHooks.cs` (Android resString'ler, iOS plist/SPM,
+  WASM script) + `FacebookMock.cs` (editör Play: status/login/logout taklidi), `Android/` Gradle **library** modülü
+  (`facebook-login:17.0.0`, manifest meta-data + `FacebookActivity`/`CustomTabActivity`, Kotlin `FacebookPlugin`), `iOS/`, `WASM/`.
+- **core.upm'den korunan davranış:** `_loginInProgress` kilidi (ikinci çağrı `Busy`), süresi dolmamış cached token varsa SDK
+  ekranı açılmaz (`status` isteği; `AccessToken.isExpired`), `Logout`. **Alınmayan:** iOS ATT/Limited login + `timeScale`
+  dondurma (iOS fazında), `FB.Init` (Android SDK manifest meta-data ile kendi başlar).
+- **Bağlama:** `Server.LoginAsync(LoginType.Facebook)` → `Plugin.Get<Facebook>().Login()`; `Cancel→FacebookAuthCancelled`,
+  diğer→`FacebookAuthFailed`; token varken `req.Token=null` (JWT fast-path'in sosyal girişi guest'e döndürmesine karşı, core.upm
+  notu). `LoginFlow`: FB butonu bağlı; `LastAuthType==Facebook` oto-login'e girer (plugin cached token kullanır). **Yok:**
+  `keepPlayerId`/AccountConflict çözümü (ayrı karar).
+- **Ayar:** `ProjectSettings/Plugins/Facebook.asset` — şimdilik PLACEHOLDER appId/clientToken (`[Required]` build'i düşürmesin);
+  gerçek kimlik oyun başına **varyant overlay**'inde (`ProjectSettings/Variants/<oyun>/Plugins/Facebook.asset`) olacak;
+  varyant henüz tanımlı değil. `clientToken` `[Sensitive]` (AI okuyamaz).
+- Etkilenen: 01-architecture (Plugins), 02-engine-gaps (Faz 5 FB kalemi kapandı).
+
+## 2026-10-18 — Ağ katmanı sadeleştirme: INetworkClient kaldırıldı, hop döngüsü Server'da, zero-GC gönderim
+- **`INetworkClient` silindi**; tek implementasyon `NetworkClient` (eski `EngineWebSocketClient`). Motorun tek ağ katmanı var,
+  soyutlama Unity'deki Best HTTP/mock değişimi içindi. Authenticator imzası `Func<CancellationToken, Task<ErrorCode?>>`.
+- **Katman:** gateway hop + toplam bütçe + `Config.RefreshDirectoryAsync` döngüsü `Server.ConnectTransportAsync`'e taşındı;
+  `NetworkClient.ConnectAsync(url, timeout, ct, relogin)` tek adrese bağlanır → `(error, opened)`. Taşıma katmanı artık
+  Config/Game'e bağımlı değil (eski transport → Config → Server döngüsü kırıldı).
+- **Auth bayrağı tek yerde:** `NetworkClient.IsAuthenticated`; `Server._isAuthenticated` kaldırıldı.
+- **Reconnect hızlı:** kopuşta ön internet probu yok, ilk deneme ANINDA (backoff 0/1/2 sn); probe yalnız deneme başarısız
+  olunca. Denemeler arası `State` `Reconnecting`'de kalır (Dead/Reconnecting titremesi yok).
+- **Zero-GC:** gönderim `Codec` tamponundan `WebSocket.Send(ReadOnlySpan)` ile kopyasız; istek zaman aşımı per-request CTS/Register
+  yerine saniyelik tek tick'te süpürülür (dış iptal yalnız `CanBeCanceled` token için kayıt); heartbeat aynı tick'te
+  (`Frame.Next` döngüsü yok); paket başına RX log kaldırıldı. `LatencyMs` heartbeat Ping gidiş-dönüşünden.
+- **WS şeması:** wasm hedefi `wss`, diğer tüm hedefler `ws` (`NetworkSettings.ToWebSocketUrl`; `ServerDirectory` kendi kopyasını
+  kullanmıyor).
+- **Statik sıfırlama:** `ServiceRegistry.ResetSessionStatics` → `TimeSync.Reset` + `Config.Reset` (tek sahip); `PlayerService`
+  artık TimeSync'i kendisi sıfırlamaz. `TableService.Dispose` (ölü) silindi. `Server.cs` blok namespace.
+- Etkilenen: 01-architecture §Ağ.
+
 ## 2026-10-17 — Motor: textSize em, rich text, JSON geldi; metin kuralları
 - **textSize = TMP fontSize 1:1** (×1.14 geçici kuralı iptal). `LayoutBox.font` **ad** (`fonts_list`: regular/light/bold/primary);
   guid yazılmaz, eski guid'ler adlara çevrilecek.
