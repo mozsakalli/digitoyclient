@@ -341,7 +341,7 @@ objects:
           type: Solid
         textSize: 64
         width: 430
-        text@loc: yuzbir.login.guest_button
+        text@loc: login.guest_button
       - type: Button
         buttonId: guest
   - id: 10
@@ -523,7 +523,8 @@ objects:
           type: Solid
         textSize: 40
         width: 200
-        text@loc: login.version_label
+        text@loc: ''
+        text: ver
       - type: DevEnvSwitch
   - id: 19
     parent: 2
