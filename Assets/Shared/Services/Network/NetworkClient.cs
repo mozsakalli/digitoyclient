@@ -21,8 +21,6 @@ namespace Digitoy.Network
         private static readonly TimeSpan HeartbeatInterval = TimeSpan.FromSeconds(25);
         private const float TickSeconds = 1f;
 
-        private readonly NetworkSettings _net;
-
         /// <summary>Soket açılınca koşan kimlik adımı: null = başarı, ErrorCode = ret.</summary>
         private readonly Func<CancellationToken, Task<ErrorCode?>>? _authenticator;
 
@@ -87,9 +85,8 @@ namespace Digitoy.Network
         /// <summary>Son heartbeat Ping gidiş-dönüşü (ms); ilk ping'e kadar 0.</summary>
         public int LatencyMs { get; private set; }
 
-        public NetworkClient(NetworkSettings net, Func<CancellationToken, Task<ErrorCode?>>? authenticator = null)
+        public NetworkClient(Func<CancellationToken, Task<ErrorCode?>>? authenticator = null)
         {
-            _net = net;
             _authenticator = authenticator;
         }
 
@@ -191,7 +188,7 @@ namespace Digitoy.Network
 
             var requestId = ++_nextRequestId;
             var tcs = new TaskCompletionSource<object?>();
-            _pending[requestId] = (tcs, DateTime.UtcNow + TimeSpan.FromSeconds(_net.requestTimeoutSeconds));
+            _pending[requestId] = (tcs, DateTime.UtcNow + TimeSpan.FromSeconds(Server.RequestTimeoutSeconds));
 
             // Dış iptal: yalnız iptal edilebilir token için kayıt (alloc yalnız o durumda).
             var reg = cancellationToken.CanBeCanceled

@@ -1,0 +1,77 @@
+scene: ErrorToast
+objects:
+  - id: 1
+    parent: 0
+    name: ErrorToast
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0 0
+        anchorMin: 0 0
+        anchoredPos: 0 20
+        font: bold
+        height: 0
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#fffb6bff'
+          type: Solid
+        textSize: 70
+        width: 0
+        text@loc: login.error_text
+        pivot: 1 0
+        fill:
+          type: Solid
+          direction: Vertical
+          color: '#00000094'
+          color2: '#00000000'
+          stops: 2
+          color3: '#00000000'
+          stop3: 0.5
+          color4: '#00000000'
+          stop4: 0.75
+        radius: 0 30 30 0
+        padding: 90 10 90 10
+        borderFill:
+          type: Solid
+          direction: Vertical
+          color: '#ffffff4f'
+          color2: '#00000000'
+          stops: 2
+          color3: '#00000000'
+          stop3: 0.5
+          color4: '#00000000'
+          stop4: 0.75
+        border: 0 2 2 2
+        SortingOrder: 10000
+      - type: MovieClip
+        Fps: 30
+        FrameCount: 171
+        Loop: false
+        PlayOnStart: false
+        Tracks:
+          - Target: '1:LayoutBox:0'
+            Path: pivot
+            Mask: 15
+            Keys:
+              - Frame: 0
+                Mode: Tween
+                Ease: OutBack
+                Value: 1 0 0 0
+              - Frame: 10
+                Mode: Hold
+                Ease: Linear
+                Value: 0 0 0 0
+              - Frame: 160
+                Mode: Tween
+                Ease: InCubic
+                Value: 0 0 0 0
+              - Frame: 170
+                Mode: Tween
+                Ease: Linear
+                Value: 1 0 0 0
+      - type: ClipToast
+        text: '1:LayoutBox:0'
+        clip: '1:MovieClip:0'

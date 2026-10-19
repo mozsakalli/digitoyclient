@@ -1,0 +1,37 @@
+type: PlayerSettings
+fields:
+  companyName: DefaultCompany
+  productName: 101 Okey Extra
+  version: 0.1.0
+  bundleIdentifier: com.defaultcompany.game
+  scenes:
+    - Games/Yuzbir/Scenes/Login.scene
+    - Games/Yuzbir/Scenes/Lobby.scene
+  startScene: Games/Yuzbir/Scenes/Login.scene
+  boot: 5f4e9d2367d1493888be1856dab0dd18
+  themes:
+    - xmas
+  activeTheme: ''
+  defaultWidth: 1280
+  defaultHeight: 720
+  fullscreen: false
+  resizableWindow: true
+  targetFrameRate: 0
+  orientation: Landscape
+  moduleHostDll: ''
+  stripCode: true
+  android:
+    packageName: ''
+    targetSdk: 35
+    includeX86_64: true
+    keystorePath: ''
+    keyAlias: ''
+    keystorePassword: ''
+    keyPassword: ''
+    iconForeground: ''
+    iconBackground: '#1E1E1E'
+  ios:
+    bundleId: ''
+    minIos: 15.0
+    teamId: ''
+    icon: ''

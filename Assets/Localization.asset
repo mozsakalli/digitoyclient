@@ -2,25 +2,37 @@ type: LocalizationTable
 fields:
   Languages:
     - en
+    - tr
   Entries:
     - Key: lobby.root
       Values:
         - LOBBY (placeholder)
+        - LOBİ (yer tutucu)
     - Key: login.facebook_button
       Values:
         - <font=icon>a</font>  CONNECT
+        - <font=icon>a</font>  BAĞLAN
     - Key: login.apple_button
       Values:
         - <font=icon>b</font> Sign in with Apple
+        - <font=icon>b</font> Apple ile Giriş
     - Key: login.or_text
       Values:
         - OR
+        - VEYA
     - Key: login.guest_button
       Values:
-        - LOGIN AS GUEST
+        - GUEST LOGIN
+        - MİSAFİR GİRİŞİ
     - Key: login.agreement
       Values:
         - By logging in you accept our <link=privacy><u><font=bold>Privacy Policy</font></u></link> and <link=terms><u><font=bold>Terms of Use</font></u></link>
+        - Giriş tuşlarına basarak <link=terms><u><font=bold>Hizmet Şartlarımızı</font></u></link> ve <link=privacy><u><font=bold>Gizlilik Politikamızı</font></u></link> kabul etmiş olursunuz.
     - Key: login.version_label
       Values:
         - ver
+        - sür
+    - Key: login.guest_button_2
+      Values:
+        - Deneme
+        - ''

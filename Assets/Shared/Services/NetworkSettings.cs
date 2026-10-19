@@ -1,31 +1,42 @@
-// Unity GameProperties'in ortak ağ parçası (01-architecture §3): tüm oyunlar için tek asset. Dev override'lar
-// (customServerUrl, overrideDeviceKey) asset'e yazılmaz; PlayerPrefs'ten okunur (dev panel Faz 1).
+// Unity GameProperties'in ortak ağ parçası (01-architecture §3): ClientBoot içinde GÖMÜLÜ (oyun başına Boot.asset), ayrı dosya değil.
+// ORTAM SEÇİMİ DOSYADA DEĞİL BUILD TÜRÜNDE (game_rd docs "Dev build"): release pak'ında yalnız prod URL var ([DevOnly] alanlar pak'a
+// yazılmaz), GameHost.IsDev=false → her zaman prod. Dev build / editör Play: PlayerPrefs'teki seçim (DevEnv: test|prod|custom) → yoksa test.
+// Dev override'lar (custom URL, device key) PlayerPrefs'te; release'te okunmaz bile.
 using System;
 using DigitoyEngine;
 
 namespace Digitoy
 {
     [Serializable]
-    [CreateAssetMenu(MenuName = "Digitoy/Network Settings", FileName = "Settings")]
     public class NetworkSettings
     {
-        public string testServerUrl = "https://test-node.digitoy.co";
         public string prodServerUrl = "https://api.digitoy.co";
-        public bool useTestServer = true;
-        public int connectionTimeoutSeconds = 10;
-        public int requestTimeoutSeconds = 30;
+        [DevOnly] public string testServerUrl = "https://test-node.digitoy.co";
 
+        public const string EnvTest = "test", EnvProd = "prod", EnvCustom = "custom";
+        private const string EnvPref = "__dev_env__";
         private const string CustomUrlPref = "__dev_server_url__";
         private const string OverrideDeviceKeyPref = "__dev_device_key__";
 
+        /// <summary>Dev build'de seçili ortam (test|prod|custom; varsayılan test). Release'te her zaman prod.</summary>
+        public static string DevEnv
+        {
+            get => GameHost.IsDev ? PlayerPrefs.GetString(EnvPref, EnvTest) : EnvProd;
+            set { PlayerPrefs.SetString(EnvPref, value ?? EnvTest); PlayerPrefs.Save(); }
+        }
+
         /// <summary>Yerel/dev override: doluysa settings de WS de doğrudan bu adrese, gateway/seed listesi yoksayılır.</summary>
-        public string CustomServerUrl => PlayerPrefs.GetString(CustomUrlPref, "");
-        public bool HasCustomServerUrl => !string.IsNullOrWhiteSpace(CustomServerUrl);
-        public string OverrideDeviceKey => PlayerPrefs.GetString(OverrideDeviceKeyPref, "");
+        public string CustomServerUrl => GameHost.IsDev ? PlayerPrefs.GetString(CustomUrlPref, "") : "";
+        public bool HasCustomServerUrl => GameHost.IsDev && DevEnv == EnvCustom && !string.IsNullOrWhiteSpace(CustomServerUrl);
+        public string OverrideDeviceKey => GameHost.IsDev ? PlayerPrefs.GetString(OverrideDeviceKeyPref, "") : "";
+        public static void SetCustomServerUrl(string url) { PlayerPrefs.SetString(CustomUrlPref, url ?? ""); PlayerPrefs.Save(); }
+        public static void SetOverrideDeviceKey(string key) { PlayerPrefs.SetString(OverrideDeviceKeyPref, key ?? ""); PlayerPrefs.Save(); }
+
+        public bool IsTest => GameHost.IsDev && DevEnv == EnvTest;
 
         public string RemoteUrl =>
             HasCustomServerUrl ? CustomServerUrl.Trim().TrimEnd('/')
-            : (useTestServer ? testServerUrl : prodServerUrl).Trim().TrimEnd('/');
+            : (IsTest && !string.IsNullOrWhiteSpace(testServerUrl) ? testServerUrl : prodServerUrl).Trim().TrimEnd('/');
 
         /// <summary>Şemasız host (settings cevabı da yalnız host döner).</summary>
         public string BaseHost

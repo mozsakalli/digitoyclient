@@ -8,7 +8,7 @@ namespace Digitoy
     {
         public static bool IsReady { get; private set; }
 
-        public static void Ensure(GameDefinition game, NetworkSettings network, string appVersion)
+        public static void Ensure(GameDefinition game, NetworkSettings network)
         {
             if (IsReady) return;
             if (game == null || network == null)
@@ -22,11 +22,14 @@ namespace Digitoy
                 _ = new PlayerService();
                 _ = new TableService();
                 _ = new LobbyService();
+                _ = new AdService();
             }
-            Platform.AppVersion = appVersion;
+            // Surum TEK kaynaktan: PlayerSettings.version (release pak .project, editor Play) -> GameHost.Version. Kopya tutulmaz.
+            Platform.AppVersion = string.IsNullOrEmpty(GameHost.Version) ? "0.0.0" : GameHost.Version;
             Game.Set(game);
             if (Server.IsInitialized) Server.Disconnect(M.CloseReason.Logout);
             Server.Initialize(network);
+            AdService.I.Init().Forget(); // reklam SDK'si arka planda; host yoksa sessizce false
             IsReady = true;
         }
     }

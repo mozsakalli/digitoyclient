@@ -6,6 +6,9 @@ sahne/kod/sim araçları kullanılır; `rpc_describe` tüm araçların şemasın
 ## Döngü
 - `view_device(name)` → `sim_run(frames, screenshot=true)` → görüntüyü incele → `input_tap/input_drag` → `render_screenshot`.
 - Yeni component tipi kullanmadan ÖNCE `comp_schema`. Kod: `asset_write` + `code_build` (hatalar satır/kolonla döner).
+- ASSET EKLEME: hangi dosya biçimlerinin içe aktarılabildiği `rpc_guide` "assets" bölümünde (canlı importer listesi) ve
+  `asset_importers`'ta — bakmadan "importer yok" deme. Dosya `Assets/` altına kopyalanınca otomatik import edilir;
+  `asset_info(path)` tip/boyut/alt öğe (psd/psb katmanı `Dosya.psb#id`) verir.
 - MOTOR API'Sİ: motor kaynağı bu projede YOKTUR ve proje dışına çıkma. `engine_api` kullan: `engine_api()` tip listesi
   (filter ile daralt), `engine_api(type="Component")` üyeler + override kancaları, `engine_api(type="Transform")`
   tween extension'ları dahil. Sık kullanılanlar: Component (Awake/Start/Update + OnPointerClick/Down/Up/DragStart/Drag(PointerEvent e),

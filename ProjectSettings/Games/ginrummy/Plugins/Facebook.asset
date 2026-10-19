@@ -1,0 +1,6 @@
+type: Config
+fields:
+  appId: 000000000000000
+  clientToken: placeholder-client-token
+  displayName: Gin Rummy
+  autoLogAppEvents: true

@@ -16,13 +16,11 @@ namespace Digitoy.Controllers
         public ProgressRenderer progress;
         public LayoutBox versionText;
         public LayoutBox errorText;
+        public ClipToast errorToast;   // bağlıysa hata metni toast ile gelir, errorText kullanılmaz
         public Button guestButton;
         public Button facebookButton;
         public Button appleButton;
         public bool autoLoginLastType = true;
-        public GameDefinition game;
-        public NetworkSettings network;
-        public string appVersion = "0.1.0";
 
         private const float StepSettings = 0.15f, StepAuth = 0.55f, StepLoad = 0.9f;
         private TweenHandle _progressTween;
@@ -30,12 +28,27 @@ namespace Digitoy.Controllers
 
         protected override void Start()
         {
-            AppBoot.Ensure(game, network, appVersion);
-            if (versionText != null) versionText.Text = Platform.AppVersion;
+            // Servisler/ayarlar PlayerSettings.boot (ClientBoot, IGameBoot) ile sahneden ONCE kurulur; burada yalniz denetim.
+            if (!AppBoot.IsReady)
+            {
+                Debug.LogError("LoginFlow: AppBoot hazir degil — Player Settings > General > Boot alanina oyunun Boot.asset'ini ver");
+                return;
+            }
+            if (versionText != null) versionText.Text = Platform.AppVersion + DevEnvSwitch.Suffix;
+            // Dev build: surum etiketine 5 tik ortam degistirir (test/prod/custom) → baglanti sifirlanir, akis bastan.
+            var envSwitch = versionText?.gameObject.GetComponent<DevEnvSwitch>();
+            if (envSwitch != null)
+                envSwitch.EnvChanged += _ =>
+                {
+                    if (versionText != null) versionText.Text = Platform.AppVersion + DevEnvSwitch.Suffix;
+                    Server.Disconnect(M.CloseReason.Logout);
+                    ServiceRegistry.ResetSession();
+                    ProgressAsync().Forget();
+                };
             if (guestButton != null) guestButton.Clicked += (_, _) => LoginAsync(LoginType.Guest).Forget();
             if (facebookButton != null) facebookButton.Clicked += (_, _) => LoginAsync(LoginType.Facebook).Forget();
             if (appleButton != null) appleButton.Clicked += (_, _) => Debug.LogWarning("Apple login: Faz 5");
-            if (errorText != null) errorText.Text = "";
+            ClearError();
             ProgressAsync().Forget();
         }
 
@@ -80,7 +93,7 @@ namespace Digitoy.Controllers
         {
             if (_busy) return;
             _busy = true;
-            if (errorText != null) errorText.Text = "";
+            ClearError();
             ShowProgress();
 
             var authTask = Server.LoginAsync(type);
@@ -91,7 +104,7 @@ namespace Digitoy.Controllers
                 _busy = false;
                 Debug.LogWarning($"Login failed: {result.Error}");
                 ShowForm();
-                if (errorText != null) errorText.Text = $"error.{result.Error}";
+                SetError($"error.{result.Error}");
                 return;
             }
 
@@ -107,7 +120,19 @@ namespace Digitoy.Controllers
             loginForm?.SetActive(false);
             agreement?.SetActive(false);
             progressRoot?.SetActive(false);
-            if (errorText != null) errorText.Text = locKey;
+            SetError(locKey);
+        }
+
+        private void SetError(string locKey)
+        {
+            if (errorToast != null) errorToast.Show(locKey);
+            else if (errorText != null) errorText.Text = locKey;
+        }
+
+        private void ClearError()
+        {
+            if (errorToast != null) errorToast.Hide();
+            else if (errorText != null) errorText.Text = "";
         }
 
         private void ShowForm()

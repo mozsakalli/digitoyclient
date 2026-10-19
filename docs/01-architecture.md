@@ -56,7 +56,7 @@ digitoyclient/
 |---|---|---|---|
 | **`AppVariant`** `ProjectSettings/Variants/<ad>.asset` | mağaza uygulaması başına | derleme | `productName`, `bundleId/packageName`, `icon`, `splash`, `orientation`, `versionCode`, **`startGame`** (GameDefinition ref), store app ID'leri, reklam unit ID'leri, AppsFlyer/Adjust token, FB izinleri |
 | **`GameDefinition`** `Games/<Oyun>/Game.asset` | oyun başına, hepsi build'de | runtime seçilir | `gameId`, `displayName`, `maxSeats`, `loginScene/lobbyScene/tableScene`, `dialogs{profile, settings, store…}` prefab ref'leri, loc tabloları, lobi kart prefab'ı, oyuna özel ses ref'leri |
-| **`NetworkSettings`** `Shared/Settings.asset` | tek | sabit | test/prod URL, `connectionTimeoutSeconds`, `requestTimeoutSeconds`, CDN kökü |
+| **`NetworkSettings`** `Shared/Settings.asset` | tek | sabit | test/prod URL, `useTestServer`, CDN kökü (zaman aşımları `Server.ConnectionTimeoutSeconds/RequestTimeoutSeconds` sabitleri) |
 | Dev override | tek | yerel | `customServerUrl`, `OverrideDeviceKey`, `cloneEnabled` — asset'e yazılmaz (UserSettings/PlayerPrefs) |
 
 - Build: aktif `AppVariant` seçilir (PlayerSettings ya da build parametresi); yalnız kimlik alanları override edilir,

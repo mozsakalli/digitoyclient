@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AppLovin MAX plugin manifest parcasi: AGP manifest merger app'e birlestirir. AdMob uygulama kimligi app'in
+     res/values/plugin_strings.xml'inden (IAndroidProjectHook ResString: admob_app_id). AppLovin SDK key manifest'te DEGIL:
+     init mesajiyla koddan verilir (SDK 12+ AppLovinSdkInitializationConfiguration). -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+    <application>
+        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="@string/admob_app_id" />
+    </application>
+</manifest>

@@ -1,7 +1,0 @@
-type: NetworkSettings
-fields:
-  testServerUrl: https://test-node.digitoy.co
-  prodServerUrl: https://api.digitoy.co
-  useTestServer: true
-  connectionTimeoutSeconds: 10
-  requestTimeoutSeconds: 30

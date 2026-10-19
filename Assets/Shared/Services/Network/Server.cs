@@ -78,7 +78,11 @@ namespace Digitoy
         // ── Bağlantı / reconnect ayarı ───────────────────────────────────────
         /// <summary>Bir bağlanma çağrısında denenecek en fazla gateway (bütçe daha önce biterse daha az).</summary>
         private const int MaxGatewayHops = 3;
-        // Her deneme en fazla connectionTimeoutSeconds (10 s, gateway hop'ları dahil); backoff 0+1+2 → en kötü toplam ≈ 33 s, sonra Dead.
+        /// <summary>Bir bağlanma denemesinin toplam bütçesi (gateway hop'ları + en fazla bir settings tazelemesi dahil).</summary>
+        public const int ConnectionTimeoutSeconds = 10;
+        /// <summary>Tek istek/yanıt zaman aşımı (NetworkClient).</summary>
+        public const int RequestTimeoutSeconds = 30;
+        // Her deneme en fazla ConnectionTimeoutSeconds; backoff 0+1+2 → en kötü toplam ≈ 33 s, sonra Dead.
         private const int MaxAttempts = 3;
         private static readonly int[] BackoffSeconds = { 0, 1, 2 };
 
@@ -146,7 +150,7 @@ namespace Digitoy
             State = ConnectionState.Idle;
 
             Settings = settings;
-            _client = new NetworkClient(settings, authenticator: AuthenticateOnOpenAsync);
+            _client = new NetworkClient(authenticator: AuthenticateOnOpenAsync);
             _client.OnDisconnected += HandleDisconnected;
             _client.OnEvent += HandleEvent;
             GetOrCreateAuthRequest();
@@ -451,13 +455,13 @@ namespace Digitoy
         }
 
         /// <summary>
-        /// Gateway'ler sırayla: soket hiç açılamadıysa sonrakine geç. Tek toplam bütçe (connectionTimeoutSeconds; tüm hop'lar
+        /// Gateway'ler sırayla: soket hiç açılamadıysa sonrakine geç. Tek toplam bütçe (ConnectionTimeoutSeconds; tüm hop'lar
         /// + en fazla bir settings tazelemesi dahil). Soket açılıp auth reddedildiyse hop yapılmaz, hata döner.
         /// </summary>
         private static async Task<ErrorCode?> ConnectTransportAsync(bool relogin, CancellationToken ct = default)
         {
             var net = Settings;
-            var budget = TimeSpan.FromSeconds(net.connectionTimeoutSeconds);
+            var budget = TimeSpan.FromSeconds(ConnectionTimeoutSeconds);
             var deadline = DateTime.UtcNow + budget;
             var refreshed = false;
             ErrorCode? error = ErrorCode.InternalError;

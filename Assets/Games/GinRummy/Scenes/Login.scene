@@ -29,13 +29,14 @@ objects:
         progressRoot: 28
         progress: '29:ProgressRenderer:0'
         versionText: '30:LayoutBox:0'
-        errorText: '31:LayoutBox:0'
+        errorText: ''
         guestButton: '26:Button:0'
         facebookButton: '20:Button:0'
         appleButton: '21:Button:0'
-        game: 9c46a9a0b1b845bd92e2850536574ceb
-        network: 559b6ebd5ecf4625ae35e807f777dd84
         autoLoginLastType: false
+        errorToast: '38:ClipToast:0'
+      - type: RenderGroup
+        Alpha: 1
   - id: 32
     parent: 2
     name: LogoParticle
@@ -573,6 +574,18 @@ objects:
             Mask: 15
             Path: Alpha
             Target: '32:RenderGroup:0'
+          - Keys:
+              - Ease: OutQuad
+                Frame: 0
+                Mode: Tween
+                Value: 0 0 0 0
+              - Ease: Linear
+                Frame: 15
+                Mode: Tween
+                Value: 1 0 0 0
+            Mask: 15
+            Path: Alpha
+            Target: '2:RenderGroup:0'
   - id: 4
     parent: 3
     name: CardsNSuites
@@ -768,6 +781,124 @@ objects:
         height: 290
         pivot: 0.5 0
         width: 870
+      - type: MovieClip
+        Fps: 30
+        FrameCount: 31
+        Loop: false
+        PlayOnStart: true
+        Tracks:
+          - Keys:
+              - Ease: OutQuad
+                Frame: 0
+                Mode: Tween
+                Value: 0 0 0 0
+              - Ease: Linear
+                Frame: 10
+                Mode: Tween
+                Value: 1 0 0 0
+            Mask: 15
+            Path: Alpha
+            Target: '20:RenderGroup:0'
+          - Keys:
+              - Ease: OutQuad
+                Frame: 0
+                Mode: Tween
+                Value: 0 0 0 0
+              - Ease: Linear
+                Frame: 10
+                Mode: Tween
+                Value: 1 0 0 0
+            Mask: 15
+            Path: Alpha
+            Target: '21:RenderGroup:0'
+          - Keys:
+              - Ease: Linear
+                Frame: 0
+                Mode: Hold
+                Value: 0 0 0 0
+              - Ease: OutQuad
+                Frame: 5
+                Mode: Tween
+                Value: 0 0 0 0
+              - Ease: Linear
+                Frame: 15
+                Mode: Tween
+                Value: 1 0 0 0
+            Mask: 15
+            Path: Alpha
+            Target: '22:RenderGroup:0'
+          - Keys:
+              - Ease: Linear
+                Frame: 0
+                Mode: Hold
+                Value: 0 0 0 0
+              - Ease: OutQuad
+                Frame: 10
+                Mode: Tween
+                Value: 0 0 0 0
+              - Ease: Linear
+                Frame: 20
+                Mode: Tween
+                Value: 1 0 0 0
+            Mask: 15
+            Path: Alpha
+            Target: '26:RenderGroup:0'
+          - Keys:
+              - Ease: OutBack
+                Frame: 0
+                Mode: Tween
+                Value: 0.9 0.9 1 0
+              - Ease: Linear
+                Frame: 10
+                Mode: Tween
+                Value: 1 1 1 0
+            Mask: 15
+            Path: Scale
+            Target: '20:Transform:0'
+          - Keys:
+              - Ease: OutBack
+                Frame: 0
+                Mode: Tween
+                Value: 0.9 0.9 1 0
+              - Ease: Linear
+                Frame: 10
+                Mode: Tween
+                Value: 1 1 1 0
+            Mask: 15
+            Path: Scale
+            Target: '21:Transform:0'
+          - Keys:
+              - Ease: Linear
+                Frame: 0
+                Mode: Hold
+                Value: 0.9 0.9 1 0
+              - Ease: OutBack
+                Frame: 10
+                Mode: Tween
+                Value: 0.9 0.9 1 0
+              - Ease: Linear
+                Frame: 20
+                Mode: Tween
+                Value: 1 1 1 0
+            Mask: 15
+            Path: Scale
+            Target: '26:Transform:0'
+          - Keys:
+              - Ease: Linear
+                Frame: 0
+                Mode: Hold
+                Value: 0 0 0 0
+              - Ease: OutQuad
+                Frame: 15
+                Mode: Tween
+                Value: 0 0 0 0
+              - Ease: Linear
+                Frame: 30
+                Mode: Tween
+                Value: 1 0 0 0
+            Mask: 15
+            Path: Alpha
+            Target: '27:RenderGroup:0'
   - id: 19
     parent: 18
     name: PlatformButtons
@@ -822,6 +953,8 @@ objects:
         innerShadowBlur: 2
       - type: Button
         buttonId: apple
+      - type: RenderGroup
+        Alpha: 1
   - id: 20
     parent: 19
     name: FacebookButton
@@ -861,6 +994,8 @@ objects:
         innerShadowBlur: 2
       - type: Button
         buttonId: facebook
+      - type: RenderGroup
+        Alpha: 1
   - id: 22
     parent: 18
     name: Or
@@ -874,6 +1009,8 @@ objects:
         anchoredPos: 435 153.5
         height: 43
         width: 347
+      - type: RenderGroup
+        Alpha: 1
   - id: 23
     parent: 22
     name: Line1
@@ -965,6 +1102,8 @@ objects:
         innerShadowBlur: 2
       - type: Button
         buttonId: guest
+      - type: RenderGroup
+        Alpha: 1
   - id: 27
     parent: 2
     name: Agreement
@@ -998,6 +1137,8 @@ objects:
         BlocksRaycast: true
         text@loc: login.agreement
       - type: PolicyLink
+      - type: RenderGroup
+        Alpha: 1
   - id: 28
     parent: 2
     name: Progress
@@ -1049,17 +1190,18 @@ objects:
       - type: LayoutBox
         anchorMax: 1 1
         anchorMin: 1 1
-        anchoredPos: -120 -70
-        font: cde2fdd571cb493dada93916c1a33a97
+        anchoredPos: -133.665 -34.86159
+        font: regular
         height: 60
-        textAlign: Center
+        textAlign: Right
         textAlignV: Center
         textFill:
           color: '#ffffffa8'
           type: Solid
-        textSize: 30
+        textSize: 40
         width: 200
         text@loc: login.version_label
+      - type: DevEnvSwitch
   - id: 31
     parent: 2
     name: ErrorText
@@ -1351,3 +1493,22 @@ objects:
         noise:
           frequency: 2
           strength: 40
+  - id: 38
+    parent: 2
+    name: ErrorToast
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    prefab: 64f3a89354f142098c3be358e7d2742a
+    prefabIds: '1:38'
+    overrides:
+      - node: 1
+        comp: 'LayoutBox:0'
+        prop: textFill
+        value:
+          color: '#ffffffff'
+          type: Solid
+      - node: 1
+        comp: 'LayoutBox:0'
+        prop: textSize
+        value: 60

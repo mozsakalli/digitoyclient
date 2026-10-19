@@ -1,12 +1,11 @@
-// Unity GameProperties'in oyun-başına parçası (01-architecture §3). Hepsi build'de; runtime'da Game.Current seçer.
-// Sahne alanları Faz 0'da yol string'i; motor sahne referans tipi netleşince değişir.
+// Unity GameProperties'in oyun-başına parçası (01-architecture §3). ClientBoot içinde GÖMÜLÜ (Games/<Oyun>/Boot.asset);
+// runtime'da Game.Current (AppBoot.Ensure doldurur). Sahne alanları yol string'i; motor sahne referans tipi netleşince değişir.
 using System;
 using DigitoyEngine;
 
 namespace Digitoy
 {
     [Serializable]
-    [CreateAssetMenu(MenuName = "Digitoy/Game Definition", FileName = "Game")]
     public class GameDefinition
     {
         public string id = "ginrummy";

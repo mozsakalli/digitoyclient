@@ -1,0 +1,48 @@
+scene: Main
+objects:
+  - id: 1
+    parent: 0
+    name: Camera
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: CameraComponent
+        background: '#0b1a2cff'
+      - type: FitPerspectiveProjection
+        fov: 30
+        referenceResolution: 1920 1080
+  - id: 2
+    parent: 0
+    name: Background
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        fill:
+          color: '#0b1a2cff'
+          color2: '#1a3660ff'
+          direction: Vertical
+          type: Linear
+        fitScreen: true
+  - id: 3
+    parent: 2
+    name: Title
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0.5 0.5
+        anchorMin: 0.5 0.5
+        font: bold
+        height: 120
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 72
+        width: 1200
+        text@loc: lobby.root

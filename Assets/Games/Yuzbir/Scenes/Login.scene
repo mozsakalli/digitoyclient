@@ -1,0 +1,535 @@
+scene: Main
+objects:
+  - id: 1
+    parent: 0
+    name: Camera
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: CameraComponent
+        background: '#061018ff'
+      - type: FitPerspectiveProjection
+        fov: 30
+        referenceResolution: 1920 1080
+  - id: 2
+    parent: 0
+    name: Background
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        fitScreen: true
+        sprite: 56126938f14445edb55b7d3ba461bf60
+        spriteFit: Cover
+      - type: LoginFlow
+        loginForm: 7
+        agreement: 15
+        progressRoot: 16
+        progress: '17:ProgressRenderer:0'
+        versionText: '18:LayoutBox:0'
+        errorText: '19:LayoutBox:0'
+        guestButton: '9:Button:0'
+        facebookButton: '8:Button:0'
+        appleButton: '14:Button:0'
+        autoLoginLastType: false
+        errorToast: '19:ClipToast:0'
+      - type: RenderGroup
+        Alpha: 1
+  - id: 3
+    parent: 2
+    name: Logo
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1.52 1.52 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0.5 0.5
+        anchorMin: 0.5 0.5
+        anchoredPos: 0 -75
+        height: 456
+        width: 570
+      - type: RenderGroup
+        Alpha: 1
+      - type: MovieClip
+        Fps: 30
+        FrameCount: 40
+        Loop: false
+        PlayOnStart: true
+        Tracks:
+          - Keys:
+              - Ease: OutQuad
+                Frame: 0
+                Mode: Tween
+                Value: 0 0 0 0
+              - Ease: Linear
+                Frame: 12
+                Mode: Tween
+                Value: 1 0 0 0
+            Mask: 15
+            Path: Alpha
+            Target: '2:RenderGroup:0'
+          - Keys:
+              - Ease: OutQuad
+                Frame: 0
+                Mode: Tween
+                Value: 0 0 0 0
+              - Ease: Linear
+                Frame: 6
+                Mode: Tween
+                Value: 1 0 0 0
+            Mask: 15
+            Path: Alpha
+            Target: '5:RenderGroup:0'
+          - Keys:
+              - Ease: InQuad
+                Frame: 0
+                Mode: Tween
+                Value: 0.2 0.2 1 0
+              - Ease: Linear
+                Frame: 14
+                Mode: Tween
+                Value: 1 1 1 0
+            Mask: 15
+            Path: Scale
+            Target: '5:Transform:0'
+          - Keys:
+              - Ease: InQuad
+                Frame: 0
+                Mode: Tween
+                Value: 2.5 2.5 1 0
+              - Ease: Linear
+                Frame: 14
+                Mode: Tween
+                Value: 1 1 1 0
+            Mask: 15
+            Path: Scale
+            Target: '6:Transform:0'
+          - Keys:
+              - Ease: Linear
+                Frame: 0
+                Mode: Hold
+                Value: 0 0 0 0
+              - Ease: OutQuad
+                Frame: 14
+                Mode: Tween
+                Value: 0 0 0 0
+              - Ease: Linear
+                Frame: 24
+                Mode: Tween
+                Value: 1 0 0 0
+            Mask: 15
+            Path: Alpha
+            Target: '4:RenderGroup:0'
+          - Keys:
+              - Ease: Linear
+                Frame: 0
+                Mode: Hold
+                Value: 0 -20 0 0
+              - Ease: OutQuad
+                Frame: 14
+                Mode: Tween
+                Value: 0 -20 0 0
+              - Ease: Linear
+                Frame: 24
+                Mode: Tween
+                Value: 0 -7 0 0
+            Mask: 15
+            Path: anchoredPos
+            Target: '4:LayoutBox:0'
+          - Keys:
+              - Ease: Linear
+                Frame: 0
+                Mode: Hold
+                Value: 1.52 1.52 1 0
+              - Ease: OutQuad
+                Frame: 14
+                Mode: Tween
+                Value: 1.52 1.52 1 0
+              - Ease: OutBack
+                Frame: 18
+                Mode: Tween
+                Value: 1.64 1.64 1 0
+              - Ease: Linear
+                Frame: 30
+                Mode: Tween
+                Value: 1.52 1.52 1 0
+            Mask: 15
+            Path: Scale
+            Target: '3:Transform:0'
+          - Keys:
+              - Ease: Linear
+                Frame: 0
+                Mode: Hold
+                Value: 0 600 0 0
+              - Ease: OutBack
+                Frame: 14
+                Mode: Tween
+                Value: 0 600 0 0
+              - Ease: Linear
+                Frame: 26
+                Mode: Tween
+                Value: 0 305 0 0
+            Mask: 15
+            Path: anchoredPos
+            Target: '7:LayoutBox:0'
+          - Keys:
+              - Ease: Linear
+                Frame: 0
+                Mode: Hold
+                Value: 0 0 0 0
+              - Ease: OutQuad
+                Frame: 14
+                Mode: Tween
+                Value: 0 0 0 0
+              - Ease: Linear
+                Frame: 22
+                Mode: Tween
+                Value: 1 0 0 0
+            Mask: 15
+            Path: Alpha
+            Target: '7:RenderGroup:0'
+          - Keys:
+              - Ease: Linear
+                Frame: 0
+                Mode: Hold
+                Value: 0 0 0 0
+              - Ease: OutQuad
+                Frame: 18
+                Mode: Tween
+                Value: 0 0 0 0
+              - Ease: Linear
+                Frame: 30
+                Mode: Tween
+                Value: 1 0 0 0
+            Mask: 15
+            Path: Alpha
+            Target: '15:RenderGroup:0'
+  - id: 4
+    parent: 3
+    name: Shadow
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: 0 -7
+        fill:
+          color: '#0f0f3dd9'
+          type: Solid
+        height: 441
+        sprite: 5a2c2fbb48fd4088a455982134f805c9#12
+        width: 570
+      - type: RenderGroup
+        Alpha: 1
+  - id: 5
+    parent: 3
+    name: Base
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: 0 -32.5
+        height: 391
+        sprite: 5a2c2fbb48fd4088a455982134f805c9#21
+        width: 518
+      - type: RenderGroup
+        Alpha: 1
+  - id: 6
+    parent: 3
+    name: Text
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: 0 -32.5
+        height: 313
+        sprite: 5a2c2fbb48fd4088a455982134f805c9#17
+        width: 410
+      - type: RenderGroup
+        Alpha: 1
+  - id: 7
+    parent: 2
+    name: LoginForm
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        alignChildren: Center
+        anchorMax: 0.5 0.5
+        anchorMin: 0.5 0.5
+        anchoredPos: 0 305
+        height: 120
+        justifyChildren: Center
+        layout: Horizontal
+        spacing: 40
+        width: 1476
+      - type: RenderGroup
+        Alpha: 1
+  - id: 8
+    parent: 7
+    name: FacebookButton
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        BlocksRaycast: true
+        border: 0 2 0 0
+        borderFill:
+          color: '#7f94ffb0'
+          type: Solid
+        fill:
+          color: '#2445efff'
+          color2: '#1736d1ff'
+          direction: Vertical
+          type: Linear
+        font: primary
+        height: 120
+        lightColor: '#ffffff66'
+        lightHeight: 28
+        lightOffset: 0 2
+        lightWidth: 0.7
+        radius: 22 22 22 22
+        shadowBlur: 12
+        shadowColor: '#00000070'
+        shadowOffset: 0 8
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 64
+        width: 430
+        text@loc: login.facebook_button
+      - type: Button
+        buttonId: facebook
+  - id: 9
+    parent: 7
+    name: GuestButton
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        BlocksRaycast: true
+        border: 2 2 2 2
+        borderFill:
+          color: '#ffffff20'
+          type: Solid
+        fill:
+          color: '#0000004d'
+          type: Solid
+        font: primary
+        height: 120
+        lightColor: '#ffffff59'
+        lightHeight: 28
+        lightOffset: 0 2
+        lightWidth: 0.7
+        radius: 22 22 22 22
+        shadowBlur: 12
+        shadowColor: '#00000070'
+        shadowOffset: 0 8
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 64
+        width: 430
+        text@loc: yuzbir.login.guest_button
+      - type: Button
+        buttonId: guest
+  - id: 10
+    parent: 7
+    name: Or
+    active: false
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        height: 112
+        width: 60
+  - id: 11
+    parent: 10
+    name: LineTop
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0.5 0
+        anchorMin: 0.5 0
+        anchoredPos: 0 18
+        fill:
+          color: '#ffffff00'
+          color2: '#ffffffa0'
+          direction: Vertical
+          type: Linear
+        height: 36
+        width: 4
+  - id: 12
+    parent: 10
+    name: LineBottom
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0.5 1
+        anchorMin: 0.5 1
+        anchoredPos: 0 -18
+        fill:
+          color: '#ffffffa0'
+          color2: '#ffffff00'
+          direction: Vertical
+          type: Linear
+        height: 36
+        width: 4
+  - id: 13
+    parent: 10
+    name: OrText
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        font: bold
+        height: 40
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 36
+        width: 60
+        text@loc: login.or_text
+  - id: 14
+    parent: 7
+    name: AppleButton
+    active: false
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        BlocksRaycast: true
+        fill:
+          color: '#fdfdfdff'
+          color2: '#e7e7e7ff'
+          direction: Vertical
+          type: Linear
+        font: bold
+        height: 120
+        radius: 22 22 22 22
+        shadowBlur: 12
+        shadowColor: '#00000070'
+        shadowOffset: 0 8
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#111111ff'
+          type: Solid
+        textSize: 60
+        width: 436
+        text@loc: login.apple_button
+      - type: Button
+        buttonId: apple
+  - id: 15
+    parent: 2
+    name: Agreement
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        BlocksRaycast: true
+        anchorMax: 0.5 1
+        anchorMin: 0.5 1
+        anchoredPos: 0 -85
+        font: regular
+        height: 60
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textShadowColor: '#000000aa'
+        textSize: 38
+        textWrap: false
+        width: 1500
+        text@loc: login.agreement
+      - type: PolicyLink
+      - type: RenderGroup
+        Alpha: 1
+  - id: 16
+    parent: 2
+    name: Progress
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0.5 0.5
+        anchorMin: 0.5 0.5
+        anchoredPos: 0 302
+        height: 60
+        width: 400
+  - id: 17
+    parent: 16
+    name: Bar
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: ProgressRenderer
+        BorderWidth: 0
+        CornerRadius: 30
+        Fill:
+          color: '#6ddb3aff'
+          color2: '#45b020ff'
+          direction: Vertical
+          type: Linear
+        Height: 60
+        Padding: 10
+        Shape: Bar
+        Track:
+          color: '#ffffffff'
+          type: Solid
+        Value: 0
+        Width: 400
+  - id: 18
+    parent: 2
+    name: VersionLabel
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 1 1
+        anchorMin: 1 1
+        anchoredPos: -126.83505 -31.205383
+        font: regular
+        height: 60
+        textAlign: Right
+        textAlignV: Center
+        textFill:
+          color: '#ffffffa8'
+          type: Solid
+        textSize: 40
+        width: 200
+        text@loc: login.version_label
+      - type: DevEnvSwitch
+  - id: 19
+    parent: 2
+    name: ErrorToast
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    prefab: 64f3a89354f142098c3be358e7d2742a
+    prefabIds: '1:19'

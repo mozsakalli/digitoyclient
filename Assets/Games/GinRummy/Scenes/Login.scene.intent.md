@@ -154,3 +154,23 @@ Tuzak: yeni .ttf'yi editör meta yazılmadan önce görürse kendi guid'ini veri
 `fonts_register` boş `font` bağlar (`fonts_list`'te `font: ""`). Çözüm: meta guid'ini `asset_info`'nun verdiğine eşitle, reimport,
 yeniden register. Ayrıca font tablosu play başında yüklenir — register sonrası `play_stop` + `sim_run`.
 Doğrulama: render_screenshot (250,228,435,50) — FB ve Apple logoları doğru, "?" yok.
+
+## 2026-10-18 — Parçacık dokuları Gin'e taşındı
+Prompt: "Gin'de kullandığımız particle imajlarını Shared'a koymuşsun." `Shared/Ui/Sprites/{particle_1,particle_2,circle_1,circle_2}.png` yalnız bu
+sahnenin logo parçacıklarıydı → `git mv` ile `Games/GinRummy/Login/Sprites/` altına (guid korundu, sahne değişmedi; asset_validate temiz).
+Kullanılmayan `Login_Spinner, UI_ButtonShadow, UI_rect_16_Border/Fill` silindi; `Shared/Ui/Sprites` klasörü kalktı.
+Invariant: Shared/ altında oyuna özgü görsel durmaz; ortak görsel gerekirse Shared prefab'ının kendi klasöründe.
+
+## 2026-10-18 — Form butonları fade-in (KAYDEDİLMEDİ, undo'lu)
+Prompt: "Login'de butonlar fade-in ile gelsin, aralarında minik delay; Or da."
+Yapı: FacebookButton(20), AppleButton(21, pasif), Or(22, Line1/Line2/OrText'i kapsar), GuestButton(26) → RenderGroup Alpha 0 (authored).
+LoginForm(18) MovieClip **LoginFormIntro**: Fps 30, 21 kare, PlayOnStart, Loop kapalı; Alpha 0→1 OutQuad 10 kare, 5 kare kademeli:
+Facebook+Apple f0–10, Or f5–15, Guest f10–20 (önceki key Hold). LoginFlow formu SetActive edince oynar (Yüzbir ile aynı; kod yok).
+Invariant: form giriş koreografisi doc'ta; yeni buton = RenderGroup + track, sıra üstten alta 5 kare arayla.
+Doğrulama: anim.goto f7 (Connect belirgin, Or soluk, Guest yok) / f20 (hepsi tam).
+Ek (aynı gün): butonlara (20/21/26, Or hariç) Transform Scale 0.9→1 OutBack, alpha ile aynı pencerede; authored scale 0.9 (kare 0).
+Tuzak: `scene_apply` id ile mevcut GO'yu güncellerken `active` verilmezse true'ya döndü (AppleButton) → go_setActive ile geri alındı.
+Ek: Agreement(27)'a RenderGroup; LoginFormIntro 31 kare, Agreement alpha 0→1 OutQuad f15–30 (Guest'ten 5 kare sonra başlar, en son biter).
+Authored RenderGroup Alpha/scale değerleri 1 (edit modda görünür kalsın; kare 0 klipten gelir). Doğrulama: f12 agreement yok, f30 tam.
+Ek: tüm sahne fade-in (Unity sceneOverlay karşılığı) — Background(2) köküne RenderGroup (authored 1), Logo MovieClip'e 30. track
+`2:RenderGroup:0` Alpha 0→1 OutQuad f0–15. Kök RenderGroup tüm çocukları (logo/parçacık/form) kapsar; bilinçli. Doğrulama: sim f4 karanlık, f12 neredeyse tam.
