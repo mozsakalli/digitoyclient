@@ -12,11 +12,13 @@ namespace Digitoy
     {
         public string prodServerUrl = "https://api.digitoy.co";
         [DevOnly] public string testServerUrl = "https://test-node.digitoy.co";
+        /// <summary>Dev: dolu ise cihaz anahtarı yerine bu gönderilir (başka test hesabıyla girmek için; Boot.asset'te durur, pak'a yazılmaz).
+        /// PlayerPrefs override'ı (DevEnvSwitch) doluysa o öncelikli.</summary>
+        [DevOnly] public string devDeviceKey = "";
 
         public const string EnvTest = "test", EnvProd = "prod", EnvCustom = "custom";
         private const string EnvPref = "__dev_env__";
         private const string CustomUrlPref = "__dev_server_url__";
-        private const string OverrideDeviceKeyPref = "__dev_device_key__";
 
         /// <summary>Dev build'de seçili ortam (test|prod|custom; varsayılan test). Release'te her zaman prod.</summary>
         public static string DevEnv
@@ -28,9 +30,9 @@ namespace Digitoy
         /// <summary>Yerel/dev override: doluysa settings de WS de doğrudan bu adrese, gateway/seed listesi yoksayılır.</summary>
         public string CustomServerUrl => GameHost.IsDev ? PlayerPrefs.GetString(CustomUrlPref, "") : "";
         public bool HasCustomServerUrl => GameHost.IsDev && DevEnv == EnvCustom && !string.IsNullOrWhiteSpace(CustomServerUrl);
-        public string OverrideDeviceKey => GameHost.IsDev ? PlayerPrefs.GetString(OverrideDeviceKeyPref, "") : "";
+        /// <summary>Dev: Boot.asset'teki devDeviceKey (boşsa override yok). Release'te hep boş.</summary>
+        public string OverrideDeviceKey => GameHost.IsDev ? (devDeviceKey ?? "").Trim() : "";
         public static void SetCustomServerUrl(string url) { PlayerPrefs.SetString(CustomUrlPref, url ?? ""); PlayerPrefs.Save(); }
-        public static void SetOverrideDeviceKey(string key) { PlayerPrefs.SetString(OverrideDeviceKeyPref, key ?? ""); PlayerPrefs.Save(); }
 
         public bool IsTest => GameHost.IsDev && DevEnv == EnvTest;
 

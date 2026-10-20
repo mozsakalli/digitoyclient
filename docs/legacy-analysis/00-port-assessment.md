@@ -2,7 +2,8 @@
 
 Kaynaklar: `C:\work\digitoygames\ginrummyextra.unity` (Unity istemci), `C:\work\digitoygames\core.upm` (Digitoy SDK),
 `C:\work\digitoygames\digitoyserver` (sunucu + `Common` paylaşımlı kütüphane). Ayrıntılı raporlar bu dizinde:
-`01-unity-gameplay-analysis.md`, `02-core-upm-analysis.md`, `03-server-analysis.md`, `04-unity-ui-feature-inventory.md`.
+`01-unity-gameplay-analysis.md`, `02-core-upm-analysis.md`, `03-server-analysis.md`, `04-unity-ui-feature-inventory.md`,
+`05-digiplay-sync-pattern.md` (2026-10-20: eski motor senkron deseni, Unity kart kaybı kök nedeni, yeni delta sözleşmesi).
 Motor yetenekleri `engine_api` + `docs/engine-notes.md` üzerinden çıkarıldı (motor kaynağına girilmedi).
 
 ---

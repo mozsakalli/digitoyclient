@@ -92,10 +92,15 @@ namespace Digitoy
         {
             var deviceKey = DeviceKeyHelper.GetPersistentDeviceKey();
             DeviceKeyHelper.GetPersistentDeviceKeyFromStorage(out var storedKey, out var storedMethod);
-#if DEBUG
+            var migrationKey = DeviceKeyHelper.GetDeviceKey();
+            // Dev override: başka test hesabı. Stored/migration anahtarları da bastırılır, yoksa sunucu eski oyuncuyu onlardan bulur.
             if (!string.IsNullOrEmpty(Settings.OverrideDeviceKey))
+            {
                 deviceKey = Settings.OverrideDeviceKey;
-#endif
+                storedKey = null; storedMethod = null; migrationKey = null;
+                Debug.Log($"[dev] device key override aktif ({deviceKey[..8]}…)");
+            }
+            else if (GameHost.IsDev) Debug.Log($"[dev] device key override yok (IsDev={GameHost.IsDev}, devDeviceKey='{Settings.devDeviceKey}')");
             if (_cachedAuthRequest == null)
             {
                 var p = new Dictionary<string, string>
@@ -111,11 +116,12 @@ namespace Digitoy
                 };
                 // Eski istemci anahtarları; sıra = sunucu arama önceliği (yalnız deviceKey bulunamazsa bakılır).
                 void Mig(int i, string key) { if (!string.IsNullOrEmpty(key)) p[AuthRequestParams.MigrationKey(i)] = key; }
-                Mig(0, DeviceKeyHelper.GetDeviceKey());
+                Mig(0, migrationKey);
                 _cachedAuthRequest = new AuthRequest
                 {
                     GameId = Game.Current.gameId,
-                    Token = PlayerService.I.GetToken(),
+                    // Dev override'da eski oturumun JWT'si gönderilmez; yoksa sunucu token fast-path ile eski oyuncuya bağlar.
+                    Token = string.IsNullOrEmpty(Settings.OverrideDeviceKey) ? PlayerService.I.GetToken() : null,
                     Params = p
                 };
             }

@@ -24,7 +24,8 @@ namespace Digitoy
         private const string VersionKey = "config_version_";
         private const string DataKey = "config_data_";
 
-        private static readonly Dictionary<int, string> _tokens = new();
+        // Oturum token'lari: mem.dump (AI bellek izleyici) bu alani okuyamasin.
+        [Sensitive] private static readonly Dictionary<int, string> _tokens = new();
 
         public static long DefinitionsVersion => GetVersion(ConfigKey.Definitions);
         public static long SettingsVersion => GetVersion(ConfigKey.Settings);

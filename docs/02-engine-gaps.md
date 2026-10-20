@@ -38,6 +38,7 @@ kümesi (10-14; `NickValidator`, `LocalizationFormatter` için yeterli), Common.
 | C8 | Ses: wav → sıkıştırma kararı, stream müzik ✔ var | Gin 34 wav / 47 MB. |
 | C9 | **Klasör kapsamlı localization tablosu**: `Assets/Games/<Oyun>/Localization.asset` — o klasördeki sahne/prefab metinleri otomatik oraya bağlansın (`@loc` kapsam çözümü en yakın üst klasör tablosu), `loc_*` araçları çoklu tabloyu listelesin | Runtime `Localize.LoadedTables/RegisterTable` zaten çoklu; eksik editör/bağlama tarafı. Gelene kadar tek tablo + `gin.`/`shell.` önek. Faz 1. |
 | C10 | ~~`textSize` = em~~ **KAPANDI 10-17** — textSize artık TMP `fontSize` ile 1:1; `LayoutBox.font` guid yerine `Fonts.asset` adı (regular/light/bold/primary). | Eski sahnelerdeki guid `font` değerleri adlara çevrilecek; ×1.14 geçici kuralı iptal. |
+| C11 | **Play'de `SceneNav`/`SceneLoader.LoadAsync` ile yüklenen (açık doc OLMAYAN) sahne, editör süreci boyunca ilk yüklenen hâliyle cache'leniyor** — `scene.save`, dosyaya dokunma, `play.stop/start`, `game.set` hiçbiri tazelemiyor; `.scene` için importer olmadığından `asset.reimport` da yok. Tek çare editörü kapatıp açmak. (10-20, Table.scene yeniden kurulurken) | Kaydedilen `.scene` için `SceneLoader` cache'ini geçersiz kıl (ya da `asset.reimport` `.scene`'i kabul etsin). |
 
 ## D — Native köprüler (Faz 5; gameplay'i bloklamaz, mağaza sürümünü bloklar)
 IAP (Google Billing / StoreKit), reklam (MAX: interstitial + rewarded), Facebook login/paylaşım, Apple Sign-In, Google

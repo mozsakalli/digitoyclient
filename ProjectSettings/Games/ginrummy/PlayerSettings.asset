@@ -7,7 +7,8 @@ fields:
   scenes:
     - Games/GinRummy/Scenes/Login.scene
     - Games/GinRummy/Scenes/Lobby.scene
-  startScene: Games/GinRummy/Scenes/Login.scene
+    - Dev/PieceTest.scene
+  startScene: Dev/PieceTest.scene
   boot: 2fe7fadede344b4f957930a2199dfd8f
   themes:
     - xmas

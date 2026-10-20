@@ -11,3 +11,4 @@ fields:
   network:
     testServerUrl: https://test-node.digitoy.co
     prodServerUrl: https://api.digitoy.co
+    devDeviceKey: d72f04bb3ed24984b8311e20f77d629f

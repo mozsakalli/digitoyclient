@@ -53,6 +53,11 @@ Test: `https://test-node.digitoy.co` (gameId Gin = 7), prod `https://api.digitoy
 - `TableState{TableId, GameId, TurnNo, TurnOwner, Phase: TablePhase, SubPhase: TableSubPhase, Players/Spectators:
   Dictionary<int,SeatPreview>, Deck, DeckCount, DeckLastNo, Discards: Dictionary<int,List<int>>, Flags, Bet, Jackpot,
   Action?, ServerTime, TimeoutAt, GameEndsAt, PluginState: Dictionary<string,long>}`
+- **Delta sözleşmesi (Common'da yazılı değil, sunucu kodundan çıkarıldı — legacy-analysis/05 §3):** `null` alan = değişmedi
+  (`Hand=null` = maskeli/değişmedi, `Phase=None` = değişmedi); `Hand=[]` = boş; `Players` kısmi → koltuk bazlı merge, ayrılma
+  `LastMove=PlayerLeft/Kicked`; boş cevap/`TableId=0` = Clear; **kendi `Hand` yalnız Join/Refresh/Start/Finish'te** (çek/at/aç
+  deltaları eli taşımaz); `TurnNo` Yüzbir'de bit alanı (pick/gösterge/round), seq değil; Yüzbir board'u `Discards[4/5/6/21/35]`;
+  `PluginState` istemciye gitmez. **Eksik → digitoyserver işi:** `TableState.Seq`, sözleşmenin doc-comment olarak yazılması.
 - `TablePhase`: None, Waiting, Starting, Dealing, Playing, Finishing, RoundOver, GameOver. `TableSubPhase`: None, Idle, ReadyCheck, Pass.
 - `SeatPreview{PlayerId?, FacebookId?, Nick, Stats, Balance?, Hand: List<int>, LastMove?, Score?, Position, EventResult, Message}`
 - `Gin` bayrakları (long): Straight 256, Joker 512, Rush 1024, Private 2048, Joinable 4096, Score, LobbyId, NoShuffle;

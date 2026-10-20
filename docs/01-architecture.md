@@ -90,8 +90,14 @@ Games/<Oyun>        TableState → sahne projeksiyonu (tek state machine; Phase�
   `MainThreadAsync` gereksiz). Push event'leri (`requestId == -1`) servis bazlı yönlendirme (Player/Lobby/Table/Messaging).
 - **Oyun oturumu:** `Game.Current` tek aktif; `Game.Switch` = logout → `ServiceRegistry.ResetAll()` → yeni gameId ile
   Guest login → lobby. Servisler statik singleton kalır (core.upm deseni); iki oyun aynı anda yok (decisions 2026-10-16).
-- **Oyun durumu:** `GameTable` (oyun-bağımsız: koltuklar, tur, zamanlayıcı — sunucu `TableState`) + oyuna özel türev
-  (`GinTable`: el, deste, ıskarta, meld; `OkeyTable`: ıstaka, gösterge, orta). View bunları okur, asla yazmaz.
+- **Oyun durumu (decisions 2026-10-20, ayrıntı legacy-analysis/05 §4):** eski digiplay birebir, araya katman yok.
+  `TableService` (= eski `TableModel`): delta merge cache'i (null = değişmedi, `Hand=[]` = boş, boş cevap = Clear) + `Version` +
+  `SnapshotCount`; push ve cevap tek `Apply()` yolundan; türev kancaları `OnSnapshot/OnDelta/OnCleared`; view'a **tek `View` alanı**
+  (`ITableView.Refresh(full)/SeatChanged/Cleared`), doğrudan çağrı, delegate yok. `GinTableService : TableService` (= eski
+  `GinTableModel`): **kendi elin tek sahibi** — snapshot'ta replace, deltada `Action`'a göre yama + `IGinTableView` hamle çağrısı
+  (anlık, paralel, kuyruk yok), kendi hamle optimistic + `Pending` kilidi + fire-and-forget, echo idempotent, invariant ihlali →
+  `Refresh`. View: `Refresh(true)` idempotent uzlaştırma (el id-multiset, deste sayı, ıskarta son-N), `Refresh(false)` hafif;
+  diziliş view'da; snapshot'ta `Clear()` yok. Servis kaydı `TableServices` (gameId → factory, `[ModuleInitializer]`).
 - **Bot/offline (Gin):** kapsam kararı bekliyor (🔶 ilk sürümde yok önerisi). Olursa aynı `GinTable` modelini
   `ILocalDealer` besler; strateji Common `HandScore/HandSorter` üstüne ince katman.
 - **Dialog yığını:** `DialogStack` servisi (modal arka plan, geri tuşu `GameHost.BackRequested`, açılış/kapanış MovieClip,

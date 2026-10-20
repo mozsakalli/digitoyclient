@@ -20,7 +20,7 @@ namespace Digitoy
             {
                 _ = new PlayerPrefsService();
                 _ = new PlayerService();
-                _ = new TableService();
+                _ = TableServices.Create(game.gameId);   // oyun türevi (GinTableService) kayıtlıysa o; Game.Switch'te yeniden kurulacak (Faz 3)
                 _ = new LobbyService();
                 _ = new AdService();
             }

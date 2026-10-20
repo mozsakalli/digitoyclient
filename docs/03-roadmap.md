@@ -42,6 +42,9 @@ kaldırıldı (startScene = Login; AppBoot.Ensure LoginFlow'da; AppVariant gelin
   (masa sahnesi boş). iOS/wasm build'i en az açılır.
 
 ## Faz 2 — Gin Rummy masası
+- **Önce senkron temeli** (decisions 2026-10-20, legacy-analysis/05 §4) — **Adım 1–2 tamam:** `TableService` (`Version/SnapshotCount`,
+  `Apply()`, kancalar, `ITableView`), `Games/GinRummy/GinTableService.cs` (el sahibi, `IGinTableView`), `TableServices` kaydı.
+  Sırada: kayıtlı delta akışı testleri; UI bu tabanın üstüne gelir; her adım ayrı onay.
 - `GinTable` (TableState projeksiyonu; tek state machine), kart atlası, `Hand/DeckPile/DiscardPile/MeldZone/Seat/Timer`
   component'leri; deal/draw/discard/knock/gin/round-over koreografileri MovieClip; drag/drop + ipucu Common `HandScore`.
 - Finish payload sözleşmesi (11 kartın **sıralı** listesi), Rush varyantı (yalnız sunucu zamanı), Slam (istemci sunumu).

@@ -174,3 +174,45 @@ Ek: Agreement(27)'a RenderGroup; LoginFormIntro 31 kare, Agreement alpha 0→1 O
 Authored RenderGroup Alpha/scale değerleri 1 (edit modda görünür kalsın; kare 0 klipten gelir). Doğrulama: f12 agreement yok, f30 tam.
 Ek: tüm sahne fade-in (Unity sceneOverlay karşılığı) — Background(2) köküne RenderGroup (authored 1), Logo MovieClip'e 30. track
 `2:RenderGroup:0` Alpha 0→1 OutQuad f0–15. Kök RenderGroup tüm çocukları (logo/parçacık/form) kapsar; bilinçli. Doğrulama: sim f4 karanlık, f12 neredeyse tam.
+
+## 2026-10-20 — Logo parçacıkları Unity prefab'ına birebir (KAYDEDİLMEDİ, undo'lu)
+Prompt: "loginscene particle unity versiyona hiç benzemiyor, aynısını yapalım."
+Bulgu (Unity `Login/Prefabs/LogoParticle.prefab`, UIParticle `Scale3D=180` → 1 birim = 180 px; 5 aktif emitter): önceki turlarda
+kaçırılan asıl fark **alpha eğrisi tek fade değil, ömür boyu 3–4 kez yanıp sönen "twinkle"**; hız ≈ 0 (hareket yalnız noise), ömür
+sabit 8 s (glitter 6), bant 180 px, renk sabit (random/gradient yok), maxParticles 50.
+Yapı: LogoParticle(32) altındaki 5 emitter Unity adlarına çevrildi ve değerler birebir yazıldı:
+big_particles(33) particle_2, 5/s, 9–180 px, #ffa100 **tepe α0.125**, kutu 720×180, noise 18@0.5, alpha 0,1,0,1,0,1,1,0 (t .13/.22/.30/.42/.51/.89), rotZ 0–360;
+small_0(34) circle_2, 10/s, 9–36, #ffa100, 900×180, noise 36@2, alpha 0,1,0,1,0,1,0 (t .13/.44/.58/.74/.84);
+glitter(35) circle_2, 10/s, 18–90, #ffb900, 1080×180, ömür 6, noise 18@0.5, alpha 0,1,1,0,1,0,1,0 (t .13/.54/.65/.75/.81/.89);
+small_2(36) particle_1, 5/s, 9–36, #ffa100, 900×180, noise 36@2, small_0 eğrisi, **rotZ Random −180..360 °/s**;
+small_1(37) circle_1, 10/s, 1.8–5.4 px, #ffca7b, 900×180, noise 36@2, small_0 eğrisi.
+Ortak: lifetime Constant, speed Random 0–15 (Unity Rectangle +Z yönü 2D'de anlamsız → randomDirection 1), Additive, prewarm, maxParticles 50.
+Invariantlar: parıltı = çok anahtarlı alpha twinkle (tek fade'e dönme); hareket = noise, hız ~0; ömür sabit; renkler Unity sabitleri;
+tepe alpha `alpha.max`'ta, eğri normalize (Curve kuralı). Kaynak gerçek: Unity prefab; değişiklik gerekirse önce prefab değeriyle kıyasla.
+Doğrulama: sim_run f150/f350 (932×430) + (140,30,660,190)×2 yakın plan — hale + bokeh daireler + ince noktalar Unity ekranıyla eş doku.
+Noise turu (15:10): kullanıcı "noise bizde daha az hareket ettiriyor". f60/f120 kıyası: 18/36 ile konumlar neredeyse sabit → motor
+`noise.strength` Unity gibi hız (birim/s) değil, genlik gibi davranıyor. ×4 uygulandı: big/glitter **72**, small_0/1/2 **144**
+(frequency aynı 0.5 / 2). Doğrulama: f60/f120 — 1 s'de belirgin sürüklenme, bant hafif yayvan (Unity ile eş). Invariant: noise
+Unity değeri ×4 (strength ≈ px genlik); tekrar ayarlanacaksa oran korunur (big/glitter : small = 1 : 2).
+Noise turu 2 (15:13): "Unity'de daha çok yayılıyor" → ×6: big/glitter **108**, small_0/1/2 **216** (oran 1:2 korundu, frequency aynı).
+Doğrulama: f200 — parçacıklar 180 px bandın dışına yayılıyor, dağılım Unity ekranıyla eş. Invariant güncellendi: noise = Unity ×6.
+Yatay yayılım (15:15): "Unity yatayda daha çok açılıyor" → noise değil (izotropik, dikeyi de şişirir) kutu genişliği ×1.4:
+big **1000**×180, small_0/1/2 **1300**×180, glitter **1500**×180. Doğrulama: f200 — bant ekranın ~%20–80'ine yayılıyor, dikey ince.
+Invariant: yatay/dikey oran kutudan (genişlik Unity ×1.4, yükseklik 180), sürüklenme noise'dan.
+
+## 2026-10-20 — Intro: parçacık scale-up yerine burst (KAYDEDİLMEDİ, undo'lu)
+Prompt: "intro movieclip'te particle'lar scale-up ile gelmek yerine başta bir burst ile saçılıp sonra normal devam edebilir mi."
+Yapı: Logo(3) MovieClip'te `32:Transform:0 Scale` track'i SİLİNDİ (LogoParticle authored scale 1); `32:RenderGroup:0 Alpha` track
+Hold 0 → f8 0 → **f12 1 OutQuad** (kısa fade; sabit bant burst anında arkada belirir). Yeni emitter **burst(39)** (32 altı, listede son):
+Circle r 150 / thickness 0.3 (logo dış hattından doğar), randomDirection 0, `bursts [t0 ×56]`, rate 0, looping/prewarm kapalı,
+**startDelay 0.27 s** (= f8, Rummy çarpma anı), speed Random 600–1400, `velocity.drag 3`, lifetime 0.6–1.2, size 8–40, circle_2,
+renk Random #ffb900/#ffa100, alpha Curve 1→0.8→0, Additive, maxParticles 60.
+Not: Unity'de burst yok (orada uiParticleParent 0.2 s'de sadece açılır) — bilinçli sapma. İlk deneme (r 40, 36 adet, 400–1000)
+logonun arkasında kaldığı için görünmedi; parçacıklar logonun ARKASINDA çizildiğinden burst logo dış hattından doğmalı.
+Invariantlar: parçacık kökü scale'lenmez (burst saçılması koreografinin kendisi); burst zamanlaması startDelay = Logo klibi f8
+(klip fps/kare değişirse startDelay güncellenir); sabit bant alpha ile girer; burst tek seferlik, loop yok.
+Doğrulama: sim_run fps30 captureEvery 4 — f8 bant yok, f12 radyal saçılma + bant beliriyor, f16 yayılmış, f24 sönmüş, f28 sabit bant.
+**GERİ ALINDI (15:26):** kullanıcı burst denemesini beğenmedi, undo ile tamamen kaldırıldı — burst(39) yok, Logo klibinde
+`32:Transform:0 Scale 0→1 OutBack f8–19` + `32:RenderGroup:0 Alpha 0→1 f8–19` track'leri eski haliyle duruyor. Yukarıdaki burst
+bölümü yalnız kayıt içindir; geçerli davranış: parçacık kökü scale-up + fade ile açılır (Unity ile aynı mantık, burst yok).
+Üstteki parçacık turu (Unity birebir emitter'lar + noise ×6 + kutu ×1.4) KAYDEDİLDİ.

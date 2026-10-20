@@ -33,4 +33,87 @@ objects:
           color: '#ffffffff'
           type: Solid
         textSize: 72
-        text@loc: lobby.root
+        text@loc: ''
+        text: ''
+      - type: LobbyController
+        playNowButton: '4:Button:0'
+        statusText: '5:LayoutBox:0'
+  - id: 3
+    parent: 2
+    name: Title
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0.5 0
+        anchorMin: 0.5 0
+        anchoredPos: 0 80
+        font: bold
+        height: 120
+        pivot: 0.5 0
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 96
+        width: 1200
+        text@loc: lobby.gin_rummy
+  - id: 4
+    parent: 2
+    name: PlayNow
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        BlocksRaycast: true
+        anchorMax: 0.5 0.5
+        anchorMin: 0.5 0.5
+        anchoredPos: 0 0
+        border: 2 2 2 4
+        borderFill:
+          color: '#2e0f6aff'
+          type: Solid
+        fill:
+          color: '#7339d3ff'
+          color2: '#4b1c9eff'
+          direction: Vertical
+          type: Linear
+        font: primary
+        height: 112
+        innerShadowBlur: 2
+        innerShadowColor: '#c29effb0'
+        radius: 15 15 15 15
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 60
+        width: 520
+        text@loc: lobby.play_now
+      - type: Button
+        buttonId: playnow
+  - id: 5
+    parent: 2
+    name: Status
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0.5 0.5
+        anchorMin: 0.5 0.5
+        anchoredPos: 0 110
+        font: primary
+        height: 60
+        text: ''
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#cfd8e3ff'
+          type: Solid
+        textSize: 36
+        width: 1200

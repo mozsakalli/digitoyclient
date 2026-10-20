@@ -28,4 +28,76 @@ fields:
       Values:
         - By logging in you accept our <link=privacy><u><font=bold>Privacy Policy</font></u></link> and <link=terms><u><font=bold>Terms of Use</font></u></link>
         - Giriş tuşlarına basarak <link=terms><u><font=bold>Hizmet Şartlarımızı</font></u></link> ve <link=privacy><u><font=bold>Gizlilik Politikamızı</font></u></link> kabul etmiş olursunuz.
+    - Key: lobby.gin_rummy
+      Values:
+        - ''
+        - GIN RUMMY
+    - Key: lobby.play_now
+      Values:
+        - ''
+        - PLAY NOW
+    - Key: table.ready_button
+      Values:
+        - ''
+        - READY
+    - Key: table.pass_button
+      Values:
+        - ''
+        - PASS
+    - Key: table.sort_button
+      Values:
+        - ''
+        - SORT
+    - Key: table.leave_button
+      Values:
+        - ''
+        - LEAVE
+    - Key: piece_test.info
+      Values:
+        - ''
+        - piece test
+    - Key: piece_test.flip
+      Values:
+        - ''
+        - FLIP
+    - Key: piece_test.variant
+      Values:
+        - ''
+        - VARIANT
+    - Key: piece_test.mark_btn
+      Values:
+        - ''
+        - MARK
+    - Key: piece_test.dim
+      Values:
+        - ''
+        - DIM
+    - Key: piece_test.scatter
+      Values:
+        - ''
+        - SCATTER
+    - Key: piece_test.line
+      Values:
+        - ''
+        - LINE
+    - Key: board_test.info
+      Values:
+        - ''
+        - board test
+    - Key: board_test.deal
+      Values:
+        - ''
+        - DEAL
+    - Key: board_test.meld
+      Values:
+        - ''
+        - MELD
+    - Key: board_test.refresh
+      Values:
+        - ''
+        - REFRESH
+    - Key: board_test.clear
+      Values:
+        - ''
+        - CLEAR
   Enums:

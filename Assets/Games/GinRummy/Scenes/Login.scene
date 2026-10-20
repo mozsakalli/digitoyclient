@@ -1136,6 +1136,7 @@ objects:
         textWrap: false
         BlocksRaycast: true
         text@loc: login.agreement
+        textEllipsis: false
       - type: PolicyLink
       - type: RenderGroup
         Alpha: 1
@@ -1200,7 +1201,8 @@ objects:
           type: Solid
         textSize: 40
         width: 200
-        text@loc: login.version_label
+        text@loc: ''
+        text: ''
       - type: DevEnvSwitch
   - id: 31
     parent: 2
@@ -1225,7 +1227,7 @@ objects:
         width: 900
   - id: 33
     parent: 32
-    name: Big
+    name: big_particles
     pos: 0 0 0
     rot: 0 0 0
     scale: 1 1 1
@@ -1233,53 +1235,66 @@ objects:
       - type: ParticleSystem
         BlendMode: Additive
         alpha:
-          max: 0.25
-          min: 0
           mode: Curve
+          min: 0
+          max: 0.125
           shape:
             Keys:
               - Time: 0
                 Value: 0
+              - Time: 0.13
+                Value: 1
+              - Time: 0.22
+                Value: 0
               - Time: 0.3
                 Value: 1
-              - Time: 0.7
+              - Time: 0.42
+                Value: 0
+              - Time: 0.51
+                Value: 1
+              - Time: 0.89
                 Value: 1
               - Time: 1
                 Value: 0
         color:
-          mode: Random
-          color: '#ffa200ff'
-          color2: '#ff8a00ff'
+          mode: Solid
+          color: '#ffa100ff'
+          color2: '#ffa100ff'
         duration: 8
         emission:
           rateOverTime: 5
         lifetime:
-          max: 14
-          min: 3
-          mode: Random
+          mode: Constant
+          min: 8
+          max: 8
         looping: true
-        maxParticles: 80
+        maxParticles: 50
         noise:
-          frequency: 0.6
-          strength: 25
+          strength: 108
+          frequency: 0.5
         prewarm: true
         shape:
-          boxSize: 900 260 0
-          randomDirection: 1
           type: Box
+          boxSize: 1000 180 0
+          randomDirection: 1
         size:
-          max: 110
-          min: 30
           mode: Random
+          min: 9
+          max: 180
         speed:
-          max: 80
-          min: 5
           mode: Random
+          min: 0
+          max: 15
         sprites:
           - f17108411931421c9447218bc468789e
+        rotation:
+          z:
+            mode: Random
+            min: 0
+            max: 360
   - id: 34
     parent: 32
-    name: Small
+    name: small_0
     pos: 0 0 0
     rot: 0 0 0
     scale: 1 1 1
@@ -1287,161 +1302,196 @@ objects:
       - type: ParticleSystem
         BlendMode: Additive
         alpha:
-          max: 0.9
-          min: 0
           mode: Curve
+          min: 0
+          max: 1
           shape:
             Keys:
               - Time: 0
                 Value: 0
-              - Time: 0.25
+              - Time: 0.13
                 Value: 1
-              - Time: 0.75
+              - Time: 0.44
+                Value: 0
+              - Time: 0.58
+                Value: 1
+              - Time: 0.74
+                Value: 0
+              - Time: 0.84
                 Value: 1
               - Time: 1
                 Value: 0
         color:
-          mode: Random
-          color: '#ffa200ff'
-          color2: '#ff9000ff'
+          mode: Solid
+          color: '#ffa100ff'
+          color2: '#ffa100ff'
         duration: 8
-        emission:
-          rateOverTime: 11
-        lifetime:
-          max: 14
-          min: 3
-          mode: Random
-        looping: true
-        maxParticles: 160
-        noise:
-          frequency: 2
-          strength: 40
-        prewarm: true
-        shape:
-          boxSize: 1000 260 0
-          randomDirection: 1
-          type: Box
-        size:
-          max: 16
-          min: 4
-          mode: Random
-        speed:
-          max: 120
-          min: 5
-          mode: Random
-        sprites:
-          - 742c45a107134ad6b0cc141ecaa2dfb0
-  - id: 35
-    parent: 32
-    name: Glitter
-    pos: 0 0 0
-    rot: 0 0 0
-    scale: 1 1 1
-    components:
-      - type: ParticleSystem
-        BlendMode: Additive
-        alpha:
-          max: 0.7
-          min: 0
-          mode: Curve
-          shape:
-            Keys:
-              - Time: 0
-                Value: 0
-              - Time: 0.3
-                Value: 1
-              - Time: 0.7
-                Value: 1
-              - Time: 1
-                Value: 0
-        color:
-          mode: Random
-          color: '#ffb900ff'
-          color2: '#ffa200ff'
-        duration: 6
-        emission:
-          rateOverTime: 6
-        lifetime:
-          max: 10
-          min: 3
-          mode: Random
-        looping: true
-        maxParticles: 80
-        noise:
-          frequency: 0.6
-          strength: 25
-        prewarm: true
-        shape:
-          boxSize: 1100 260 0
-          randomDirection: 1
-          type: Box
-        size:
-          max: 45
-          min: 12
-          mode: Random
-        speed:
-          max: 140
-          min: 10
-          mode: Random
-        sprites:
-          - 5ab94bb444544296bab407e19b084ddb
-  - id: 36
-    parent: 32
-    name: Dots
-    pos: 0 0 0
-    rot: 0 0 0
-    scale: 1 1 1
-    components:
-      - type: ParticleSystem
-        BlendMode: Additive
-        sprites:
-          - 5ab94bb444544296bab407e19b084ddb
-        duration: 8
-        looping: true
-        prewarm: true
-        maxParticles: 160
         emission:
           rateOverTime: 10
         lifetime:
-          max: 14
-          min: 3
-          mode: Random
-        speed:
-          max: 120
-          min: 5
-          mode: Random
+          mode: Constant
+          min: 8
+          max: 8
+        looping: true
+        maxParticles: 50
+        noise:
+          strength: 216
+          frequency: 2
+        prewarm: true
+        shape:
+          type: Box
+          boxSize: 1300 180 0
+          randomDirection: 1
         size:
           mode: Random
-          min: 6
-          max: 24
-        color:
+          min: 9
+          max: 36
+        speed:
           mode: Random
-          color: '#ffa200ff'
-          color2: '#ffb900ff'
+          min: 0
+          max: 15
+        sprites:
+          - 5ab94bb444544296bab407e19b084ddb
+        rotation:
+          z:
+            mode: Constant
+            min: 0
+            max: 0
+  - id: 35
+    parent: 32
+    name: glitter
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: ParticleSystem
+        BlendMode: Additive
         alpha:
           mode: Curve
           min: 0
-          max: 0.9
+          max: 1
           shape:
             Keys:
               - Time: 0
                 Value: 0
-              - Time: 0.25
+              - Time: 0.13
                 Value: 1
+              - Time: 0.54
+                Value: 1
+              - Time: 0.65
+                Value: 0
               - Time: 0.75
+                Value: 1
+              - Time: 0.81
+                Value: 0
+              - Time: 0.89
+                Value: 1
+              - Time: 1
+                Value: 0
+        color:
+          mode: Solid
+          color: '#ffb900ff'
+          color2: '#ffb900ff'
+        duration: 6
+        emission:
+          rateOverTime: 10
+        lifetime:
+          mode: Constant
+          min: 6
+          max: 6
+        looping: true
+        maxParticles: 50
+        noise:
+          strength: 108
+          frequency: 0.5
+        prewarm: true
+        shape:
+          type: Box
+          boxSize: 1500 180 0
+          randomDirection: 1
+        size:
+          mode: Random
+          min: 18
+          max: 90
+        speed:
+          mode: Random
+          min: 0
+          max: 15
+        sprites:
+          - 5ab94bb444544296bab407e19b084ddb
+        rotation:
+          z:
+            mode: Constant
+            min: 0
+            max: 0
+  - id: 36
+    parent: 32
+    name: small_2
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: ParticleSystem
+        BlendMode: Additive
+        sprites:
+          - 742c45a107134ad6b0cc141ecaa2dfb0
+        duration: 8
+        looping: true
+        prewarm: true
+        maxParticles: 50
+        emission:
+          rateOverTime: 5
+        lifetime:
+          mode: Constant
+          min: 8
+          max: 8
+        speed:
+          mode: Random
+          min: 0
+          max: 15
+        size:
+          mode: Random
+          min: 9
+          max: 36
+        color:
+          mode: Solid
+          color: '#ffa100ff'
+          color2: '#ffa100ff'
+        alpha:
+          mode: Curve
+          min: 0
+          max: 1
+          shape:
+            Keys:
+              - Time: 0
+                Value: 0
+              - Time: 0.13
+                Value: 1
+              - Time: 0.44
+                Value: 0
+              - Time: 0.58
+                Value: 1
+              - Time: 0.74
+                Value: 0
+              - Time: 0.84
                 Value: 1
               - Time: 1
                 Value: 0
         shape:
-          boxSize: 1000 260 0
-          randomDirection: 1
           type: Box
+          boxSize: 1300 180 0
+          randomDirection: 1
         noise:
+          strength: 216
           frequency: 2
-          strength: 40
+        rotation:
+          z:
+            mode: Random
+            min: -180
+            max: 360
   - id: 37
     parent: 32
-    name: Specks
+    name: small_1
     pos: 0 0 0
     rot: 0 0 0
     scale: 1 1 1
@@ -1453,46 +1503,57 @@ objects:
         duration: 8
         looping: true
         prewarm: true
-        maxParticles: 160
+        maxParticles: 50
         emission:
           rateOverTime: 10
         lifetime:
-          max: 14
-          min: 3
-          mode: Random
+          mode: Constant
+          min: 8
+          max: 8
         speed:
-          max: 120
-          min: 5
           mode: Random
+          min: 0
+          max: 15
         size:
           mode: Random
-          min: 2
-          max: 5
+          min: 1.8
+          max: 5.4
         color:
-          mode: Random
-          color: '#ffcb7cff'
-          color2: '#ffb050ff'
+          mode: Solid
+          color: '#ffca7bff'
+          color2: '#ffca7bff'
         alpha:
           mode: Curve
           min: 0
-          max: 0.9
+          max: 1
           shape:
             Keys:
               - Time: 0
                 Value: 0
-              - Time: 0.25
+              - Time: 0.13
                 Value: 1
-              - Time: 0.75
+              - Time: 0.44
+                Value: 0
+              - Time: 0.58
+                Value: 1
+              - Time: 0.74
+                Value: 0
+              - Time: 0.84
                 Value: 1
               - Time: 1
                 Value: 0
         shape:
-          boxSize: 1000 260 0
-          randomDirection: 1
           type: Box
+          boxSize: 1300 180 0
+          randomDirection: 1
         noise:
+          strength: 216
           frequency: 2
-          strength: 40
+        rotation:
+          z:
+            mode: Constant
+            min: 0
+            max: 0
   - id: 38
     parent: 2
     name: ErrorToast
