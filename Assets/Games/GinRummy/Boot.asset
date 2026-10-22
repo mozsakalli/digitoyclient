@@ -5,9 +5,9 @@ fields:
     displayName: Gin Rummy
     gameId: 7
     maxSeats: 2
-    loginScene: Games/GinRummy/Scenes/Login.scene
-    lobbyScene: Games/GinRummy/Scenes/Lobby.scene
-    tableScene: ''
+    loginScene: Games/GinRummy/Scenes/Login/Login.scene
+    lobbyScene: Games/GinRummy/Scenes/Lobby/Lobby.scene
+    tableScene: Games/GinRummy/Scenes/Table/Table.scene
   network:
     testServerUrl: https://test-node.digitoy.co
     prodServerUrl: https://api.digitoy.co

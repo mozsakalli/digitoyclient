@@ -1,0 +1,272 @@
+scene: Main
+objects:
+  - id: 1
+    parent: 0
+    name: CAMERA
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: CameraComponent
+        background: '#061018ff'
+      - type: FitPerspectiveProjection
+        fov: 30
+        referenceResolution: 1920 1080
+  - id: 2
+    parent: 0
+    name: BG
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 2 2 1
+    components:
+      - type: LayoutBox
+        height: 1000
+        sprite: 1a210dbaa69842eb9c4fc2f9cb1306c7
+        width: 1300
+  - id: 3
+    parent: 0
+    name: GAMEMANAGER
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: YuzbirGame
+        ItemPrefab: 5a43bb257fd84540b46ffa395b63ffa5
+        moveDuration: 0.25
+        hiliteH: 16
+        info: '17:LayoutBox:0'
+  - id: 4
+    parent: 3
+    name: RACK
+    pos: 0 400 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: BoardGameZone
+        columns: 13
+        firstSlot: 0
+        gap: 6
+        itemSize: 100 130
+        layout: Grid
+        multiSelect: true
+        rows: 2
+        size: 1400 280
+        slotCount: 26
+  - id: 5
+    parent: 4
+    name: RACKBG
+    pos: 0 0 1
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 276
+        Sprite: dce09359f08849dcbb7df3049094f9a0
+        Width: 1594
+  - id: 6
+    parent: 3
+    name: DECK
+    pos: -120 120 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: BoardGameZone
+        closed: true
+        firstSlot: 1000
+        itemSize: 100 130
+        layout: Stack
+        maxVisible: 4
+        positionJitter: 1 1
+        rotation: 30 0 0
+        rotationJitter: 0 0 2
+        size: 160 200
+        slotCount: 1
+        stackOffset: 0 -2 -1
+  - id: 7
+    parent: 3
+    name: INDICATOR
+    pos: 120 120 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: BoardGameZone
+        firstSlot: 500
+        itemSize: 100 130
+        layout: Stack
+        maxVisible: 1
+        rotation: 30 0 0
+        size: 160 200
+        slotCount: 1
+  - id: 8
+    parent: 3
+    name: DISCARD0
+    pos: -700 250 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: BoardGameZone
+        compact: true
+        firstSlot: 100
+        itemSize: 44 55
+        layout: Stack
+        maxVisible: 3
+        positionJitter: 3 2
+        rotation: 30 0 0
+        rotationJitter: 0 0 5
+        size: 120 140
+        slotCount: 1
+        stackOffset: 2 -1 -1
+  - id: 9
+    parent: 3
+    name: DISCARD1
+    pos: -700 -250 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: BoardGameZone
+        compact: true
+        firstSlot: 200
+        itemSize: 44 55
+        layout: Stack
+        maxVisible: 3
+        positionJitter: 3 2
+        rotation: 30 0 0
+        rotationJitter: 0 0 5
+        size: 120 140
+        slotCount: 1
+        stackOffset: 2 -1 -1
+  - id: 10
+    parent: 3
+    name: DISCARD2
+    pos: 700 -250 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: BoardGameZone
+        compact: true
+        firstSlot: 300
+        itemSize: 44 55
+        layout: Stack
+        maxVisible: 3
+        positionJitter: 3 2
+        rotation: 30 0 0
+        rotationJitter: 0 0 5
+        size: 120 140
+        slotCount: 1
+        stackOffset: 2 -1 -1
+  - id: 11
+    parent: 3
+    name: DISCARD3
+    pos: 700 250 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: BoardGameZone
+        compact: true
+        firstSlot: 400
+        itemSize: 44 55
+        layout: Stack
+        maxVisible: 3
+        positionJitter: 3 2
+        rotation: 30 0 0
+        rotationJitter: 0 0 5
+        size: 120 140
+        slotCount: 1
+        stackOffset: 2 -1 -1
+  - id: 12
+    parent: 3
+    name: RUNSET_A
+    pos: -330 -120 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: BoardGameZone
+        columns: 13
+        compact: true
+        firstSlot: 2000
+        gap: 2
+        itemSize: 44 55
+        layout: Grid
+        rows: 13
+        slotCount: 169
+  - id: 13
+    parent: 3
+    name: RUNSET_B
+    pos: 330 -120 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: BoardGameZone
+        columns: 13
+        compact: true
+        firstSlot: 2200
+        gap: 2
+        itemSize: 44 55
+        layout: Grid
+        rows: 13
+        slotCount: 169
+  - id: 14
+    parent: 3
+    name: TWIN_A
+    pos: -760 -60 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: BoardGameZone
+        columns: 2
+        compact: true
+        firstSlot: 2400
+        gap: 2
+        itemSize: 44 55
+        layout: Grid
+        rows: 13
+        slotCount: 26
+  - id: 15
+    parent: 3
+    name: TWIN_B
+    pos: 760 -60 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: BoardGameZone
+        columns: 2
+        compact: true
+        firstSlot: 2500
+        gap: 2
+        itemSize: 44 55
+        layout: Grid
+        rows: 13
+        slotCount: 26
+  - id: 16
+    parent: 3
+    name: HILITE
+    active: false
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Color: '#ffd24060'
+        Height: 59
+        Sprite: 7c45ed5162a648f0b088519b21ddc5a2
+        Width: 48
+  - id: 17
+    parent: 0
+    name: INFO
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMax: 0.5 0
+        anchorMin: 0.5 0
+        anchoredPos: 0 30
+        height: 40
+        text: ''
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 28
+        width: 1200

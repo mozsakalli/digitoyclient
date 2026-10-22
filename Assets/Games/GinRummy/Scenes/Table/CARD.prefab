@@ -1,0 +1,103 @@
+scene: CARD
+objects:
+  - id: 1
+    parent: 0
+    name: CARD
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: Card
+        Sprites:
+          - 58c9658f735a45d8b1216d9cf1fef87b#2
+          - 58c9658f735a45d8b1216d9cf1fef87b#54
+          - 58c9658f735a45d8b1216d9cf1fef87b#55
+          - 58c9658f735a45d8b1216d9cf1fef87b#56
+          - 58c9658f735a45d8b1216d9cf1fef87b#57
+          - 58c9658f735a45d8b1216d9cf1fef87b#58
+          - 58c9658f735a45d8b1216d9cf1fef87b#59
+          - 58c9658f735a45d8b1216d9cf1fef87b#60
+          - 58c9658f735a45d8b1216d9cf1fef87b#61
+          - 58c9658f735a45d8b1216d9cf1fef87b#62
+          - 58c9658f735a45d8b1216d9cf1fef87b#65
+          - 58c9658f735a45d8b1216d9cf1fef87b#66
+          - 58c9658f735a45d8b1216d9cf1fef87b#67
+          - 58c9658f735a45d8b1216d9cf1fef87b#99
+          - 58c9658f735a45d8b1216d9cf1fef87b#100
+          - 58c9658f735a45d8b1216d9cf1fef87b#101
+          - 58c9658f735a45d8b1216d9cf1fef87b#102
+          - 58c9658f735a45d8b1216d9cf1fef87b#103
+          - 58c9658f735a45d8b1216d9cf1fef87b#104
+          - 58c9658f735a45d8b1216d9cf1fef87b#105
+          - 58c9658f735a45d8b1216d9cf1fef87b#106
+          - 58c9658f735a45d8b1216d9cf1fef87b#107
+          - 58c9658f735a45d8b1216d9cf1fef87b#108
+          - 58c9658f735a45d8b1216d9cf1fef87b#109
+          - 58c9658f735a45d8b1216d9cf1fef87b#110
+          - 58c9658f735a45d8b1216d9cf1fef87b#111
+          - 58c9658f735a45d8b1216d9cf1fef87b#112
+          - 58c9658f735a45d8b1216d9cf1fef87b#113
+          - 58c9658f735a45d8b1216d9cf1fef87b#114
+          - 58c9658f735a45d8b1216d9cf1fef87b#115
+          - 58c9658f735a45d8b1216d9cf1fef87b#116
+          - 58c9658f735a45d8b1216d9cf1fef87b#117
+          - 58c9658f735a45d8b1216d9cf1fef87b#118
+          - 58c9658f735a45d8b1216d9cf1fef87b#119
+          - 58c9658f735a45d8b1216d9cf1fef87b#120
+          - 58c9658f735a45d8b1216d9cf1fef87b#121
+          - 58c9658f735a45d8b1216d9cf1fef87b#122
+          - 58c9658f735a45d8b1216d9cf1fef87b#123
+          - 58c9658f735a45d8b1216d9cf1fef87b#124
+          - 58c9658f735a45d8b1216d9cf1fef87b#125
+          - 58c9658f735a45d8b1216d9cf1fef87b#126
+          - 58c9658f735a45d8b1216d9cf1fef87b#127
+          - 58c9658f735a45d8b1216d9cf1fef87b#128
+          - 58c9658f735a45d8b1216d9cf1fef87b#129
+          - 58c9658f735a45d8b1216d9cf1fef87b#130
+          - 58c9658f735a45d8b1216d9cf1fef87b#131
+          - 58c9658f735a45d8b1216d9cf1fef87b#132
+          - 58c9658f735a45d8b1216d9cf1fef87b#133
+          - 58c9658f735a45d8b1216d9cf1fef87b#134
+          - 58c9658f735a45d8b1216d9cf1fef87b#135
+          - 58c9658f735a45d8b1216d9cf1fef87b#136
+          - 58c9658f735a45d8b1216d9cf1fef87b#137
+          - 58c9658f735a45d8b1216d9cf1fef87b#138
+          - 58c9658f735a45d8b1216d9cf1fef87b#138
+        Back: 58c9658f735a45d8b1216d9cf1fef87b#143
+        Highlight: 4
+        Face: 3
+        Shadow: 2
+  - id: 2
+    parent: 1
+    name: SHADOW
+    pos: -10 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Sprite: 58c9658f735a45d8b1216d9cf1fef87b#1209
+        Width: 242
+        Height: 328
+        Color: '#000000b6'
+  - id: 3
+    parent: 1
+    name: FACE
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Sprite: 58c9658f735a45d8b1216d9cf1fef87b#135
+        Width: 194
+        Height: 280
+  - id: 4
+    parent: 1
+    name: HILITE
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Sprite: 58c9658f735a45d8b1216d9cf1fef87b#1619
+        Width: 198
+        Height: 284

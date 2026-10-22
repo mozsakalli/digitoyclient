@@ -1,0 +1,149 @@
+scene: TILE
+objects:
+  - id: 1
+    parent: 0
+    name: TILE
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: Tile
+        Back: d9200517ec004cc5a785a4ccbb441709
+        SmallBack: 98f40c0b646b4c7ab27eacfeb213b252
+        SmallSprites:
+          - f7eceaf59ab544909c5c24d977df469c
+          - e52baabeac8f4e43a04a0032a965ddbe
+          - 7b66255cc44c43d88b02eb19098c6222
+          - 613f904ef792432cacbb097313f95742
+          - 144af30ab1d34cabb23b5452abea4064
+          - bd6b68f6c6374210b1cee0e32e93f55c
+          - 64ab57f7e54345958a1492a31528a7cb
+          - de7631d6b6dd416b95f2524401a373a8
+          - 784179b7f9214c5a80cbd255d61bd569
+          - 003eed58cc1647d3a17fea0c9cadc9a5
+          - 22dd27bf51a74db3af1504fb116657ab
+          - 69630400f1794e5392d4983a778bc47d
+          - 4a7da30106a8466caec151e4d3e8fe40
+          - 4eafe7c4f87f4cdab626fc577799833b
+          - 6b1d98db72fa4923a97e97977fcf8894
+          - 57f10deaca17425392a465059e601bd9
+          - d17e3ec934124c8cb12b8f47e32455b3
+          - e90ac483628a4a48aa0fee07dc807158
+          - e885c8a55ed04321b1f9e39ae09e18e6
+          - 6b25a1e1ce89492b93c68821c36abb90
+          - cefdf1d7fb0a4810a39018176b95ee2a
+          - 333a57f4e13e4fa1b9a04527c3645d2d
+          - 1c52e77e1bd44716bec4abe3ea69cd0a
+          - 375b4d060323491b9ee544de5261b018
+          - d18a0400ce1c436abd1f743d5ca530c2
+          - e769dcef771f433db8b4d9ec2ed6d939
+          - 10de6abc9130473fb6f5049138ae6b93
+          - 49ee63a5dd264be380c5bd4bdef54862
+          - 95c8f7ca4ae2404cae06d6244e7d65a0
+          - 003c622984694529ac64fc5ed47dce9d
+          - 59acc41892f74c9bb80edae681e1ec59
+          - 5bc4af5da7db4dd5b6dc3010985643a3
+          - 1c42cca383484eb8a314d1339c8e7f06
+          - d1194276c733412e83e0e8b229656e79
+          - 3bbc08bb51a640cea3ec09b822e947bc
+          - d1800606f8404aae91c5a1df1adfe3dd
+          - 2cb2b2da941d496f95a9aa435ca5ac36
+          - 5be44b900d904503940f0f7d6a0da3d7
+          - 04e54315a0fe4de3ad4253f21a348749
+          - 665ab62a04fc4c0fae7fd49f38630f06
+          - f48994cd25254737ab90842813ecd65c
+          - 01cf351ce5b44e658c70a862b68c5e92
+          - 63345447c3cd4294b1c04477e9cc0cf4
+          - 8291af7431d941e7997aa7ebc64ffa9f
+          - 56741b95325e4b1485c2e5ad2af910c2
+          - 655c1acec1ac4563b753a7c39cc91ef1
+          - f8889fe01802403e8d56900bc4507503
+          - 58dd5b3c97994f948c47d0194323cf30
+          - b54521b105f344feabf60c601fcee895
+          - ae879c39171547958d64f5f0667269f4
+          - 1bf4d32116204eec9a476ec138c69b19
+          - 609f39958dec4941aa47da9bfbc70f01
+          - d063bff210e84f819c879011cf0fdc7c
+          - 98f40c0b646b4c7ab27eacfeb213b252
+        Sprites:
+          - 7c45ed5162a648f0b088519b21ddc5a2
+          - afc406c13a61472f9d752fa26c683987
+          - 21fa575140c5483eaf79b8c5a70e35a1
+          - b4e86de8586a478180408725d6aa6ac2
+          - 3286d655df2c490a80596a3feab7a1fd
+          - 475531b0b302426a91cd1497baa9e213
+          - 697d5a4908dc482d9e25ac599b2913bb
+          - 8ca036d606f64ad58961e3c9e7037e29
+          - a0b93e2f20004081885a0b1d06c228ee
+          - 4e65e9bd48dd49b6bb915e12495ca3ac
+          - 318799ca8ec04f429908e4decc6b22be
+          - 5e50e5661eca4ee9badf921b7c09777b
+          - 6100adcd782142779dc783677c6decf9
+          - 067c8b4091ae455b8c23d2315e022dc4
+          - 9b8be40ab54140c18a7c30f2dc07cad5
+          - c7dc4d2c6e9f48098fb12c7c663f6478
+          - 6eb469618c224a53871224a76de31f4a
+          - b238f59325ce41a1b594586a5012c60b
+          - ebd82a8bccc54860af4b779031bdb0c7
+          - 9b4217af9a3b4207a8e8feec0ba2c8df
+          - fcf7f11b3a0a4437833bda89c6a0fce3
+          - c3f85561f8b04e9f989d1e9b2d19464d
+          - b6b93fc46349445fab211cb74f487794
+          - 30bacb2cafa54b9da0c773a77a58bfdb
+          - 9f231d89ca274b26b74685717b3c579b
+          - db4c9163489f445b8f787ad9b5544d4b
+          - 9e3f603e5ff6443998eb53c2be055e55
+          - c14a2ff3c49c485a817bc0733032238d
+          - 495bdaf3ec6843b693c5f7b693569f6f
+          - 2876a5a9110248c5ac7f4bb50fc9097c
+          - 27ef0de48d8844c9ab8b211c3707b132
+          - 02fe374e2851436abf7a5e679672e742
+          - e86e19be43474931b2ea2f6c059cfd90
+          - bdf518ab815442ada43063d172c6b324
+          - 5f5bb2fac758454f88444cfc9331fdb8
+          - a87a7d67bb894a90b73fbdce30e6fb25
+          - 2e76a2cb82ba40259c64327021672c66
+          - f6a8dec073f94bdf949674d84b10edf1
+          - 964c33e2da9540ca97175ffee6237a0f
+          - 7d57ac5167234087896f6cb89089f2ab
+          - 755f70a491eb4a1eb8646b78a073b733
+          - 234e660be5ab4caf97a57a06ff501917
+          - c50b7f28b7f8410da1375d250a5f2a80
+          - bece2d0f24fc4e5398d97ff9b520bc5f
+          - ebe0fe5577d044fbbf6481ed2f705289
+          - f0b98d0c1e04437ba4c344ebd764321d
+          - e16346cd88ce4328a1c8c8161731b10b
+          - 20ae81047b744f298b2f0302149ff17e
+          - e695d1ad1071489f99bc40363fcf3bd4
+          - ca0dc8dc2ed6452fb1882b8fcc645875
+          - 3ba0d9b2e2a14256b17c79740e249edb
+          - 2217b93d87f745748dff9ee544869782
+          - 7d30b3c73eea47bc868c252bae12f413
+          - d9200517ec004cc5a785a4ccbb441709
+        Face: 2
+        Highlight: 3
+  - id: 2
+    parent: 1
+    name: FACE
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 130
+        Sprite: 7c45ed5162a648f0b088519b21ddc5a2
+        Width: 100
+        BlocksRaycast: true
+  - id: 3
+    parent: 1
+    name: HILITE
+    active: false
+    pos: 0 0 0.5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Color: '#ffd24080'
+        Height: 138
+        Sprite: 7c45ed5162a648f0b088519b21ddc5a2
+        Width: 108

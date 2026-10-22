@@ -5,9 +5,9 @@ fields:
     displayName: 101 Okey Extra
     gameId: 5
     maxSeats: 4
-    loginScene: Games/Yuzbir/Scenes/Login.scene
-    lobbyScene: Games/Yuzbir/Scenes/Lobby.scene
-    tableScene: ''
+    loginScene: Games/Yuzbir/Scenes/Login/Login.scene
+    lobbyScene: Games/Yuzbir/Scenes/Lobby/Lobby.scene
+    tableScene: Games/Yuzbir/Scenes/Table/Table.scene
   network:
     testServerUrl: https://test-node.digitoy.co
     prodServerUrl: https://api.digitoy.co

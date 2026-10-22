@@ -5,10 +5,10 @@ fields:
   version: 0.1.0
   bundleIdentifier: com.defaultcompany.game
   scenes:
-    - Games/GinRummy/Scenes/Login.scene
-    - Games/GinRummy/Scenes/Lobby.scene
-    - Dev/PieceTest.scene
-  startScene: Dev/PieceTest.scene
+    - Games/GinRummy/Login/Login.scene
+    - Games/GinRummy/Table/Table.scene
+    - Games/GinRummy/Lobby/Lobby.scene
+  startScene: Games/GinRummy/Login/Login.scene
   boot: 2fe7fadede344b4f957930a2199dfd8f
   themes:
     - xmas
