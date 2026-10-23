@@ -22,6 +22,22 @@ objects:
         sprite: 1a210dbaa69842eb9c4fc2f9cb1306c7
         width: 1300
         height: 1000
+        SortingOrder: -1000
+        SortingSpace: Relative
+  - id: 8
+    parent: 0
+    name: TABLE3D
+    pos: 0 170 0
+    rot: -50 0 0
+    scale: 780 780 780
+    components:
+      - type: MeshRenderer
+        Mesh: 28e88521300d41d7aabe467a12d20d42
+        SortingOrder: 0
+        DepthTest: true
+        DepthWrite: true
+        SortingSpace: Relative
+        Sprite: c79353d267cd4be0b82ac1f288842b93
   - id: 3
     parent: 0
     name: GAMEMANAGER
@@ -33,6 +49,8 @@ objects:
         CardPrefab: 9168edc69c6c4db9a52a362634448b04
         ItemPrefab: 9168edc69c6c4db9a52a362634448b04
         info: '7:LayoutBox:0'
+        deckCount: '10:LayoutBox:0'
+        hud: '11:GinTableHud:0'
   - id: 4
     parent: 3
     name: HAND
@@ -51,7 +69,7 @@ objects:
   - id: 5
     parent: 3
     name: DECK
-    pos: -200 -40 0
+    pos: 560 -30 0
     rot: 0 0 0
     scale: 1 1 1
     components:
@@ -62,15 +80,15 @@ objects:
         closed: true
         size: 220 300
         itemSize: 140 202
-        rotation: 30 0 0
+        rotation: 35 0 0
         rotationJitter: 0 0 2
         positionJitter: 1 1
-        stackOffset: 0 -2 -1
-        maxVisible: 4
+        stackOffset: 0 -1.5 -1
+        maxVisible: 6
   - id: 6
     parent: 3
     name: DISCARD
-    pos: 200 -40 0
+    pos: 300 -30 0
     rot: 0 0 0
     scale: 1 1 1
     components:
@@ -80,22 +98,757 @@ objects:
         layout: Stack
         size: 260 320
         itemSize: 140 202
-        rotation: 30 0 0
+        rotation: 35 0 0
         rotationJitter: 0 0 5
         positionJitter: 6 4
         stackOffset: 3 -1 -1
         maxVisible: 3
-  - id: 7
-    parent: 0
-    name: INFO
-    pos: 0 0 0
+  - id: 9
+    parent: 3
+    name: OPP_HAND
+    pos: 0 -440 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: BoardGameZone
+        closed: true
+        firstSlot: 200
+        itemSize: 70 101
+        layout: Row
+        maxVisible: 3
+        positionJitter: 1 1
+        rotation: 0 0 180
+        rotationJitter: 0 0 3
+        size: 600 140
+        slotCount: 11
+        stackOffset: 2 -1 -1
+        maxStep: 30
+        fanAngle: 0
+  - id: 10
+    parent: 3
+    name: DECKCOUNT
+    pos: 560 -30 -75
     rot: 0 0 0
     scale: 1 1 1
     components:
       - type: LayoutBox
-        anchorMax: 0.5 1
-        anchorMin: 0.5 1
-        anchoredPos: 0 -30
+        font: bold
+        height: 60
+        text: ''
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textShadowColor: '#000000aa'
+        textShadowOffset: 0 2
+        textSize: 44
+        width: 140
+  - id: 11
+    parent: 0
+    name: HUD
+    pos: 0 0 -40
+    rot: 0 0 0
+    scale: 1 1 1
+  - id: 12
+    parent: 11
+    name: MySeat
+    pos: 0 40 -5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: Seat
+        avatarRoot: 13
+        bubblePass: 79d6aaf0c44a4e6885385c8856be5151#911
+        bubbleReady: 79d6aaf0c44a4e6885385c8856be5151#910
+        bubbleRematch: 79d6aaf0c44a4e6885385c8856be5151#1034
+        bubbleRoot: 27
+        bubbleText: '29:SpriteRenderer:0'
+        glow: '14:SpriteRenderer:0'
+        infoRoot: 20
+        nick: '24:LayoutBox:0'
+        score: '26:LayoutBox:0'
+        timer: '18:ProgressRenderer:0'
+        timerThumb: '19:SpriteRenderer:0'
+  - id: 13
+    parent: 12
+    name: Avatar
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+  - id: 14
+    parent: 13
+    name: Glow
+    pos: 0 0 1
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Color: '#3cff5a00'
+        Height: 372
+        Sprite: 79d6aaf0c44a4e6885385c8856be5151#912
+        Width: 372
+  - id: 15
+    parent: 13
+    name: Shadow
+    pos: 6 13 0.5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 230
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#976
+        Width: 230
+        Color: '#000000a0'
+  - id: 16
+    parent: 13
+    name: AvatarBg
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 200
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#982
+        Width: 200
+        Color: '#ffffffff'
+  - id: 17
+    parent: 13
+    name: AvatarFrame
+    active: false
+    pos: 0 0 -0.5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 202
+        Sprite: 79d6aaf0c44a4e6885385c8856be5151#867
+        Width: 202
+  - id: 18
+    parent: 13
+    name: Timer
+    pos: 0 0 -0.8
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: ProgressRenderer
+        Clockwise: true
+        Fill:
+          color: '#3ccf6aff'
+          color2: '#ff5a3cff'
+          direction: Horizontal
+          type: Linear
+        Height: 236
+        Shape: Radial
+        StartAngle: 90
+        Thickness: 14
+        Track:
+          color: '#00000090'
+          type: Solid
+        Value: 1
+        Width: 236
+  - id: 19
+    parent: 13
+    name: TimerThumb
+    pos: 0 -111 -1
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 22
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#833
+        Width: 22
+  - id: 20
+    parent: 12
+    name: Info
+    pos: -200 50 0
+    rot: 0 0 0
+    scale: 1 1 1
+  - id: 21
+    parent: 20
+    name: PanelShadow
+    pos: 4 8 0.5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 74
+        Sprite: 79d6aaf0c44a4e6885385c8856be5151#943
+        Width: 250
+        Color: '#0000004c'
+  - id: 22
+    parent: 20
+    name: Top
+    pos: 0 -24 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 54
+        Sprite: 79d6aaf0c44a4e6885385c8856be5151#937
+        Width: 226
+        Color: '#7a3fd6ff'
+  - id: 23
+    parent: 20
+    name: Bottom
+    pos: 0 27 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 48
+        Sprite: 79d6aaf0c44a4e6885385c8856be5151#938
+        Width: 226
+        Color: '#1c1c1cff'
+  - id: 24
+    parent: 20
+    name: Nick
+    pos: 0 -24 -0.5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        font: bold
+        height: 46
+        text: ''
+        textAlign: Left
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 34
+        width: 200
+  - id: 25
+    parent: 20
+    name: ScoreLabel
+    pos: -40 27 -0.5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        font: primary
+        height: 40
+        textAlign: Left
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 26
+        width: 120
+        text@loc: table.score_label
+  - id: 26
+    parent: 20
+    name: Score
+    pos: 55 27 -0.5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        font: bold
+        height: 40
+        textAlign: Right
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 32
+        width: 90
+        text@loc: table.score
+  - id: 27
+    parent: 12
+    name: BubbleRoot
+    active: false
+    pos: -120 -90 -2
+    rot: 0 0 0
+    scale: 1 1 1
+  - id: 28
+    parent: 27
+    name: Bubble
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 94
+        Sprite: 79d6aaf0c44a4e6885385c8856be5151#909
+        Width: 124
+  - id: 29
+    parent: 27
+    name: Text
+    pos: 0 -6 -0.5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 54
+        Sprite: 79d6aaf0c44a4e6885385c8856be5151#911
+        Width: 66
+  - id: 30
+    parent: 11
+    name: OppSeat
+    pos: 0 -430 -5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: Seat
+        avatarRoot: 31
+        bubblePass: 79d6aaf0c44a4e6885385c8856be5151#911
+        bubbleReady: 79d6aaf0c44a4e6885385c8856be5151#910
+        bubbleRematch: 79d6aaf0c44a4e6885385c8856be5151#1034
+        bubbleRoot: 45
+        bubbleText: '47:SpriteRenderer:0'
+        glow: '32:SpriteRenderer:0'
+        infoRoot: 38
+        nick: '42:LayoutBox:0'
+        score: '44:LayoutBox:0'
+        timer: '36:ProgressRenderer:0'
+        timerThumb: '37:SpriteRenderer:0'
+  - id: 31
+    parent: 30
+    name: Avatar
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+  - id: 32
+    parent: 31
+    name: Glow
+    pos: 0 0 1
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Color: '#3cff5a00'
+        Height: 372
+        Sprite: 79d6aaf0c44a4e6885385c8856be5151#912
+        Width: 372
+  - id: 33
+    parent: 31
+    name: Shadow
+    pos: 6 13 0.5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 230
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#976
+        Width: 230
+        Color: '#000000a0'
+  - id: 34
+    parent: 31
+    name: AvatarBg
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 200
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#982
+        Width: 200
+        Color: '#ffffffff'
+  - id: 35
+    parent: 31
+    name: AvatarFrame
+    active: false
+    pos: 0 0 -0.5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 202
+        Sprite: 79d6aaf0c44a4e6885385c8856be5151#867
+        Width: 202
+  - id: 36
+    parent: 31
+    name: Timer
+    pos: 0 0 -0.8
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: ProgressRenderer
+        Clockwise: true
+        Fill:
+          color: '#3ccf6aff'
+          color2: '#ff5a3cff'
+          direction: Horizontal
+          type: Linear
+        Height: 236
+        Shape: Radial
+        StartAngle: 90
+        Thickness: 14
+        Track:
+          color: '#00000090'
+          type: Solid
+        Value: 1
+        Width: 236
+  - id: 37
+    parent: 31
+    name: TimerThumb
+    pos: 0 -111 -1
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 22
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#833
+        Width: 22
+  - id: 38
+    parent: 30
+    name: Info
+    pos: 200 50 0
+    rot: 0 0 0
+    scale: 1 1 1
+  - id: 39
+    parent: 38
+    name: PanelShadow
+    pos: 4 8 0.5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 74
+        Sprite: 79d6aaf0c44a4e6885385c8856be5151#943
+        Width: 250
+        Color: '#0000004c'
+  - id: 40
+    parent: 38
+    name: Top
+    pos: 0 -24 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 54
+        Sprite: 79d6aaf0c44a4e6885385c8856be5151#936
+        Width: 226
+        Color: '#7a3fd6ff'
+  - id: 41
+    parent: 38
+    name: Bottom
+    pos: 0 27 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 48
+        Sprite: 79d6aaf0c44a4e6885385c8856be5151#938
+        Width: 226
+        Color: '#1c1c1cff'
+  - id: 42
+    parent: 38
+    name: Nick
+    pos: 0 -24 -0.5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        font: bold
+        height: 46
+        text: ''
+        textAlign: Left
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 34
+        width: 200
+  - id: 43
+    parent: 38
+    name: ScoreLabel
+    pos: -40 27 -0.5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        font: primary
+        height: 40
+        textAlign: Left
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 26
+        width: 120
+        text@loc: table.score_label
+  - id: 44
+    parent: 38
+    name: Score
+    pos: 55 27 -0.5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        font: bold
+        height: 40
+        textAlign: Right
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 32
+        width: 90
+        text@loc: table.score
+  - id: 45
+    parent: 30
+    name: BubbleRoot
+    active: false
+    pos: -120 -90 -2
+    rot: 0 0 0
+    scale: 1 1 1
+  - id: 46
+    parent: 45
+    name: Bubble
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 94
+        Sprite: 79d6aaf0c44a4e6885385c8856be5151#909
+        Width: 124
+  - id: 47
+    parent: 45
+    name: Text
+    pos: 0 -6 -0.5
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 54
+        Sprite: 79d6aaf0c44a4e6885385c8856be5151#911
+        Width: 66
+  - id: 48
+    parent: 11
+    name: GameButton
+    pos: -538.5567 -144.78598 -10
+    rot: 0 0 0
+    scale: 0.85 0.85 1
+    components:
+      - type: GameButton
+        face: '49:SpriteRenderer:0'
+        ginSprite: 6b92a616fa854d64b5985f72bf1c6c7d#940
+        glow: '50:SpriteRenderer:0'
+        knockSprite: 6b92a616fa854d64b5985f72bf1c6c7d#939
+        passSprite: 6b92a616fa854d64b5985f72bf1c6c7d#901
+        scoreLabel: '51:LayoutBox:0'
+  - id: 49
+    parent: 48
+    name: Face
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        BlocksRaycast: true
+        Height: 299
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#901
+        Width: 472
+  - id: 50
+    parent: 48
+    name: Glow
+    active: false
+    pos: 0 -20 -1
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        BlendMode: Additive
+        Color: '#ffdc3c19'
+        Height: 101
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#1462
+        Width: 145
+  - id: 51
+    parent: 48
+    name: Score
+    pos: -4 -16 -2
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        font: bold
+        height: 120
+        text: ''
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 110
+        width: 300
+  - id: 52
+    parent: 11
+    name: BottomBar
+    pos: 0 468 -20
+    rot: 0 0 0
+    scale: 0.8 0.8 1
+  - id: 53
+    parent: 52
+    name: DeadwoodBg
+    pos: 150 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 186
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#1043
+        Width: 284
+        Color: '#141414d9'
+  - id: 54
+    parent: 52
+    name: AutosortBtn
+    pos: -100 0 -1
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        BlocksRaycast: true
+        Height: 100
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#1044
+        Width: 135
+      - type: Button
+        buttonId: autosort
+  - id: 55
+    parent: 52
+    name: AutosortLight
+    pos: -150 0 -2
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 72
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#1178
+        Width: 72
+  - id: 56
+    parent: 52
+    name: Deadwood
+    pos: 210 0 -1
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        font: bold
+        height: 80
+        text: ''
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 56
+        width: 120
+  - id: 57
+    parent: 78
+    name: TopBar
+    pos: 0 0 -20
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMin: 0 0
+        anchorMax: 1 1
+  - id: 58
+    parent: 57
+    name: Menu
+    pos: -840 -490 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        BlocksRaycast: true
+        Height: 51
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#739
+        Width: 56
+      - type: Button
+        buttonId: menu
+  - id: 59
+    parent: 57
+    name: Sep1
+    pos: -780 -480 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 85
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#740
+        Width: 4
+  - id: 60
+    parent: 57
+    name: CoinIcon
+    pos: -735 -500 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 46
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#831
+        Width: 46
+  - id: 61
+    parent: 57
+    name: Balance
+    pos: -620 -500 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        font: bold
+        height: 50
+        text: ''
+        textAlign: Left
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 36
+        width: 160
+  - id: 62
+    parent: 57
+    name: ScoreIcon
+    pos: -520 -500 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 50
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#830
+        Width: 49
+  - id: 63
+    parent: 57
+    name: TargetScore
+    pos: -420 -500 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        font: bold
+        height: 50
+        text: ''
+        textAlign: Left
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 36
+        width: 120
+  - id: 64
+    parent: 57
+    name: JackpotBg
+    pos: -660 -440 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 76
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#1215
+        Width: 180
+        Color: '#141414d9'
+  - id: 65
+    parent: 57
+    name: Bet
+    pos: -610 -440 -1
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        font: bold
         height: 40
         text: ''
         textAlign: Center
@@ -103,5 +856,210 @@ objects:
         textFill:
           color: '#ffffffff'
           type: Solid
-        textSize: 28
-        width: 1200
+        textSize: 30
+        width: 100
+  - id: 66
+    parent: 57
+    name: TableId
+    pos: -840 -530 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        font: light
+        height: 30
+        text: ''
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffff80'
+          type: Solid
+        textSize: 22
+        width: 120
+  - id: 67
+    parent: 57
+    name: Piggy
+    pos: 820 -470 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 72
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#910
+        Width: 150
+  - id: 68
+    parent: 78
+    name: CornerLeft
+    pos: -870 470 -20
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchorMin: 0 1
+        anchorMax: 0 1
+        anchoredPos: 176.58292 -130.63313
+  - id: 69
+    parent: 68
+    name: Bg
+    pos: 15.316639 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        BlocksRaycast: true
+        Height: 190
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#1042
+        Width: 227
+        Color: '#141414e6'
+  - id: 70
+    parent: 68
+    name: Glyph
+    pos: -20 20 -1
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 60
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#942
+        Width: 95
+  - id: 71
+    parent: 78
+    name: CornerRight
+    pos: 870 470 -20
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        anchoredPos: -143.97588 -125.59611
+        anchorMin: 1 1
+        anchorMax: 1 0.5
+        pivot: 1 1
+  - id: 72
+    parent: 71
+    name: Bg
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: -1 1 1
+    components:
+      - type: SpriteRenderer
+        BlocksRaycast: true
+        Height: 190
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#1042
+        Width: 227
+        Color: '#141414e6'
+  - id: 73
+    parent: 71
+    name: Glyph
+    pos: 20 20 -1
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 75
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#943
+        Width: 72
+  - id: 74
+    parent: 11
+    name: TableLogo
+    pos: 0 -30 -2
+    rot: 0 0 0
+    scale: 1.2 1.2 1
+    components:
+      - type: SpriteRenderer
+        Height: 156
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#751
+        Width: 245
+        Color: '#ffffff40'
+  - id: 75
+    parent: 11
+    name: StartBanner
+    active: false
+    pos: 0 -180 -30
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        Height: 142
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#883
+        Width: 610
+  - id: 76
+    parent: 11
+    name: Warning
+    pos: 0 -220 -30
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: TableWarning
+        label: '77:LayoutBox:0'
+  - id: 77
+    parent: 76
+    name: Label
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        fill:
+          color: '#000000b0'
+          type: Solid
+        font: bold
+        height: 70
+        radius: 16 16 16 16
+        text: ''
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textSize: 34
+        width: 640
+  - id: 78
+    parent: 11
+    name: Canvas
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        fitScreen: true
+  - id: 79
+    parent: 11
+    name: ReadyButton
+    pos: 0 120 -30
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: Button
+        buttonId: ready
+  - id: 80
+    parent: 79
+    name: Bg
+    pos: 0 0 0
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: SpriteRenderer
+        BlocksRaycast: true
+        Height: 112
+        Sprite: 6b92a616fa854d64b5985f72bf1c6c7d#868
+        Width: 412
+  - id: 81
+    parent: 79
+    name: Label
+    pos: 0 -4 -1
+    rot: 0 0 0
+    scale: 1 1 1
+    components:
+      - type: LayoutBox
+        font: bold
+        height: 80
+        textAlign: Center
+        textAlignV: Center
+        textFill:
+          color: '#ffffffff'
+          type: Solid
+        textShadowColor: '#00000080'
+        textShadowOffset: 0 2
+        textSize: 52
+        width: 380
+        text@loc: table.ready_button

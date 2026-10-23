@@ -100,4 +100,12 @@ fields:
       Values:
         - ''
         - CLEAR
+    - Key: table.score_label
+      Values:
+        - ''
+        - SCORE
+    - Key: table.score
+      Values:
+        - ''
+        - 0
   Enums:

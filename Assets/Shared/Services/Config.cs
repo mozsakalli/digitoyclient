@@ -1,4 +1,4 @@
-﻿// core.upm Components/Config/Config.cs adaptasyonu. Fark: ConfigureAwait/MainThreadAsync yok (tek-thread); UnityWebRequest →
+// core.upm Components/Config/Config.cs adaptasyonu. Fark: ConfigureAwait/MainThreadAsync yok (tek-thread); UnityWebRequest →
 // motor Http.GetAsync + Wait.Timeout; JsonHelper → motor Json. Settings akışı (02 §B2 istemci kısmı) 2026-10-17.
 using System;
 using System.Threading;
@@ -15,7 +15,7 @@ namespace Digitoy
         private static EconomyDefinitions _cachedDefinitions;
         internal static EconomyDefinitions CachedDefinitions => _cachedDefinitions;
 
-        /// <summary>Bellekteki tanımları/ayarları düşür (disk cache durur). <see cref="ServiceRegistry"/> ResetSession/ResetAll'da çağırır.</summary>
+        /// <summary>Bellekteki tanımları/ayarları düşür (disk cache durur). World.ResetSession çağırır.</summary>
         internal static void Reset()
         {
             _cachedDefinitions = null;
@@ -29,7 +29,7 @@ namespace Digitoy
                 Key = ConfigKey.Definitions,
                 Version = LocalCache.DefinitionsVersion
             };
-            var result = await Server.SendRequestAsync<ConfigResult>(Endpoint.ConfigGet, request, ct);
+            var result = await World.SendRequestAsync<ConfigResult>(Endpoint.ConfigGet, request, ct);
 
             if (!result.Ok)
             {
@@ -54,7 +54,7 @@ namespace Digitoy
         /// <summary>Oturum içi uzak ayar (ConfigKey.Control) — JSON gövde T'ye çözülür; parse edilemezse varsayılan T.</summary>
         public static async Task<Result<T>> LoadRemoteSettingsAsync<T>(CancellationToken ct = default) where T : class, new()
         {
-            var result = await Server.SendRequestAsync<ConfigResult>(Endpoint.ConfigGet, new ConfigRequest { Key = ConfigKey.Control }, ct);
+            var result = await World.SendRequestAsync<ConfigResult>(Endpoint.ConfigGet, new ConfigRequest { Key = ConfigKey.Control }, ct);
             if (!result.Ok)
                 return Result<T>.Failure(result.Error);
 
@@ -104,7 +104,7 @@ namespace Digitoy
         /// <summary>Bootstrap adreslerini (saklı seed'ler → gömülü) sırayla dener; ilk 200 cevabın gövdesi. null = hepsi başarısız.</summary>
         private static async Task<string> FetchSettingsAsync(long localVersion, int timeoutSeconds, int rounds, CancellationToken ct)
         {
-            var net = Server.Settings;
+            var net = World.Net;
             if (net == null || Game.Current == null) return null;
             var gameId = Game.Current.gameId;
             var urls = ServerDirectory.BootstrapUrls(net);

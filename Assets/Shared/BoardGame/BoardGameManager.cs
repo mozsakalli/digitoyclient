@@ -217,8 +217,9 @@ namespace Digitoy
             return it;
         }
 
-        /// <summary>Ardışık slotlara No'ları diz (Row: tüm bölge; Grid: slotun satırı, slottan itibaren). Aralıkta olup listede olmayan gider. İdempotent.</summary>
-        public void SetRow(int firstSlot, IReadOnlyList<int> nos, bool animated = true, int fromSlot = -1)
+        /// <summary>Ardışık slotlara No'ları diz (Row: tüm bölge; Grid: slotun satırı, slottan itibaren). Aralıkta olup listede olmayan gider.
+        /// keepOrder: Row'da mevcutların ekran sırası korunur, yeniler sona (el; sunucu sırası dayatılmaz). İdempotent.</summary>
+        public void SetRow(int firstSlot, IReadOnlyList<int> nos, bool animated = true, int fromSlot = -1, bool keepOrder = false)
         {
             var z = ZoneOf(firstSlot);
             if (z == null) return;
@@ -231,6 +232,24 @@ namespace Digitoy
                 if (s >= a && s <= b && !it.Dragging && IndexOf(nos, it.No) < 0) FreeItem(it);
             }
             _tmpZones.Clear();
+            if (keepOrder && z.layout == ZoneLayout.Row)
+            {
+                // mevcutlar sırayla öne, yeniler listedeki sırayla sona
+                Collect(z, _tmp);
+                var k = 0;
+                foreach (var it in _tmp) if (!it.Dragging) Assign(it, a + k++, 0);
+                foreach (var no in nos)
+                {
+                    if (a + k > b) break;
+                    var it = FindByNo(no);
+                    if (it != null && z.Contains(it.CurrentPose.Slot)) continue;
+                    it ??= Spawn(no, fromSlot);
+                    var from = ZoneOf(it.CurrentPose.Slot);
+                    if (from != null && from != z && !_tmpZones.Contains(from)) _tmpZones.Add(from);
+                    Assign(it, a + k++, 0);
+                }
+            }
+            else
             for (var k = 0; k < nos.Count && a + k <= b; k++)
             {
                 var it = FindByNo(nos[k]) ?? Spawn(nos[k], fromSlot);
@@ -240,6 +259,27 @@ namespace Digitoy
             }
             foreach (var oz in _tmpZones) LayoutZone(oz, animated);
             _tmpZones.Clear();
+            LayoutZone(z, animated);
+        }
+
+        /// <summary>Row'u kimliksiz (kapalı) n item ile doldur (rakip eli). Fazlası gider, eksiği fromSlot'tan gelir. İdempotent.</summary>
+        public void SetClosedRow(int firstSlot, int count, bool animated = true, int fromSlot = -1)
+        {
+            var z = ZoneOf(firstSlot);
+            if (z == null) return;
+            z.RowRange(firstSlot, out var a, out var b);
+            count = Math.Min(count, b - a + 1);
+            var have = 0;
+            for (var i = _items.Count - 1; i >= 0; i--)
+            {
+                var it = _items[i]; var s = it.CurrentPose.Slot;
+                if (s < a || s > b || it.Dragging) continue;
+                if (it.No >= 0 || have >= count) FreeItem(it); else have++;
+            }
+            for (var k = have; k < count; k++) { var it = Spawn(-1, fromSlot); Assign(it, a + k, 0); }
+            CompactRow(z);
+            var fz = fromSlot >= 0 ? ZoneOf(fromSlot) : null;
+            if (fz != null && fz != z) LayoutZone(fz, animated);
             LayoutZone(z, animated);
         }
 

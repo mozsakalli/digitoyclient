@@ -1,5 +1,5 @@
-// Uygulama kurulumu (bir kez): servisler, aktif oyun, Server. Login sahnesi Start'ta çağırır; AppVariant (motor A1/A2)
-// gelince game/network oradan okunur.
+// Uygulama kurulumu (bir kez): aktif oyun, World kablosu (World.Initialize), reklam. Servis katmanı yok: bağlantı/modeller/istekler
+// World'de (statik), tercihler Prefs.
 using DigitoyEngine;
 
 namespace Digitoy
@@ -16,20 +16,12 @@ namespace Digitoy
                 Debug.LogError("AppBoot: game/network bağlı değil");
                 return;
             }
-            if (PlayerPrefsService.I == null)
-            {
-                _ = new PlayerPrefsService();
-                _ = new PlayerService();
-                _ = TableServices.Create(game.gameId);   // oyun türevi (GinTableService) kayıtlıysa o; Game.Switch'te yeniden kurulacak (Faz 3)
-                _ = new LobbyService();
-                _ = new AdService();
-            }
             // Surum TEK kaynaktan: PlayerSettings.version (release pak .project, editor Play) -> GameHost.Version. Kopya tutulmaz.
             Platform.AppVersion = string.IsNullOrEmpty(GameHost.Version) ? "0.0.0" : GameHost.Version;
             Game.Set(game);
-            if (Server.IsInitialized) Server.Disconnect(M.CloseReason.Logout);
-            Server.Initialize(network);
-            AdService.I.Init().Forget(); // reklam SDK'si arka planda; host yoksa sessizce false
+            if (World.IsInitialized) World.Disconnect(M.CloseReason.Logout);
+            World.Initialize(network);
+            Ads.Init().Forget(); // reklam SDK'si arka planda; host yoksa sessizce false
             IsReady = true;
         }
     }

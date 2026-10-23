@@ -83,11 +83,12 @@ Games/<Oyun>        TableState → sahne projeksiyonu (tek state machine; Phase�
 ```
 - **Ağ:** core.upm `Server`/`ServerDirectory` **adapte edilir** (decisions 2026-10-16/18): bağlantı durum makinesi, relogin,
   heartbeat 25 sn, reconnect/gateway failover aynen. İki katman, arayüz yok: `NetworkClient` (tek url'ye bağlan, auth-on-open,
-  requestId→TCS, istek zaman aşımı, heartbeat, kapanış — motor `WebSocket` `Send(ReadOnlySpan)` ile kopyasız) ve `Server`
-  (gateway hop + bütçe + settings tazeleme, reconnect döngüsü, oturum yükleme). Auth bayrağı yalnız `NetworkClient.IsAuthenticated`.
+  requestId→TCS, istek zaman aşımı, heartbeat, kapanış — motor `WebSocket` `Send(ReadOnlySpan)` ile kopyasız) ve **`World`**
+  (`World.Network`: gateway hop + bütçe + settings tazeleme, reconnect döngüsü, istek; `World.Session`: login + oturum yükleme —
+  eski `Server` sınıfı 2026-10-23'te World'e eridi, decisions). Auth bayrağı yalnız `NetworkClient.IsAuthenticated`.
   WS şeması: wasm `wss`, diğer hedefler `ws` (`NetworkSettings.ToWebSocketUrl`, tek kopya). `Codec` (Common) → `Endpoint`
   çağrıları `Task<T>` (motor tek-thread; `NativeAsync.Pump` frame başında — ContinueWith/Task.Run yok; `Awaitable`→`Task`,
-  `MainThreadAsync` gereksiz). Push event'leri (`requestId == -1`) servis bazlı yönlendirme (Player/Lobby/Table/Messaging).
+  `MainThreadAsync` gereksiz). Push event'leri (`requestId == -1`) tek kapı `World.Push` (SessionReady'ye kadar düşer) → `World.Apply`.
 - **Oyun oturumu:** `Game.Current` tek aktif; `Game.Switch` = logout → `ServiceRegistry.ResetAll()` → yeni gameId ile
   Guest login → lobby. Servisler statik singleton kalır (core.upm deseni); iki oyun aynı anda yok (decisions 2026-10-16).
 - **Oyun durumu (decisions 2026-10-20, ayrıntı legacy-analysis/05 §4):** eski digiplay birebir, araya katman yok.

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DigitoyEngine;
@@ -14,7 +14,7 @@ using DigitoyEngine;
 //   -> {"method":"logout"}
 //   <- {"event":"deepLink","url":"..."}  (istenmemis; soguk baslangicta inbox'ta bekler)
 // Runtime/ icinde #if ve DllImport YOK: editor/Windows/wasm'da ayni kod derlenir; host yoksa Available=false.
-// Sonuc tipi motor-bagimsiz LoginResult; Digitoy Result<T>/ErrorCode eslemesi cagiranin (Server.LoginAsync) isi.
+// Sonuc tipi motor-bagimsiz LoginResult; Digitoy Result<T>/ErrorCode eslemesi cagiranin (World.LoginAsync) isi.
 public sealed class Facebook : Plugin<Facebook.Config>
 {
     [Serializable]

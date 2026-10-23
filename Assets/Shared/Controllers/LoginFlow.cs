@@ -41,8 +41,8 @@ namespace Digitoy.Controllers
                 envSwitch.EnvChanged += _ =>
                 {
                     if (versionText != null) versionText.Text = Platform.AppVersion + DevEnvSwitch.Suffix;
-                    Server.Disconnect(M.CloseReason.Logout);
-                    ServiceRegistry.ResetSession();
+                    World.Disconnect(M.CloseReason.Logout);
+                    World.ResetSession();
                     ProgressAsync().Forget();
                 };
             if (guestButton != null) guestButton.Clicked += (_, _) => LoginAsync(LoginType.Guest).Forget();
@@ -83,7 +83,7 @@ namespace Digitoy.Controllers
                 if (settings.IsPrivacyChanged()) Debug.Log($"Privacy policy changed → v{settings.policy_version}");
             }
 
-            LoginType? last = autoLoginLastType ? PlayerPrefsService.I.LastAuthType.Value : null;
+            LoginType? last = autoLoginLastType ? Prefs.LastAuthType.Value : null;
             // Facebook oto-login SDK ekranı açmaz: plugin süresi dolmamış cached token'ı kullanır, yoksa form.
             if (last is LoginType.Guest or LoginType.Facebook) await LoginAsync(last.Value);
             else ShowForm();
@@ -96,7 +96,7 @@ namespace Digitoy.Controllers
             ClearError();
             ShowProgress();
 
-            var authTask = Server.LoginAsync(type);
+            var authTask = World.LoginAsync(type);
             SetProgress(StepAuth, 1.5f);
             var result = await authTask;
             if (!result.Ok)

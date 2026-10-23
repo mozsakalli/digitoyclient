@@ -1,7 +1,7 @@
 // Tek WS bağlantısının taşıma + protokol katmanı (core.upm BestWebSocketClient soyundan; INetworkClient kaldırıldı,
 // tek implementasyon). Sorumluluk: TEK url'ye bağlan, auth-on-open (+ grace), requestId→TCS eşleme, istek zaman aşımı,
 // 25 sn uygulama heartbeat'i, Connection nesli ile bayat callback filtresi, tek noktadan HandleClose.
-// Gateway seçimi / hop / bütçe / settings tazeleme BURADA DEĞİL — Server.ConnectTransportAsync (uygulama kararı).
+// Gateway seçimi / hop / bütçe / settings tazeleme BURADA DEĞİL — World.ConnectTransportAsync (uygulama kararı).
 // Zero-GC: gönderim Codec tamponundan Span ile kopyasız; istek başına yalnız TCS; zaman aşımı per-request CTS yerine
 // saniyelik tek tick'te süpürülür; alım yeniden kullanılan tampona tek kopya; frame döngüsü yok (Wait.Seconds).
 #nullable enable
@@ -61,6 +61,8 @@ namespace Digitoy.Network
 
         public event Action<CloseReason>? OnDisconnected;
         public event Action<object>? OnEvent;
+        /// <summary>Saniyelik tick (bağlantı açıkken); World zaman eşiklerini buradan tarar.</summary>
+        public event Action? OnTick;
 
         public bool IsConnected
         {
@@ -188,7 +190,7 @@ namespace Digitoy.Network
 
             var requestId = ++_nextRequestId;
             var tcs = new TaskCompletionSource<object?>();
-            _pending[requestId] = (tcs, DateTime.UtcNow + TimeSpan.FromSeconds(Server.RequestTimeoutSeconds));
+            _pending[requestId] = (tcs, DateTime.UtcNow + TimeSpan.FromSeconds(World.RequestTimeoutSeconds));
 
             // Dış iptal: yalnız iptal edilebilir token için kayıt (alloc yalnız o durumda).
             var reg = cancellationToken.CanBeCanceled
@@ -305,6 +307,7 @@ namespace Digitoy.Network
                 SweepTimeouts(now);
                 if (conn.IsAuthenticated && now - _lastSendUtc >= HeartbeatInterval)
                     _ = PingAsync();
+                try { OnTick?.Invoke(); } catch (Exception ex) { Debug.LogError($"OnTick: {ex}"); }
             }
         }
 

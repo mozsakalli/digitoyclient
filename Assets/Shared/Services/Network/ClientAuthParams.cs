@@ -1,4 +1,4 @@
-// core.upm Network/ClientAuthParams.cs — birebir.
+﻿// core.upm Network/ClientAuthParams.cs — birebir.
 namespace Digitoy
 {
     /// <summary>Yalnız analitiğe giden, client'ın sahibi olduğu login Params anahtarları. Sunucu bunları okumaz;
@@ -11,7 +11,7 @@ namespace Digitoy
         public const string Connection = "connection";
         public const string Carrier = "carrier";
         public const string EmulatorScore = "emulatorScore";
-        /// <summary>Seçilen attribution kaynağı (Adjust/AppsFlyer; bkz. Server.SelectAttributionSource).</summary>
+        /// <summary>Seçilen attribution kaynağı (Adjust/AppsFlyer; sunucu Server.SelectAttributionSource).</summary>
         public const string Source = "source";
         public const string AppsflyerId = "appsflyerId";
         /// <summary>Attribution artık yalnız login Params'ından gider (UpdateMeta ucu 2026-10-08'de kaldırıldı).</summary>

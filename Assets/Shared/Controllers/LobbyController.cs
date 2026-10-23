@@ -15,7 +15,7 @@ namespace Digitoy
         {
             if (playNowButton != null) playNowButton.Clicked += OnPlayNow;
             // Oturum yüklenirken masa bulunduysa (reconnect) doğrudan masaya
-            if (TableService.I is { Exists: true } && !string.IsNullOrEmpty(Game.Current?.tableScene))
+            if (World.HasTable && !string.IsNullOrEmpty(Game.Current?.tableScene))
                 SceneNav.GoToAsync(Game.Current.tableScene).Forget();
         }
 
@@ -31,7 +31,7 @@ namespace Digitoy
             if (_busy) return;
             _busy = true;
             if (statusText != null) statusText.Text = "Searching…";
-            var r = await TableService.I.PlayNowAsync();
+            var r = await World.PlayNowAsync();
             _busy = false;
             if (!r.Ok)
             {

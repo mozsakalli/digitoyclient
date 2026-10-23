@@ -1,5 +1,5 @@
 // core.upm Components/Player/PlayerPrefsService.cs adaptasyonu. Fark: UnityEngine.PlayerPrefs → DigitoyEngine.PlayerPrefs
-// (aynı imzalar); Notification özelliği Faz 5'e kaldı; LoginType burada tanımlı (Auth.cs Faz 0'da yok).
+// (aynı imzalar); servis değil statik Prefs; Notification özelliği Faz 5'e kaldı; LoginType burada tanımlı.
 using System;
 using DigitoyEngine;
 
@@ -132,22 +132,18 @@ namespace Digitoy
         }
     }
 
-    /// <summary>Cihaz kapsamlı tercihler: oyuncu/oyun değişiminde sıfırlanmaz (tasarım gereği).</summary>
-    public class PlayerPrefsService : Service
+    /// <summary>Cihaz kapsamlı tercihler: oyuncu/oyun değişiminde sıfırlanmaz (tasarım gereği). Statik; kurulum gerekmez.</summary>
+    public static class Prefs
     {
-        public static PlayerPrefsService I;
+        public static readonly PrefBool Music = new("music");
+        public static readonly PrefBool Sound = new("sound");
+        public static readonly PrefBool Vibrate = new("vibrate");
+        public static readonly PrefString Language = new("language", null);
+        public static readonly PrefBool GameRequests = new("game_requests");
+        public static readonly PrefBool FriendRequest = new("friend_request");
+        public static readonly PrefBool PushNotification = new("push_notification");
+        public static readonly PrefEnum<LoginType> LastAuthType = new("last_login_type");
 
-        public PlayerPrefsService() => I = this;
-
-        public readonly PrefBool Music = new("music");
-        public readonly PrefBool Sound = new("sound");
-        public readonly PrefBool Vibrate = new("vibrate");
-        public readonly PrefString Language = new("language", null);
-        public readonly PrefBool GameRequests = new("game_requests");
-        public readonly PrefBool FriendRequest = new("friend_request");
-        public readonly PrefBool PushNotification = new("push_notification");
-        public readonly PrefEnum<LoginType> LastAuthType = new("last_login_type");
-
-        public void Save() => PlayerPrefs.Save();
+        public static void Save() => PlayerPrefs.Save();
     }
 }

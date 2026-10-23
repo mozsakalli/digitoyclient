@@ -27,11 +27,11 @@ namespace Digitoy.Ui
             string next = NetworkSettings.DevEnv switch
             {
                 NetworkSettings.EnvTest => NetworkSettings.EnvProd,
-                NetworkSettings.EnvProd => string.IsNullOrWhiteSpace(Server.Settings?.CustomServerUrl) ? NetworkSettings.EnvTest : NetworkSettings.EnvCustom,
+                NetworkSettings.EnvProd => string.IsNullOrWhiteSpace(World.Net?.CustomServerUrl) ? NetworkSettings.EnvTest : NetworkSettings.EnvCustom,
                 _ => NetworkSettings.EnvTest,
             };
             NetworkSettings.DevEnv = next;
-            Debug.Log("[dev] env -> " + next + " (" + Server.Settings?.RemoteUrl + ")");
+            Debug.Log("[dev] env -> " + next + " (" + World.Net?.RemoteUrl + ")");
             EnvChanged?.Invoke(next);
         }
 
